@@ -12,18 +12,25 @@ import java.util.regex.Pattern;
 public class Pessoa {
 
     private int codigo;
+    private CategoriaPessoa categoriaPessoa;
     private String nome;
     private Date dataNascimento;
     private String RG;
     private String CPF;
     private String tipoPessoa;
+    private List<Email> emails;
+    private List<Endereco> enderecos;
+    private List<Telefone> telefones;
 
-    /*---------- Construtor --------------------------------------------------*/
+    //Construtor
     public Pessoa() {
         this.codigo = 0;
+        emails = new ArrayList<Email>();
+        enderecos = new ArrayList<Endereco>();
+        telefones = new ArrayList<Telefone>();
     }
 
-    /*----------------Getters-------------------------------------------------*/
+    //Getters
     public int getCodigo() {
         return codigo;
     }
@@ -48,7 +55,17 @@ public class Pessoa {
         return tipoPessoa;
     }
 
-    /*---------------------- Setter ------------------------------------------*/
+    public CategoriaPessoa getCategoriaPessoa() {
+        return categoriaPessoa;
+    }
+
+    public void setCategoriaPessoa(CategoriaPessoa categoriaPessoa) {
+        this.categoriaPessoa = categoriaPessoa;
+    }
+    
+    
+
+    //Setters
     public void setCodigo(int codigo) throws Exception{
         if (codigo > 0) {
             this.codigo = codigo;
@@ -111,5 +128,76 @@ public class Pessoa {
         } else {
             throw new Exception("Campo 'TipoPessoa' deve ter no mínimo 3 caracteres");
         }
+    }
+    
+    //Método Adicionar Email
+    public void addEmail(Email email) throws Exception {
+        if (!emails.contains(email)) {
+            emails.add(email);
+        } else {
+            throw new Exception("Esse email ja foi cadastrado!");
+        }
+    }
+    //Remover Email
+
+    public void removeEmail(Email email) throws Exception {
+        if (emails.contains(email)) {
+            emails.remove(email);
+        } else {
+            throw new Exception("O email pedido não existe!");
+        }
+    }
+    //Retorna a lista de emails
+
+    public List<Email> getEmails() {
+        return emails;
+    }
+
+    //Adiciona um Endereco
+    
+    public void addEndereco(Endereco endereco) throws Exception {
+        if (!enderecos.contains(endereco)) {
+            enderecos.add(endereco);
+        } else {
+            throw new Exception("O valor passado para o campo endereco ja existe!");
+        }
+    }
+    //Remove um Endereco
+
+    public void removeEndereco(Endereco endereco) throws Exception {
+        if (enderecos.contains(endereco)) {
+            enderecos.remove(endereco);
+        } else {
+            throw new Exception("Não foi possivel remover o endereço, pois ele não existe!");
+        }
+
+    }
+    //Retorna a lista de Enderecos
+
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+    //Adicionar um Telefone
+
+    public void addTelefone(Telefone telefone) throws Exception {
+        if (!telefones.contains(telefone)) {
+            telefones.add(telefone);
+        } else {
+            throw new Exception("O valor passado para o campo telefone ja existe!");
+        }
+    }
+    //Remove uma Telefone
+
+    public void removeTelefone(Telefone telefone) throws Exception {
+        if (telefones.contains(telefone)) {
+            telefones.remove(telefone);
+        } else {
+            throw new Exception("Não foi possivel remover o telefone, pois ele não existe!");
+        }
+    }
+    //Retorna a lista de telefones
+
+    public List<Telefone> getTelefones() {
+        return telefones;
     }
 }
