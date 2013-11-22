@@ -1,17 +1,24 @@
 package DominModel;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Funcionario extends Pessoa {
 
-    
+    private Cargo cargo;
 
     //Construtor
     public Funcionario() {
         setCategoriaPessoa(CategoriaPessoa.Funcionario);
     }
+
     //Getters e Setters
+    public Cargo getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
+    }
+    
 
     
 
