@@ -92,30 +92,30 @@ public class Pessoa {
         if (calendario.getTime().before(dataNascimento)) {
             this.dataNascimento = dataNascimento;
         } else {
-            throw new Exception("Valor passado para o campo 'Data' é invalido!");
+            throw new ErroValidacaoException("Valor passado para o campo 'Data' é invalido!");
         }
     }
 
     public void setRG(String rg) throws Exception {
-        Pattern PRG = Pattern.compile("");
-        Matcher verificacao = PRG.matcher(rg);
+        //Pattern PRG = Pattern.compile("[\\w\\s]");
+        //Matcher verificacao = PRG.matcher(rg);
 
-        if (verificacao.matches()) {
+        //if (verificacao.matches()) {
             this.RG = rg;
-        } else {
-            throw new Exception("Entrada para o campo RG INVALIDA!");
-        }
+        //} else {
+          //  throw new Exception("Entrada para o campo RG INVALIDA!");
+        //}
     }
 
     public void setCPF(String CPF) throws Exception{
-        Pattern Pcpf = Pattern.compile("");
-        Matcher verificacao = Pcpf.matcher(CPF);
+        //Pattern Pcpf = Pattern.compile("[\\s]");
+        //Matcher verificacao = Pcpf.matcher(CPF);
 
-        if (verificacao.matches()) {
+        //if (verificacao.matches()) {
             this.CPF = CPF;
-        } else {
-            throw new Exception("Entrada para o campo CPF INVALIDA!");
-        }
+        //} else {
+          //  throw new Exception("Entrada para o campo CPF INVALIDA!");
+        //}
 
     }
 
