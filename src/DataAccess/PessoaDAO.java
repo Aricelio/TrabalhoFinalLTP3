@@ -27,13 +27,14 @@ public class PessoaDAO extends DAO {
             try {
                 //Insere os dados na tabela Pessoas
                 PreparedStatement sqlInsert = getConexao().prepareStatement
-                        ("insert into Pessoas(Nome,DataNascimento,RG,CPF,tipoPessoa,categoriaPessoa) values(?,?,?,?,?,?)");
+                        ("insert into Pessoas(Nome,DataNascimento,RG,CPF,tipoPessoa,categoriaPessoa,ativo) values(?,?,?,?,?,?,?)");
                 sqlInsert.setString(1, obj.getNome());
                 sqlInsert.setDate(2, new java.sql.Date(obj.getDataNascimento().getTime()));
                 sqlInsert.setString(3, obj.getRG());
                 sqlInsert.setString(4, obj.getCPF());
                 sqlInsert.setString(5, obj.getTipoPessoa());
                 sqlInsert.setString(6, obj.getCategoriaPessoa().name());
+                sqlInsert.setInt(7, obj.getAtivo());
                 sqlInsert.executeUpdate();
 
                 //Pega a chave primária que foi gerada no banco de dados
@@ -105,7 +106,7 @@ public class PessoaDAO extends DAO {
         if (obj.getCodigo() >= 0) {
             try {
                 PreparedStatement sqlDelete = getConexao().prepareStatement                        
-                        ("delete from Pessoas where codPessoa=?");
+                        ("update Pessoas set ativo = 0 where codPessoa=?");
                 sqlDelete.setInt(1, obj.getCodigo());
                 sqlDelete.executeUpdate();
                 return true;
@@ -121,7 +122,7 @@ public class PessoaDAO extends DAO {
     public Pessoa AbrirPessoa(int id) {
         try {
             PreparedStatement sql = getConexao().prepareStatement
-                    ("select * from Pessoas where codPessoa=?");
+                    ("select * from Pessoas where codPessoa=? and ativo = 1");
             sql.setInt(1, id);
 
             ResultSet resultado = sql.executeQuery();
@@ -135,6 +136,7 @@ public class PessoaDAO extends DAO {
                 obj.setCPF(resultado.getString("CPF"));
                 obj.setRG(resultado.getString("RG"));
                 obj.setTipoPessoa(resultado.getString("TipoPessoa"));
+                obj.setAtivo(resultado.getInt("ativo"));
                 
                 AbrirTelefones(obj);
                 AbrirEmails(obj);
@@ -155,7 +157,7 @@ public class PessoaDAO extends DAO {
     public List<Pessoa> ListarPessoas() {
         try {
             PreparedStatement sql = getConexao().prepareStatement
-                    ("select * from Pessoas");
+                    ("select * from Pessoas where ativo = 1");
 
             ResultSet resultado = sql.executeQuery();
 
@@ -170,6 +172,7 @@ public class PessoaDAO extends DAO {
                 obj.setCPF(resultado.getString("CPF"));
                 obj.setRG(resultado.getString("RG"));
                 obj.setTipoPessoa(resultado.getString("TipoPessoa"));
+                obj.setAtivo(resultado.getInt("ativo"));
 
                 lista.add(obj);
             }
@@ -183,8 +186,8 @@ public class PessoaDAO extends DAO {
     //Método Buscar
     public List<Pessoa> BuscarPessoa(Pessoa filtro) {
         try {
-            String sql = "select * from Pessoas ";
-            String where = " ";
+            String sql = "select * from Pessoas where ativo = 1";
+            String where = "";
 
             if (filtro.getNome().length() > 0) {
                 where = " nome like '%" + filtro.getNome() + "%' ";
@@ -194,11 +197,11 @@ public class PessoaDAO extends DAO {
                 if (where.length() > 0) {
                     where = where + " and ";
                 }
-                where = where + " id = " + filtro.getCodigo();
+                where = where + " codPessoa = " + filtro.getCodigo();
             }
 
             if (where.length() > 0) {
-                sql = sql + " where " + where;
+                sql = sql + " and " + where;
             }
 
             Statement comando = getConexao().createStatement();
@@ -216,6 +219,7 @@ public class PessoaDAO extends DAO {
                 obj.setCPF(resultado.getString("CPF"));
                 obj.setRG(resultado.getString("RG"));
                 obj.setTipoPessoa(resultado.getString("TipoPessoa"));
+                obj.setAtivo(resultado.getInt("ativo"));
 
                 lista.add(obj);
             }
@@ -230,7 +234,7 @@ public class PessoaDAO extends DAO {
     //Abri os Emails
     public void AbrirEmails(Pessoa pessoa) {
         try {
-            PreparedStatement sql = getConexao().prepareStatement("select * from emails where pessoa=?");
+            PreparedStatement sql = getConexao().prepareStatement("select * from emails where codPessoa=?");
             sql.setInt(1, pessoa.getCodigo());
 
             ResultSet resultado = sql.executeQuery();
@@ -259,7 +263,7 @@ public class PessoaDAO extends DAO {
 
     public void AbrirTelefones(Pessoa pessoa) {
         try {
-            PreparedStatement sql = getConexao().prepareStatement("select * from telefones where pessoa=?");
+            PreparedStatement sql = getConexao().prepareStatement("select * from telefones where codPessoa=?");
             sql.setInt(1, pessoa.getCodigo());
 
             ResultSet resultado = sql.executeQuery();
@@ -276,7 +280,7 @@ public class PessoaDAO extends DAO {
     private Telefone AbreTelefone(ResultSet resultado) {
         Telefone tel = new Telefone();
         try {
-            tel.setCodigo(resultado.getInt("codTelefones"));
+            tel.setCodigo(resultado.getInt("codTelefone"));
             tel.setDdd(resultado.getByte("DDD"));
             tel.setOperadora(resultado.getByte("operadora"));
             tel.setTelefone(resultado.getInt("telefone"));
@@ -291,7 +295,7 @@ public class PessoaDAO extends DAO {
 
     public void AbrirEnderecos(Pessoa pessoa) {
         try {
-            PreparedStatement sql = getConexao().prepareStatement("select * from enderecos where pessoa=?");
+            PreparedStatement sql = getConexao().prepareStatement("select * from enderecos where codPessoa=?");
             sql.setInt(1, pessoa.getCodigo());
 
             ResultSet resultado = sql.executeQuery();
@@ -329,7 +333,7 @@ public class PessoaDAO extends DAO {
     private void SalvarEmail(Pessoa pessoa, Email obj) {
         if (obj.getCodigo() == 0) {
             try {
-                PreparedStatement sql = getConexao().prepareStatement("insert into emails(pessoa,email) values(?,?)");
+                PreparedStatement sql = getConexao().prepareStatement("insert into emails(codPessoa,email) values(?,?)");
                 sql.setInt(1, pessoa.getCodigo());
                 sql.setString(2, obj.getEmail());
                 sql.executeUpdate();
@@ -339,7 +343,7 @@ public class PessoaDAO extends DAO {
             }
         } else {
             try {
-                PreparedStatement sql = getConexao().prepareStatement("update emails set pessoa = ?, email = ? where id = ?");
+                PreparedStatement sql = getConexao().prepareStatement("update emails set codPessoa = ?, email = ? where codEmail = ?");
                 sql.setInt(1, pessoa.getCodigo());
                 sql.setString(2, obj.getEmail());
                 sql.setInt(3, obj.getCodigo());
@@ -355,7 +359,7 @@ public class PessoaDAO extends DAO {
         if (obj.getCodigo() == 0) {
             try {
                 PreparedStatement sql = getConexao().prepareStatement
-                        ("insert into enderecos(pessoa,numero,complemento,rua,bairro,cidade,uf) values(?,?,?,?,?,?,?)");
+                        ("insert into enderecos(codPessoa,numero,complemento,rua,bairro,cidade,uf) values(?,?,?,?,?,?,?)");
                 sql.setInt(1, pessoa.getCodigo());
                 sql.setInt(2, obj.getNumero());
                 sql.setString(3, obj.getComplemento());
@@ -371,14 +375,16 @@ public class PessoaDAO extends DAO {
         } else {
             try {
                 PreparedStatement sql = getConexao().prepareStatement
-                        ("update enderecos set pessoa=?, numero=?, complemento=?, rua=?, bairro=?,cidade=?,uf=? where id = ?");
-                sql.setInt(1, obj.getCodigo());
+                        ("update enderecos set codPessoa=?, numero=?, complemento=?, rua=?, bairro=?,cidade=?,uf=? where codEndereco = ?");
+                
+                sql.setInt(1, pessoa.getCodigo());
                 sql.setInt(2, obj.getNumero());
                 sql.setString(3, obj.getComplemento());
                 sql.setString(4, obj.getRua());
                 sql.setString(5, obj.getBairro());
                 sql.setString(6, obj.getCidade());
-                sql.setString(7, obj.getUf());              
+                sql.setString(7, obj.getUf());       
+                sql.setInt(8, obj.getCodigo());
                 
                 sql.executeQuery();
             } catch (Exception ex) {
@@ -392,7 +398,7 @@ public class PessoaDAO extends DAO {
         if (obj.getCodigo() == 0) {
             try {
                 PreparedStatement sql = getConexao().prepareStatement
-                        ("insert into telefones(pessoa,telefone,operadora,ddd) values(?,?,?,?)");
+                        ("insert into telefones(CodPessoa,telefone,operadora,ddd) values(?,?,?,?)");
                 sql.setInt(1, pessoa.getCodigo());
                 sql.setInt(2, obj.getTelefone());
                 sql.setInt(3, obj.getOperadora());
@@ -405,12 +411,12 @@ public class PessoaDAO extends DAO {
         } else {
             try {
                 PreparedStatement sql = getConexao().prepareStatement
-                        ("update emails set pessoa = ?, telefone = ?, operadora = ?, ddd = ? where id = ?");
+                        ("update emails set CodPessoa = ?, telefone = ?, operadora = ?, ddd = ? where codTelefone = ?");
                 sql.setInt(1, pessoa.getCodigo());
                 sql.setInt(2, obj.getTelefone());
                 sql.setInt(3, obj.getOperadora());
                 sql.setInt(4, obj.getDdd());
-                sql.setInt(3, obj.getCodigo());
+                sql.setInt(5, obj.getCodigo());
                 sql.executeQuery();
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
