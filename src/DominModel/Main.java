@@ -1,7 +1,9 @@
 
 package DominModel;
 import DataAccess.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Main {
 
@@ -13,8 +15,8 @@ public class Main {
         PessoaDAO pdao = new PessoaDAO();
         
         //p.setCPF("115.825.116.59");
-        p.setRG("17.791.878");
-        System.out.print(p.getRG());
+        //p.setRG("17.791.878");
+        //System.out.print(p.getRG());
         
         //Fornecedor
         Fornecedor fo = new Fornecedor();
@@ -32,9 +34,18 @@ public class Main {
         
         //Funcionario
         Funcionario f = new Funcionario();
+        List<Funcionario> listaF = new ArrayList<Funcionario>();
         FuncionarioDAO fd = new FuncionarioDAO();        
         Cargo c = new Cargo();
         CargoDAO ca= new CargoDAO();
+        
+        listaF = fd.ListarFuncionarios();
+        
+        System.out.print(listaF.toString());
+        
+        
+        
+        
         
         //f = fd.AbrirFuncionario()
         
@@ -61,6 +72,13 @@ public class Main {
         //Cliente
         Cliente cli = new Cliente();
         ClienteDAO clid = new ClienteDAO();
+        List<Cliente> listaC = new ArrayList<Cliente>();
+        
+        //listaC = clid.ListarClientes();
+        
+        //System.out.print(listaC.toString());
+        
+        
         
         /*cli.setNome("Paulo Vitor");
         cli.setCPF("22222222222");
