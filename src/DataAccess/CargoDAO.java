@@ -61,7 +61,7 @@ public class CargoDAO extends DAO {
     }
 
     //Método Remover
-    public boolean RemoverPessoa(Cargo obj) {
+    public boolean Remover(Cargo obj) {
         if (obj.getCodigo() >= 0) {
             try {
                 PreparedStatement sqlDelete = getConexao().prepareStatement("delete from Cargos where codCargo=?");
