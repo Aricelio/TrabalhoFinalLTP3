@@ -1,6 +1,7 @@
 
 package DominModel;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,12 +16,13 @@ public class Endereco {
     private String uf;
     private Pessoa pessoa;
 
-    /*---------- Construtor--------------*/
+    //Construtor
     public Endereco() {
         this.uf = "MG";
+        this.codigo = 0;
     }
 
-    /*------- Métodos Getters-----------*/
+    //Getters
     public int getCodigo() {
         return codigo;
     }
@@ -52,12 +54,12 @@ public class Endereco {
     public Pessoa getPessoa() {
         return pessoa;
     }
-    /*----------Métodos Setters------------------------------*/
+    //Setters
     public void setCodigo(int codigo) throws Exception {
         if (codigo >= 1) {
             this.codigo = codigo;
         } else {
-            throw new Exception("Codigo menor ou igual a zero");
+            throw new Exception("Valor passado para o campo 'codigo' não pode ser negativo!");
         }
     }
 
@@ -65,7 +67,7 @@ public class Endereco {
         if (numero >= 1) {
             this.numero = numero;
         } else {
-            throw new Exception("Numero menor ou igual a zero");
+            throw new Exception("Valor passado para o campo 'Numero' não pode ser negativo!");
         }
     }
 
@@ -127,5 +129,67 @@ public class Endereco {
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
     }    
+
+    //hasCode
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + this.codigo;
+        hash = 83 * hash + this.numero;
+        hash = 83 * hash + Objects.hashCode(this.complemento);
+        hash = 83 * hash + Objects.hashCode(this.rua);
+        hash = 83 * hash + Objects.hashCode(this.bairro);
+        hash = 83 * hash + Objects.hashCode(this.cidade);
+        hash = 83 * hash + Objects.hashCode(this.uf);
+        hash = 83 * hash + Objects.hashCode(this.pessoa);
+        return hash;
+    }
+
+    //equals
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Endereco other = (Endereco) obj;
+        if (this.codigo != other.codigo) {
+            return false;
+        }
+        if (this.numero != other.numero) {
+            return false;
+        }
+        if (!Objects.equals(this.complemento, other.complemento)) {
+            return false;
+        }
+        if (!Objects.equals(this.rua, other.rua)) {
+            return false;
+        }
+        if (!Objects.equals(this.bairro, other.bairro)) {
+            return false;
+        }
+        if (!Objects.equals(this.cidade, other.cidade)) {
+            return false;
+        }
+        if (!Objects.equals(this.uf, other.uf)) {
+            return false;
+        }
+        if (!Objects.equals(this.pessoa, other.pessoa)) {
+            return false;
+        }
+        return true;
+    }
+
+    //toString
+    @Override
+    public String toString() {
+        return "Endereco{" + "Codigo do Endereco = " + codigo + ", Numero = " + numero 
+                + ", Complemento = " + complemento + ", Rua = " + rua + ", Bairro = " 
+                + bairro + ", Cidade=" + cidade + ", UF = " + uf + ", Pessoa=" + pessoa.getNome() + '}';
+    }
+    
+    
     
 }

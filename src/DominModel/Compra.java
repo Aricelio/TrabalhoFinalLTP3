@@ -4,6 +4,7 @@ package DominModel;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,11 +17,12 @@ public class Compra {
     private Sessao sessao;
     private Funcionario funcionario;
     
-    /*------------ Construtor ------------------------------------------------*/
+    //Construtor
     public Compra() {
+        this.codigo = 0;
     }
     
-    /*------------- Getters --------------------------------------------------*/
+    //Getters
     public int getCodigo() {
         return codigo;
     }
@@ -45,12 +47,12 @@ public class Compra {
         return funcionario;
     }
     
-    /*----------------------- Setters ----------------------------------------*/
+    //Setters 
     public void setCodigo(int codigo) throws Exception{
         if (codigo > 0) {
             this.codigo = codigo;
         } else {
-            throw new Exception("Codigo menor que um");
+            throw new Exception("Valor passado para o campo 'codigo' não pode ser negativo!");
         }
     }
 
@@ -69,7 +71,7 @@ public class Compra {
         if (valorTotal > 0) {
             this.valorTotal = valorTotal;
         } else {
-            throw new Exception("Valor negativo");
+            throw new Exception("Valor passado para o campo 'Valor Total' não pode ser negativo!");
         }
     }
 
@@ -90,6 +92,60 @@ public class Compra {
 
     public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
+    }
+
+    //hashCode
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 43 * hash + this.codigo;
+        hash = 43 * hash + Objects.hashCode(this.data);
+        hash = 43 * hash + (int) (Double.doubleToLongBits(this.valorTotal) ^ (Double.doubleToLongBits(this.valorTotal) >>> 32));
+        hash = 43 * hash + Objects.hashCode(this.formaPagamento);
+        hash = 43 * hash + Objects.hashCode(this.sessao);
+        hash = 43 * hash + Objects.hashCode(this.funcionario);
+        return hash;
+    }
+    
+    
+    //equals
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Compra other = (Compra) obj;
+        if (this.codigo != other.codigo) {
+            return false;
+        }
+        if (!Objects.equals(this.data, other.data)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.valorTotal) != Double.doubleToLongBits(other.valorTotal)) {
+            return false;
+        }
+        if (!Objects.equals(this.formaPagamento, other.formaPagamento)) {
+            return false;
+        }
+        if (!Objects.equals(this.sessao, other.sessao)) {
+            return false;
+        }
+        if (!Objects.equals(this.funcionario, other.funcionario)) {
+            return false;
+        }
+        return true;
+    }
+    
+    //toString
+    @Override
+    public String toString() {
+        return "Compra{" + "codigo da Compra =" + codigo + ", Data=" + data
+                + ", Valor = " + valorTotal + ", Forma de Pagamento=" 
+                + formaPagamento + ", Codigo da Sessao=" + sessao.getCodigo() 
+                + ", Funcionario=" + funcionario.getNome() + '}';
     }
     
     

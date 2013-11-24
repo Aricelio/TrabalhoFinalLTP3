@@ -3,6 +3,7 @@ package DominModel;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,11 +17,12 @@ public class Venda {
     private Cliente cliente;
     private Funcionario funcionario;
 
-    /*------------ Construtor ------------------------------------------------*/
+    //Construtor
     public Venda() {
+        this.codigo = 0;
     }
 
-    /*------------- Getters --------------------------------------------------*/
+    //Getters
     public int getCodigo() {
         return codigo;
     }
@@ -49,12 +51,12 @@ public class Venda {
         return funcionario;
     }
 
-    /*----------------------- Setters ----------------------------------------*/
+    //Setters 
     public void setCodigo(int codigo) throws Exception {
         if (codigo > 0) {
             this.codigo = codigo;
         } else {
-            throw new Exception("Codigo menor que um");
+            throw new Exception("Valor passado para o campo 'codigo' não pode ser negativo!");
         }
     }
 
@@ -100,4 +102,64 @@ public class Venda {
     public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
     }
+    
+    //hashCode
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + this.codigo;
+        hash = 83 * hash + Objects.hashCode(this.data);
+        hash = 83 * hash + (int) (Double.doubleToLongBits(this.valorTotal) ^ (Double.doubleToLongBits(this.valorTotal) >>> 32));
+        hash = 83 * hash + Objects.hashCode(this.formaPagamento);
+        hash = 83 * hash + Objects.hashCode(this.sessao);
+        hash = 83 * hash + Objects.hashCode(this.cliente);
+        hash = 83 * hash + Objects.hashCode(this.funcionario);
+        return hash;
+    }
+
+    //equals
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Venda other = (Venda) obj;
+        if (this.codigo != other.codigo) {
+            return false;
+        }
+        if (!Objects.equals(this.data, other.data)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.valorTotal) != Double.doubleToLongBits(other.valorTotal)) {
+            return false;
+        }
+        if (!Objects.equals(this.formaPagamento, other.formaPagamento)) {
+            return false;
+        }
+        if (!Objects.equals(this.sessao, other.sessao)) {
+            return false;
+        }
+        if (!Objects.equals(this.cliente, other.cliente)) {
+            return false;
+        }
+        if (!Objects.equals(this.funcionario, other.funcionario)) {
+            return false;
+        }
+        return true;
+    }
+    
+    //toString
+    @Override
+    public String toString() {
+        return "Venda de Produto {" + "Codigo = " + codigo + ", Data = " + data 
+                + ", Valor = " + valorTotal + ", Forma de Pagamento=" + formaPagamento 
+                + ", Codigo da Sessao = " + sessao.getCodigo() 
+                + ", Cliente = " + cliente.getNome() 
+                + ", Funcionario=" + funcionario.getNome() + '}';
+    }
+    
+    
 }

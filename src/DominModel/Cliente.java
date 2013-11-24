@@ -8,5 +8,6 @@ public class Cliente extends Pessoa{
     public Cliente() {
         setCategoriaPessoa(CategoriaPessoa.Cliente);
     }    
+
     
 }

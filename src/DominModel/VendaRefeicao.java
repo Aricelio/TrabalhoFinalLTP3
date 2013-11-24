@@ -4,6 +4,7 @@ package DominModel;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,11 +17,12 @@ public class VendaRefeicao {
     private Funcionario funcionario;
     private Sessao sessao;
     
-    /*---------- Construtor -----*/
+    //Construtor
     public VendaRefeicao() {
+        this.codigo = 0;
     }
     
-    /*---------- Getters --------*/
+    //Getters
     public int getCodigo() {
         return codigo;
     }
@@ -49,7 +51,7 @@ public class VendaRefeicao {
         return sessao;
     }
     
-    /*------------ Setters ---------------*/
+    //Setters
     public void setCodigo(int codigo) throws Exception {
         if (codigo > 0) {
             this.codigo = codigo;
@@ -98,6 +100,64 @@ public class VendaRefeicao {
 
     public void setSessao(Sessao sessao) {
         this.sessao = sessao;
+    }
+    
+    //hashCode
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 41 * hash + this.codigo;
+        hash = 41 * hash + Objects.hashCode(this.data);
+        hash = 41 * hash + (int) (Double.doubleToLongBits(this.valorTotal) ^ (Double.doubleToLongBits(this.valorTotal) >>> 32));
+        hash = 41 * hash + Objects.hashCode(this.formaPagamento);
+        hash = 41 * hash + Objects.hashCode(this.cliente);
+        hash = 41 * hash + Objects.hashCode(this.funcionario);
+        hash = 41 * hash + Objects.hashCode(this.sessao);
+        return hash;
+    }
+
+    //equals
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final VendaRefeicao other = (VendaRefeicao) obj;
+        if (this.codigo != other.codigo) {
+            return false;
+        }
+        if (!Objects.equals(this.data, other.data)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.valorTotal) != Double.doubleToLongBits(other.valorTotal)) {
+            return false;
+        }
+        if (!Objects.equals(this.formaPagamento, other.formaPagamento)) {
+            return false;
+        }
+        if (!Objects.equals(this.cliente, other.cliente)) {
+            return false;
+        }
+        if (!Objects.equals(this.funcionario, other.funcionario)) {
+            return false;
+        }
+        if (!Objects.equals(this.sessao, other.sessao)) {
+            return false;
+        }
+        return true;
+    }
+    
+    //toString
+    @Override
+    public String toString() {
+        return "Venda de Refeicao{" + "Codigo = " + codigo + ", Data = " + data 
+                + ", Valor = " + valorTotal + ", Forma de Pagamento=" + formaPagamento 
+                + ", Cliente = " + cliente.getNome() 
+                + ", Funcionario=" + funcionario.getNome() 
+                + ", Codido da Sessao = " + sessao.getCodigo() + '}';
     }
     
     

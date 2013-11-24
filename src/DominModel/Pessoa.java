@@ -5,11 +5,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Pessoa {
-
     private int codigo;
     private CategoriaPessoa categoriaPessoa;
     private String nome;
@@ -108,25 +108,25 @@ public class Pessoa {
     }
 
     public void setRG(String rg) throws Exception {
-        //Pattern PRG = Pattern.compile("[\\w\\s]");
-        //Matcher verificacao = PRG.matcher(rg);
+        Pattern PRG = Pattern.compile("[0-9].[0-9]{3}.[0-9]{3}-[0-9]");
+        Matcher verificacao = PRG.matcher(rg);
 
-        //if (verificacao.matches()) {
+        if (verificacao.matches()) {
         this.RG = rg;
-        //} else {
-        //  throw new Exception("Entrada para o campo RG INVALIDA!");
-        //}
+        } else {
+          throw new Exception("Entrada para o campo RG INVALIDA!");
+        }
     }
 
     public void setCPF(String CPF) throws Exception {
-        //Pattern Pcpf = Pattern.compile("[\\s]");
-        //Matcher verificacao = Pcpf.matcher(CPF);
+        Pattern Pcpf = Pattern.compile("\\d{3}.\\d{3}.\\d{3}-\\d{2}");
+        Matcher verificacao = Pcpf.matcher(CPF);
 
-        //if (verificacao.matches()) {
-        this.CPF = CPF;
-        //} else {
-        //  throw new Exception("Entrada para o campo CPF INVALIDA!");
-        //}
+        if (verificacao.matches()) {
+            this.CPF = CPF;
+        } else {
+            throw new Exception("Entrada para o campo CPF INVALIDA!");
+        }
 
     }
 
@@ -210,4 +210,78 @@ public class Pessoa {
     public List<Telefone> getTelefones() {
         return telefones;
     }
+    
+    //hashCode
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + this.codigo;
+        hash = 97 * hash + (this.categoriaPessoa != null ? this.categoriaPessoa.hashCode() : 0);
+        hash = 97 * hash + Objects.hashCode(this.nome);
+        hash = 97 * hash + Objects.hashCode(this.dataNascimento);
+        hash = 97 * hash + Objects.hashCode(this.RG);
+        hash = 97 * hash + Objects.hashCode(this.CPF);
+        hash = 97 * hash + Objects.hashCode(this.tipoPessoa);
+        hash = 97 * hash + this.ativo;
+        hash = 97 * hash + Objects.hashCode(this.emails);
+        hash = 97 * hash + Objects.hashCode(this.enderecos);
+        hash = 97 * hash + Objects.hashCode(this.telefones);
+        return hash;
+    }
+    
+    //equals
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Pessoa other = (Pessoa) obj;
+        if (this.codigo != other.codigo) {
+            return false;
+        }
+        if (this.categoriaPessoa != other.categoriaPessoa) {
+            return false;
+        }
+        if (!Objects.equals(this.nome, other.nome)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataNascimento, other.dataNascimento)) {
+            return false;
+        }
+        if (!Objects.equals(this.RG, other.RG)) {
+            return false;
+        }
+        if (!Objects.equals(this.CPF, other.CPF)) {
+            return false;
+        }
+        if (!Objects.equals(this.tipoPessoa, other.tipoPessoa)) {
+            return false;
+        }
+        if (this.ativo != other.ativo) {
+            return false;
+        }
+        if (!Objects.equals(this.emails, other.emails)) {
+            return false;
+        }
+        if (!Objects.equals(this.enderecos, other.enderecos)) {
+            return false;
+        }
+        if (!Objects.equals(this.telefones, other.telefones)) {
+            return false;
+        }
+        return true;
+    }
+    
+    //toString
+    @Override
+    public String toString() {
+        return "Pessoa{" + "Codigo da Pessoa = " + codigo + ", Categoria = " 
+                + categoriaPessoa + ", Nome = " + nome 
+                + ", Data de Nascimento=" + dataNascimento + ", RG = " + RG 
+                + ", CPF = " + CPF + ", Tipo =" + tipoPessoa + '}';
+    }
+    
 }

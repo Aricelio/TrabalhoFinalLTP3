@@ -1,6 +1,7 @@
 
 package DominModel;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +10,7 @@ public class Fornecedor extends Pessoa {
     private String cnpj;
 
     public Fornecedor() {
+       
     }
 
     public String getCnpj() {
@@ -16,13 +18,44 @@ public class Fornecedor extends Pessoa {
     }
 
     public void setCnpj(String cnpj) throws Exception{
-        Pattern CNPJ = Pattern.compile("[\\w\\s]{3,}");
+        Pattern CNPJ = Pattern.compile("\\d{2}.\\d{3}.\\d{3}/\\d{4}-\\d{2}");
         Matcher verifica = CNPJ.matcher(cnpj);
 
         if (verifica.matches()) {
             this.cnpj = cnpj;
         } else {
-            throw new Exception("Campo 'CNPJ' deve é invalido");
+            throw new Exception("Entrada para o campo CNPJ INVALIDA!");
         }
     }
+
+    //hashCode
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + Objects.hashCode(this.cnpj);
+        return hash;
+    }
+
+    //equals
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Fornecedor other = (Fornecedor) obj;
+        if (!Objects.equals(this.cnpj, other.cnpj)) {
+            return false;
+        }
+        return true;
+    }
+    
+    //toString
+    @Override
+    public String toString() {
+        return "Fornecedor{" + "CNPJ = " + cnpj + '}';
+    }
+    
 }

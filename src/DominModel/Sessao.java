@@ -1,15 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DominModel;
 
 import java.util.Date;
+import java.util.Objects;
 
-/**
- *
- * @author Celio
- */
 public class Sessao {
 
     private int codigo;
@@ -20,13 +14,13 @@ public class Sessao {
     private Caixa caixa;
     private Usuario usuario;
 
-    /*--------------- Construtor ---------------------------------------------*/
+    //Construtor
     public Sessao(Date dataInicio, double saldoAbertura) {
         this.dataInicio = new Date();
         this.saldoAbertura = caixa.getSaldo();
     }
 
-    /*-------------- Getters -------------------------------------------------*/
+    //Getters
     public int getCodigo() {
         return codigo;
     }
@@ -55,7 +49,7 @@ public class Sessao {
         return usuario;
     }
 
-    /*-------------------- Setters -------------------------------------------*/
+    //Setters
     public void setCodigo(int codigo) throws Exception {
         if (codigo > 0) {
             this.codigo = codigo;
@@ -64,16 +58,12 @@ public class Sessao {
         }
     }
 
-    /*public void setDataInicio(Date dataInicio) {
-     this.dataInicio = dataInicio;
-     }*/
+    
     public void setDataTermino(Date dataTermino) {
         this.dataTermino = new Date();
     }
 
-    /*public void setSaldoAbertura(double saldoAbertura) {
-     this.saldoAbertura = saldoAbertura;
-     }*/
+    
     public void setSaldoFechamento(double saldoFechamento) throws Exception {
         if (saldoFechamento >= 0) {
             this.saldoFechamento = saldoFechamento;
@@ -90,4 +80,61 @@ public class Sessao {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+    
+    //hashCode
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + this.codigo;
+        hash = 59 * hash + Objects.hashCode(this.dataInicio);
+        hash = 59 * hash + Objects.hashCode(this.dataTermino);
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this.saldoAbertura) ^ (Double.doubleToLongBits(this.saldoAbertura) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this.saldoFechamento) ^ (Double.doubleToLongBits(this.saldoFechamento) >>> 32));
+        hash = 59 * hash + Objects.hashCode(this.caixa);
+        hash = 59 * hash + Objects.hashCode(this.usuario);
+        return hash;
+    }
+    //equals
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Sessao other = (Sessao) obj;
+        if (this.codigo != other.codigo) {
+            return false;
+        }
+        if (!Objects.equals(this.dataInicio, other.dataInicio)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataTermino, other.dataTermino)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.saldoAbertura) != Double.doubleToLongBits(other.saldoAbertura)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.saldoFechamento) != Double.doubleToLongBits(other.saldoFechamento)) {
+            return false;
+        }
+        if (!Objects.equals(this.caixa, other.caixa)) {
+            return false;
+        }
+        if (!Objects.equals(this.usuario, other.usuario)) {
+            return false;
+        }
+        return true;
+    }
+    
+    //toString
+    @Override
+    public String toString() {
+        return "Sessao{" + "Codigo = " + codigo + ", Inicio = " + dataInicio 
+                + ", Termino = " + dataTermino + ", Saldo de Abertura=" + saldoAbertura 
+                + ", Saldo de Fechamento = " + saldoFechamento + ", Codido do Caixa=" + caixa.getCodigo() 
+                + ", Usuario=" + usuario.getLogin() + '}';
+    }
+    
 }

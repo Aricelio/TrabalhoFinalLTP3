@@ -1,5 +1,6 @@
 package DominModel;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,11 +11,12 @@ public class Usuario {
     private String senha;
     private Funcionario funcionario;
 
-    /*----------- Construtor ----------*/
+    //Construtor 
     public Usuario() {
+        this.codigo = 0;
     }
 
-    /*----------- Getters -------------*/
+    //Getters
     public int getCodigo() {
         return codigo;
     }
@@ -31,12 +33,12 @@ public class Usuario {
         return funcionario;
     }
 
-    /*----------- Setters ----------------------------------------------------*/
+    //Setters
     public void setCodigo(int codigo) throws Exception {
         if (codigo > 0) {
             this.codigo = codigo;
         } else {
-            throw new Exception("Codigo menor que um");
+            throw new Exception("Valor passado para o campo 'codigo' não pode ser negativo!");
         }
     }
 
@@ -65,4 +67,48 @@ public class Usuario {
     public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
     }
+    
+    //hashCode
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 41 * hash + this.codigo;
+        hash = 41 * hash + Objects.hashCode(this.login);
+        hash = 41 * hash + Objects.hashCode(this.senha);
+        hash = 41 * hash + Objects.hashCode(this.funcionario);
+        return hash;
+    }
+
+    //equals
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Usuario other = (Usuario) obj;
+        if (this.codigo != other.codigo) {
+            return false;
+        }
+        if (!Objects.equals(this.login, other.login)) {
+            return false;
+        }
+        if (!Objects.equals(this.senha, other.senha)) {
+            return false;
+        }
+        if (!Objects.equals(this.funcionario, other.funcionario)) {
+            return false;
+        }
+        return true;
+    }
+    
+    //toString
+    @Override
+    public String toString() {
+        return "Usuario {" + "Codigo = " + codigo + ", Login = " + login 
+                + ", Senha = " + senha + ", Funcionario = " + funcionario.getNome() + '}';
+    }
+    
 }

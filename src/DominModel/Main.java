@@ -12,17 +12,23 @@ public class Main {
         Pessoa p = new Pessoa();
         PessoaDAO pdao = new PessoaDAO();
         
+        //p.setCPF("115.825.116.59");
+        p.setRG("17.791.878");
+        System.out.print(p.getRG());
         
         //Fornecedor
         Fornecedor fo = new Fornecedor();
         FornecedorDAO ford = new FornecedorDAO();
         
-        fo.setNome("Embalarte");
+        //fo.setCnpj("11.111.111/111-11");
+        //System.out.print(fo.getCnpj());
+        
+        /*fo.setNome("Embalarte");
         fo.setCnpj("11111111");
         fo.setCategoriaPessoa(CategoriaPessoa.Fornecedor);
-        fo.setTipoPessoa("Juridica");
+        fo.setTipoPessoa("Juridica");*/
         
-        ford.SalvarFornecedor(fo);
+        //ford.SalvarFornecedor(fo);
         
         //Funcionario
         Funcionario f = new Funcionario();

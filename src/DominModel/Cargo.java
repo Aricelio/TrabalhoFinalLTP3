@@ -1,6 +1,7 @@
 
 package DominModel;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,10 +39,47 @@ public class Cargo {
         if (verifica.matches()) {
             this.cargo = cargo;
         } else {
-            throw new Exception("Campo 'Nome' deve ter no mínimo 3 caracteres");
+            throw new Exception("Campo 'Cargo' deve ter no mínimo 3 caracteres");
         }
         
     }
+    
+    //hashCode
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + this.codigo;
+        hash = 53 * hash + Objects.hashCode(this.cargo);
+        return hash;
+    }
+
+    //equals
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cargo other = (Cargo) obj;
+        if (this.codigo != other.codigo) {
+            return false;
+        }
+        if (!Objects.equals(this.cargo, other.cargo)) {
+            return false;
+        }
+        return true;
+    }
+    
+    //toString
+    @Override
+    public String toString() {
+        return "Cargo{" + "codigo do Cargo = " + codigo + ", Cargo = " + cargo + '}';
+    }
+    
+    
+    
     
     
 }
