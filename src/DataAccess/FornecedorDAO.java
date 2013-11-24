@@ -39,7 +39,7 @@ public class FornecedorDAO extends PessoaDAO{
         return false;
     }
     
-    //Método Remover Cliente
+    //Método Remover Funcionario
     public boolean RemoverFuncionario(Fornecedor forn) {
         if (forn.getCodigo() >= 0) {
             try {
