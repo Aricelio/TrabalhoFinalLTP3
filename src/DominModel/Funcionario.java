@@ -46,10 +46,10 @@ public class Funcionario extends Pessoa {
     }
     
     //toString
-    @Override
+    /*@Override
     public String toString() {
         return "Funcionario{" + "Cargo = " + cargo.getCargo() + '}';
-    }
+    }*/
     
     
 
