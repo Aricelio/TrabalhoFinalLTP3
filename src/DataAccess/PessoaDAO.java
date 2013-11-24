@@ -129,14 +129,7 @@ public class PessoaDAO extends DAO {
 
             if (resultado.next()) {
                 Pessoa obj = new Pessoa();
-
-                obj.setCodigo(resultado.getInt("codPessoa"));
-                obj.setNome(resultado.getString("Nome"));
-                obj.setDataNascimento(resultado.getDate("DataNascimento"));
-                obj.setCPF(resultado.getString("CPF"));
-                obj.setRG(resultado.getString("RG"));
-                obj.setTipoPessoa(resultado.getString("TipoPessoa"));
-                obj.setAtivo(resultado.getInt("ativo"));
+                CarregaObjetoPessoa(obj, resultado);
                 
                 AbrirTelefones(obj);
                 AbrirEmails(obj);
@@ -165,14 +158,7 @@ public class PessoaDAO extends DAO {
 
             while (resultado.next()) {
                 Pessoa obj = new Pessoa();
-
-                obj.setCodigo(resultado.getInt("codPessoa"));
-                obj.setNome(resultado.getString("Nome"));
-                obj.setDataNascimento(resultado.getDate("DataNascimento"));
-                obj.setCPF(resultado.getString("CPF"));
-                obj.setRG(resultado.getString("RG"));
-                obj.setTipoPessoa(resultado.getString("TipoPessoa"));
-                obj.setAtivo(resultado.getInt("ativo"));
+                CarregaObjetoPessoa(obj, resultado);
 
                 lista.add(obj);
             }
@@ -212,14 +198,8 @@ public class PessoaDAO extends DAO {
 
             while (resultado.next()) {
                 Pessoa obj = new Pessoa();
-
-                obj.setCodigo(resultado.getInt("codPessoa"));
-                obj.setNome(resultado.getString("Nome"));
-                obj.setDataNascimento(resultado.getDate("DataNascimento"));
-                obj.setCPF(resultado.getString("CPF"));
-                obj.setRG(resultado.getString("RG"));
-                obj.setTipoPessoa(resultado.getString("TipoPessoa"));
-                obj.setAtivo(resultado.getInt("ativo"));
+                
+                CarregaObjetoPessoa(obj, resultado);
 
                 lista.add(obj);
             }
@@ -422,5 +402,15 @@ public class PessoaDAO extends DAO {
                 System.err.println(ex.getMessage());
             }
         }
+    }
+
+    protected void CarregaObjetoPessoa(Pessoa obj, ResultSet resultado) throws Exception {
+        obj.setCodigo(resultado.getInt("codPessoa"));
+        obj.setNome(resultado.getString("Nome"));
+        obj.setDataNascimento(resultado.getDate("DataNascimento"));
+        obj.setCPF(resultado.getString("CPF"));
+        obj.setRG(resultado.getString("RG"));
+        obj.setTipoPessoa(resultado.getString("TipoPessoa"));
+        obj.setAtivo(resultado.getInt("ativo"));
     }
 }
