@@ -4,6 +4,8 @@ import DominModel.Cliente;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -53,5 +55,33 @@ public class ClienteDAO extends PessoaDAO {
         }
         return false;
     }
+    
+    //Metodo Listar Clientes
+    public List<Cliente> ListarClientes() {
+        try {
+           
+            PreparedStatement sqlListar = getConexao().prepareStatement
+                    ("select * from Pessoas P join Clientes C on P.codPessoa = C.codCliente where P.ativo = 1");
+            ResultSet resultado = sqlListar.executeQuery();
+
+            List<Cliente> listaClientes = new ArrayList<Cliente>();
+
+            while (resultado.next()) {
+                Cliente cli = new Cliente();
+
+                //Carrega os dados da tabela pessoa
+                super.CarregaObjetoPessoa(cli, resultado);
+
+                listaClientes.add(cli);
+            }
+            
+            return listaClientes;
+
+        } catch (Exception ex) {
+             System.err.println(ex.getMessage());
+             return null;
+        }
+    }
+    
     
 }
