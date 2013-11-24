@@ -105,10 +105,10 @@ public class PessoaDAO extends DAO {
     public boolean RemoverPessoa(Pessoa obj) {
         if (obj.getCodigo() >= 0) {
             try {
-                PreparedStatement sqlDelete = getConexao().prepareStatement                        
+                PreparedStatement sqlDesativa = getConexao().prepareStatement                        
                         ("update Pessoas set ativo = 0 where codPessoa=?");
-                sqlDelete.setInt(1, obj.getCodigo());
-                sqlDelete.executeUpdate();
+                sqlDesativa.setInt(1, obj.getCodigo());
+                sqlDesativa.executeUpdate();
                 return true;
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
