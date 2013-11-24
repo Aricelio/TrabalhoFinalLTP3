@@ -108,14 +108,14 @@ public class Pessoa {
     }
 
     public void setRG(String rg) throws Exception {
-        Pattern PRG = Pattern.compile("[0-9].[0-9]{3}.[0-9]{3}-[0-9]");
-        Matcher verificacao = PRG.matcher(rg);
+        //Pattern PRG = Pattern.compile("[0-9].[0-9]{3}.[0-9]{3}-[0-9]");
+        //Matcher verificacao = PRG.matcher(rg);
 
-        if (verificacao.matches()) {
+        //if (verificacao.matches()) {
         this.RG = rg;
-        } else {
-          throw new Exception("Entrada para o campo RG INVALIDA!");
-        }
+        //} else {
+        //  throw new Exception("Entrada para o campo RG INVALIDA!");
+        //}
     }
 
     public void setCPF(String CPF) throws Exception {
