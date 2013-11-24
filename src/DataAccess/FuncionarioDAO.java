@@ -67,6 +67,7 @@ public class FuncionarioDAO extends PessoaDAO {
     public Funcionario AbrirFuncionario(int id) {
         try {
             Funcionario funcionario = new Funcionario();
+            //ERRO: funcionario não esta recebendo o objeto pessoa
             funcionario = (Funcionario) super.AbrirPessoa(id);
             
             CargoDAO cargoDAO = new CargoDAO();
