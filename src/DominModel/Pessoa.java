@@ -1,4 +1,3 @@
-
 package DominModel;
 
 import java.util.ArrayList;
@@ -18,12 +17,14 @@ public class Pessoa {
     private String RG;
     private String CPF;
     private String tipoPessoa;
+    private int ativo;
     private List<Email> emails;
     private List<Endereco> enderecos;
     private List<Telefone> telefones;
 
     //Construtor
     public Pessoa() {
+        this.ativo = 1;
         this.codigo = 0;
         emails = new ArrayList<Email>();
         enderecos = new ArrayList<Endereco>();
@@ -33,6 +34,10 @@ public class Pessoa {
     //Getters
     public int getCodigo() {
         return codigo;
+    }
+
+    public int getAtivo() {
+        return ativo;
     }
 
     public String getNome() {
@@ -62,15 +67,21 @@ public class Pessoa {
     public void setCategoriaPessoa(CategoriaPessoa categoriaPessoa) {
         this.categoriaPessoa = categoriaPessoa;
     }
-    
-    
 
     //Setters
-    public void setCodigo(int codigo) throws Exception{
+    public void setCodigo(int codigo) throws Exception {
         if (codigo > 0) {
             this.codigo = codigo;
         } else {
             throw new Exception("Valor passado para o campo 'codigo' não pode ser negativo!");
+        }
+    }
+
+    public void setAtivo(int ativo) throws Exception {
+        if ((ativo == 1) || (ativo == 0)) {
+            this.ativo = ativo;
+        } else {
+            throw new Exception("Campo ativo só aceita valores '0' ou '1'");
         }
     }
 
@@ -101,20 +112,20 @@ public class Pessoa {
         //Matcher verificacao = PRG.matcher(rg);
 
         //if (verificacao.matches()) {
-            this.RG = rg;
+        this.RG = rg;
         //} else {
-          //  throw new Exception("Entrada para o campo RG INVALIDA!");
+        //  throw new Exception("Entrada para o campo RG INVALIDA!");
         //}
     }
 
-    public void setCPF(String CPF) throws Exception{
+    public void setCPF(String CPF) throws Exception {
         //Pattern Pcpf = Pattern.compile("[\\s]");
         //Matcher verificacao = Pcpf.matcher(CPF);
 
         //if (verificacao.matches()) {
-            this.CPF = CPF;
+        this.CPF = CPF;
         //} else {
-          //  throw new Exception("Entrada para o campo CPF INVALIDA!");
+        //  throw new Exception("Entrada para o campo CPF INVALIDA!");
         //}
 
     }
@@ -129,7 +140,7 @@ public class Pessoa {
             throw new Exception("Campo 'TipoPessoa' deve ter no mínimo 3 caracteres");
         }
     }
-    
+
     //Método Adicionar Email
     public void addEmail(Email email) throws Exception {
         if (!emails.contains(email)) {
@@ -154,7 +165,6 @@ public class Pessoa {
     }
 
     //Adiciona um Endereco
-    
     public void addEndereco(Endereco endereco) throws Exception {
         if (!enderecos.contains(endereco)) {
             enderecos.add(endereco);
