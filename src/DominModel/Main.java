@@ -13,28 +13,50 @@ public class Main {
         PessoaDAO pdao = new PessoaDAO();
         
         
+        //Fornecedor
+        Fornecedor fo = new Fornecedor();
+        FornecedorDAO ford = new FornecedorDAO();
+        
+        fo.setNome("Embalarte");
+        fo.setCnpj("11111111");
+        fo.setCategoriaPessoa(CategoriaPessoa.Fornecedor);
+        fo.setTipoPessoa("Juridica");
+        
+        ford.SalvarFornecedor(fo);
         
         //Funcionario
         Funcionario f = new Funcionario();
         FuncionarioDAO fd = new FuncionarioDAO();        
         Cargo c = new Cargo();
+        CargoDAO ca= new CargoDAO();
         
-        f.setCodigo(2);
-        fd.RemoverFuncionario(f);
-        
+        //f = fd.AbrirFuncionario()
         
         Endereco e = new Endereco();
         Email em = new Email();
         
         //Cargo
-        c.setCargo("Atendente");
-        c.setCodigo(1);
+        //c.setCargo("Atendente");       
+        //ca.Salvar(c);       
+        
+        /*f.setNome("Philipe Caldeira");
+        f.setCPF("22222222222");
+        f.setDataNascimento(new Date());
+        f.setCategoriaPessoa(CategoriaPessoa.Funcionario);
+        f.setTipoPessoa("Fisica");
+        f.setRG("17911888");
+        f.setCargo(c);*/
+        
+        //fd.SalvarFuncionario(f);
+        //f = fd.AbrirFuncionario(10);
+        
+        //System.out.print(f.getNome());
         
         //Cliente
-        /*Cliente cli = new Cliente();
+        Cliente cli = new Cliente();
         ClienteDAO clid = new ClienteDAO();
         
-        cli.setNome("Paulo Vitor");
+        /*cli.setNome("Paulo Vitor");
         cli.setCPF("22222222222");
         cli.setDataNascimento(new Date());
         cli.setCategoriaPessoa(CategoriaPessoa.Cliente);
@@ -42,6 +64,8 @@ public class Main {
         cli.setRG("17911777");
         
         clid.SalvarCliente(cli);*/
+        
+        //System.out.print(cli.getNome());
         
         
     }
