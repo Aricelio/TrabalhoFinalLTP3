@@ -2,9 +2,10 @@ package DataAccess;
 
 import DominModel.Cargo;
 import DominModel.Funcionario;
+import DataAccess.CargoDAO;
+
+
 import java.sql.Connection;
-
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -22,7 +23,7 @@ public class FuncionarioDAO extends PessoaDAO {
         if (fun.getCodigo() == 0) {
             super.SalvarPessoa(fun);
             try {
-                PreparedStatement sqlInsert = getConexao().prepareStatement("insert into Funcionarios(cargo,codFuncionario) values (?,?)");
+                PreparedStatement sqlInsert = getConexao().prepareStatement("insert into Funcionarios(codCargo,codFuncionario) values (?,?)");
                 sqlInsert.setInt(1, fun.getCargo().getCodigo());
                 sqlInsert.setInt(2, fun.getCodigo());
                 sqlInsert.executeUpdate();
@@ -36,7 +37,7 @@ public class FuncionarioDAO extends PessoaDAO {
             try {
                 super.SalvarPessoa(fun);
                 Connection con = getConexao();
-                PreparedStatement sqlUpdate = con.prepareStatement("update Funcionarios set cargo=? where codFuncionario=?");
+                PreparedStatement sqlUpdate = con.prepareStatement("update Funcionarios set codCargo=? where codFuncionario=?");
                 sqlUpdate.setInt(1, fun.getCargo().getCodigo());
                 sqlUpdate.setInt(2, fun.getCodigo());
 
@@ -47,18 +48,13 @@ public class FuncionarioDAO extends PessoaDAO {
             }
         }
     }
-    
+
     //Método RemoverFuncionario
     public boolean RemoverFuncionario(Funcionario fun) {
         if (fun.getCodigo() >= 0) {
             try {
-                PreparedStatement sqlDelete = getConexao().prepareStatement
-                        ("delete from Funcionarios where codFuncionario=?");
-                sqlDelete.setInt(1, fun.getCodigo());
-                sqlDelete.executeUpdate();
-                
+           
                 super.RemoverPessoa(fun);
-
                 return true;
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
@@ -67,32 +63,39 @@ public class FuncionarioDAO extends PessoaDAO {
         }
         return false;
     }
-    
-    public Funcionario AbrirFuncionario(int id){
-        try{
-            Funcionario obj = (Funcionario)super.AbrirPessoa(id);
-            PreparedStatement sql = getConexao().prepareStatement("select * from Funcionarios where codFuncionario=?");
-            sql.setInt(1, id);
+
+    public Funcionario AbrirFuncionario(int id) {
+        try {
+            Funcionario funcionario = new Funcionario();
+            funcionario = (Funcionario) super.AbrirPessoa(id);
             
+            CargoDAO cargoDAO = new CargoDAO();
+            
+
+            //Seleciona o funcionario e armazena em 'resultado'
+            PreparedStatement sql = getConexao().prepareStatement
+                    ("select * from Funcionarios where codFuncionario=?");
+            sql.setInt(1, id);
             ResultSet resultado = sql.executeQuery();
             
-            if (resultado.next()) {
-                
-                //Falta abrir o cargo
-               
-                
-                AbrirTelefones(obj);
-                AbrirEmails(obj);
-                AbrirEnderecos(obj);
+            
 
-                return obj;
+            //Seleciona o codigo do cargo do funcionario e armazena em 'resultadoCargo'
+            PreparedStatement sqlConsultaCargo = getConexao().prepareStatement
+                    ("select codCargo from Funcionarios where codFuncionario=?");
+            sqlConsultaCargo.setInt(1, id);
+            ResultSet resultadoCargo = sqlConsultaCargo.executeQuery();
+            
+            
+            if (resultado.next()) {
+                funcionario.setCargo(cargoDAO.AbrirCargo(resultadoCargo.getInt("codCargo")));
+                return funcionario;
             } else {
                 return null;
             }
 
-            
-        }
-        catch(Exception ex){
+
+        } catch (Exception ex) {
             System.err.println(ex.getMessage());
             return null;
         }
