@@ -9,6 +9,7 @@ public class Funcionario extends Pessoa {
 
     //Construtor
     public Funcionario() {
+        super();
         setCategoriaPessoa(CategoriaPessoa.Funcionario);
     }
 
@@ -44,14 +45,4 @@ public class Funcionario extends Pessoa {
         }
         return true;
     }
-    
-    //toString
-    /*@Override
-    public String toString() {
-        return "Funcionario{" + "Cargo = " + cargo.getCargo() + '}';
-    }*/
-    
-    
-
-    
 }
