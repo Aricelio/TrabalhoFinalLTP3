@@ -9,6 +9,7 @@ public class ItemCompra {
     private Compra compra;
     private Produto produto;
     
+    
     //Construtor
     public ItemCompra() {
         this.codigo = 0;
@@ -29,6 +30,12 @@ public class ItemCompra {
 
     public Produto getProduto() {
         return produto;
+    }
+    
+    public double getValorTotalItem() 
+    {
+        double total =  getQuantidade() * produto.getPreco();
+        return total;
     }
     
     //Setters
