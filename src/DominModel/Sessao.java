@@ -1,7 +1,9 @@
 
 package DominModel;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Objects;
 
 public class Sessao {
@@ -15,10 +17,12 @@ public class Sessao {
     private Usuario usuario;
 
     //Construtor
-    public Sessao(Date dataInicio, double saldoAbertura) {
+    public Sessao() {
+        this.codigo = 0;
         this.dataInicio = new Date();
         this.saldoAbertura = caixa.getSaldo();
     }
+
 
     //Getters
     public int getCodigo() {
@@ -54,23 +58,47 @@ public class Sessao {
         if (codigo > 0) {
             this.codigo = codigo;
         } else {
-            throw new Exception("Codigo menor que um");
+            throw new Exception("Valor passado para o campo 'codigo' não pode ser negativo!");
         }
     }
 
-    
-    public void setDataTermino(Date dataTermino) {
-        this.dataTermino = new Date();
+    public void setDataInicio(Date dataInicio) throws Exception{
+        
+        Calendar calendario = GregorianCalendar.getInstance();
+        calendario.set(1900, 1, 1);
+
+        if (calendario.getTime().before(dataInicio)) {
+            this.dataInicio = dataInicio;
+        } else {
+            throw new ErroValidacaoException("Valor passado para o campo 'Data' é invalido!");
+        }
     }
 
+    public void setDataTermino(Date dataTermino) throws Exception{        
+        Calendar calendario = GregorianCalendar.getInstance();
+        calendario.set(1900, 1, 1);
+
+        if (calendario.getTime().before(dataTermino)) {
+            this.dataTermino = new Date();
+        } else {
+            throw new ErroValidacaoException("Valor passado para o campo 'Data' é invalido!");
+        }
+    }
+
+    public void setSaldoAbertura(double saldoAbertura) throws Exception {
+        if (saldoAbertura >= 0) {
+            this.saldoAbertura = saldoAbertura;
+        } else {
+            throw new Exception("Valor passado para o campo 'Saldo de Abertura' não pode ser negativo!");
+        }
+    }
     
     public void setSaldoFechamento(double saldoFechamento) throws Exception {
         if (saldoFechamento >= 0) {
             this.saldoFechamento = saldoFechamento;
         } else {
-            throw new Exception("Valor negativo!");
+            throw new Exception("Valor passado para o campo 'Saldo de Abertura' não pode ser negativo!");
         }
-
     }
 
     public void setCaixa(Caixa caixa) {
