@@ -8,10 +8,12 @@ public class TipoRefeicao {
 
     private int codigo;
     private String tipo;
+    private int ativo;
 
     //Construtor 
     public TipoRefeicao() {
         this.codigo = 0;
+        this.ativo = 1;
     }
 
     //Getters 
@@ -21,6 +23,10 @@ public class TipoRefeicao {
 
     public String getTipo() {
         return tipo;
+    }
+    
+    public int getAtivo() {
+        return ativo;
     }
 
     //Setters 
@@ -43,12 +49,21 @@ public class TipoRefeicao {
         }
     }
     
+    public void setAtivo(int ativo) throws Exception {
+        if ((ativo == 1) || (ativo == 0)) {
+            this.ativo = ativo;
+        } else {
+            throw new Exception("Campo ativo só aceita valores '0' ou '1'");
+        }
+    }
+    
     //hashCode
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 17 * hash + this.codigo;
-        hash = 17 * hash + Objects.hashCode(this.tipo);
+        hash = 71 * hash + this.codigo;
+        hash = 71 * hash + Objects.hashCode(this.tipo);
+        hash = 71 * hash + this.ativo;
         return hash;
     }
 
@@ -66,6 +81,9 @@ public class TipoRefeicao {
             return false;
         }
         if (!Objects.equals(this.tipo, other.tipo)) {
+            return false;
+        }
+        if (this.ativo != other.ativo) {
             return false;
         }
         return true;
