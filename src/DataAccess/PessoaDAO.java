@@ -1,5 +1,6 @@
 package DataAccess;
 
+import DominModel.CategoriaPessoa;
 import DominModel.Pessoa;
 import DominModel.Endereco;
 import DominModel.Email;
@@ -9,27 +10,27 @@ import DominModel.Telefone;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PessoaDAO extends DAO {
+public class PessoaDAO<T extends Pessoa> extends DAO {
 
     public PessoaDAO() {
         super();
     }
 
     //Método Salvar
-    public boolean SalvarPessoa(Pessoa obj) {
+    public boolean SalvarPessoa(T obj) {
         if (obj.getCodigo() == 0) {
             try {
                 //Insere os dados na tabela Pessoas
                 PreparedStatement sqlInsert = getConexao().prepareStatement
                         ("insert into Pessoas(Nome,DataNascimento,RG,CPF,tipoPessoa,categoriaPessoa,ativo) values(?,?,?,?,?,?,?)");
                 sqlInsert.setString(1, obj.getNome());
-                sqlInsert.setDate(2, new java.sql.Date(obj.getDataNascimento().getTime()));
+                if(obj.getDataNascimento() != null)
+                    sqlInsert.setDate(2, new java.sql.Date(obj.getDataNascimento().getTime()));
+                else
+                    sqlInsert.setDate(2, null);
                 sqlInsert.setString(3, obj.getRG());
                 sqlInsert.setString(4, obj.getCPF());
                 sqlInsert.setString(5, obj.getTipoPessoa());
@@ -39,14 +40,15 @@ public class PessoaDAO extends DAO {
 
                 //Pega a chave primária que foi gerada no banco de dados
                 PreparedStatement sqlConsulta = getConexao().prepareStatement
-                        ("select codPessoa from Pessoas where nome = ? and CPF = ?");
+                        ("select codPessoa from Pessoas where nome = ?");
                 sqlConsulta.setString(1, obj.getNome());
-                sqlConsulta.setString(2, obj.getCPF());
+                
                 ResultSet resultado = sqlConsulta.executeQuery();
+                
                 if (resultado.next()) {
                     obj.setCodigo(resultado.getInt("codPessoa"));
                 }
-                
+
                 //Salva o email
                 for (Email e : obj.getEmails()) {
                     SalvarEmail(obj, e);
@@ -78,7 +80,7 @@ public class PessoaDAO extends DAO {
                 sqlUpdate.setString(5, obj.getTipoPessoa());
                 sqlUpdate.setInt(6, obj.getCodigo());
                 sqlUpdate.executeUpdate();
-                
+
                 //Salva o email
                 for (Email e : obj.getEmails()) {
                     SalvarEmail(obj, e);
@@ -102,10 +104,10 @@ public class PessoaDAO extends DAO {
     }
 
     //Método Remover
-    public boolean RemoverPessoa(Pessoa obj) {
-        if (obj.getCodigo() >= 0) {
+    public boolean RemoverPessoa(T obj) {
+        if ((obj.getCodigo() >= 0) && (obj.getAtivo() == 1)) {
             try {
-                PreparedStatement sqlDesativa = getConexao().prepareStatement                        
+                PreparedStatement sqlDesativa = getConexao().prepareStatement
                         ("update Pessoas set ativo = 0 where codPessoa=?");
                 sqlDesativa.setInt(1, obj.getCodigo());
                 sqlDesativa.executeUpdate();
@@ -118,8 +120,8 @@ public class PessoaDAO extends DAO {
         return false;
     }
 
-    //Método Abrir Pessoa
-    public Pessoa AbrirPessoa(int id) {
+    //Método AbrirPessoa 
+    protected void AbrirPessoa(T obj, int id) {
         try {
             PreparedStatement sql = getConexao().prepareStatement
                     ("select * from Pessoas where codPessoa=? and ativo = 1");
@@ -128,93 +130,22 @@ public class PessoaDAO extends DAO {
             ResultSet resultado = sql.executeQuery();
 
             if (resultado.next()) {
-                Pessoa obj = new Pessoa();
                 CarregaObjetoPessoa(obj, resultado);
-                
+
                 AbrirTelefones(obj);
                 AbrirEmails(obj);
                 AbrirEnderecos(obj);
-
-                return obj;
-            } else {
-                return null;
-            }
-
+            } 
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
-            return null;
-        }
-    }
-
-    //Método Listar
-    public List<Pessoa> ListarPessoas() {
-        try {
-            PreparedStatement sql = getConexao().prepareStatement
-                    ("select * from Pessoas where ativo = 1");
-
-            ResultSet resultado = sql.executeQuery();
-
-            List<Pessoa> lista = new ArrayList<Pessoa>();
-
-            while (resultado.next()) {
-                Pessoa obj = new Pessoa();
-                CarregaObjetoPessoa(obj, resultado);
-
-                lista.add(obj);
-            }
-            return lista;
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-            return null;
-        }
-    }
-
-    //Método Buscar
-    public List<Pessoa> BuscarPessoa(Pessoa filtro) {
-        try {
-            String sql = "select * from Pessoas where ativo = 1";
-            String where = "";
-
-            if (filtro.getNome().length() > 0) {
-                where = " nome like '%" + filtro.getNome() + "%' ";
-            }
-
-            if (filtro.getCodigo() > 0) {
-                if (where.length() > 0) {
-                    where = where + " and ";
-                }
-                where = where + " codPessoa = " + filtro.getCodigo();
-            }
-
-            if (where.length() > 0) {
-                sql = sql + " and " + where;
-            }
-
-            Statement comando = getConexao().createStatement();
-            ResultSet resultado = comando.executeQuery(sql);
-
-
-            List<Pessoa> lista = new ArrayList<Pessoa>();
-
-            while (resultado.next()) {
-                Pessoa obj = new Pessoa();
-                
-                CarregaObjetoPessoa(obj, resultado);
-
-                lista.add(obj);
-            }
-
-            return lista;
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-            return null;
         }
     }
 
     //Abri os Emails
-    public void AbrirEmails(Pessoa pessoa) {
+    public void AbrirEmails(T pessoa) {
         try {
-            PreparedStatement sql = getConexao().prepareStatement("select * from emails where codPessoa=?");
+            PreparedStatement sql = getConexao().prepareStatement
+                    ("select * from emails where codPessoa=?");
             sql.setInt(1, pessoa.getCodigo());
 
             ResultSet resultado = sql.executeQuery();
@@ -239,11 +170,12 @@ public class PessoaDAO extends DAO {
         return email;
 
     }
+    
     //Método AbrirTelefones
-
-    public void AbrirTelefones(Pessoa pessoa) {
+    public void AbrirTelefones(T pessoa) {
         try {
-            PreparedStatement sql = getConexao().prepareStatement("select * from telefones where codPessoa=?");
+            PreparedStatement sql = getConexao().prepareStatement
+                    ("select * from telefones where codPessoa=?");
             sql.setInt(1, pessoa.getCodigo());
 
             ResultSet resultado = sql.executeQuery();
@@ -271,16 +203,17 @@ public class PessoaDAO extends DAO {
         }
 
     }
+    
     //Método AbrirEenderecos
-
-    public void AbrirEnderecos(Pessoa pessoa) {
+    public void AbrirEnderecos(T pessoa) {
         try {
-            PreparedStatement sql = getConexao().prepareStatement("select * from enderecos where codPessoa=?");
+            PreparedStatement sql = getConexao().prepareStatement
+                    ("select * from enderecos where codPessoa=?");
             sql.setInt(1, pessoa.getCodigo());
 
             ResultSet resultado = sql.executeQuery();
 
-            while (resultado.next()) {                
+            while (resultado.next()) {
                 pessoa.addEndereco(AbreEndereco(resultado));
             }
         } catch (Exception ex) {
@@ -299,7 +232,7 @@ public class PessoaDAO extends DAO {
             end.setBairro(resultado.getString("bairro"));
             end.setCidade(resultado.getString("cidade"));
             end.setUf(resultado.getString("uf"));
-            
+
 
             return end;
         } catch (Exception ex) {
@@ -310,10 +243,11 @@ public class PessoaDAO extends DAO {
     }
     //Método SalvarEmail
 
-    private void SalvarEmail(Pessoa pessoa, Email obj) {
+    private void SalvarEmail(T pessoa, Email obj) {
         if (obj.getCodigo() == 0) {
             try {
-                PreparedStatement sql = getConexao().prepareStatement("insert into emails(codPessoa,email) values(?,?)");
+                PreparedStatement sql = getConexao().prepareStatement
+                        ("insert into emails(codPessoa,email) values(?,?)");
                 sql.setInt(1, pessoa.getCodigo());
                 sql.setString(2, obj.getEmail());
                 sql.executeUpdate();
@@ -323,7 +257,8 @@ public class PessoaDAO extends DAO {
             }
         } else {
             try {
-                PreparedStatement sql = getConexao().prepareStatement("update emails set codPessoa = ?, email = ? where codEmail = ?");
+                PreparedStatement sql = getConexao().prepareStatement
+                        ("update emails set codPessoa = ?, email = ? where codEmail = ?");
                 sql.setInt(1, pessoa.getCodigo());
                 sql.setString(2, obj.getEmail());
                 sql.setInt(3, obj.getCodigo());
@@ -333,9 +268,9 @@ public class PessoaDAO extends DAO {
             }
         }
     }
+    
     //Método SalvarEndereco 
-
-    private void SalvarEndereco(Pessoa pessoa, Endereco obj) {
+    private void SalvarEndereco(T pessoa, Endereco obj) {
         if (obj.getCodigo() == 0) {
             try {
                 PreparedStatement sql = getConexao().prepareStatement
@@ -347,7 +282,7 @@ public class PessoaDAO extends DAO {
                 sql.setString(5, obj.getBairro());
                 sql.setString(6, obj.getCidade());
                 sql.setString(7, obj.getUf());
-                
+
                 sql.executeUpdate();
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
@@ -356,25 +291,25 @@ public class PessoaDAO extends DAO {
             try {
                 PreparedStatement sql = getConexao().prepareStatement
                         ("update enderecos set codPessoa=?, numero=?, complemento=?, rua=?, bairro=?,cidade=?,uf=? where codEndereco = ?");
-                
+
                 sql.setInt(1, pessoa.getCodigo());
                 sql.setInt(2, obj.getNumero());
                 sql.setString(3, obj.getComplemento());
                 sql.setString(4, obj.getRua());
                 sql.setString(5, obj.getBairro());
                 sql.setString(6, obj.getCidade());
-                sql.setString(7, obj.getUf());       
+                sql.setString(7, obj.getUf());
                 sql.setInt(8, obj.getCodigo());
-                
+
                 sql.executeQuery();
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
             }
         }
     }
+    
     //Método SalvarTelefone
-
-    private void SalvarTelefone(Pessoa pessoa, Telefone obj) {
+    private void SalvarTelefone(T pessoa, Telefone obj) {
         if (obj.getCodigo() == 0) {
             try {
                 PreparedStatement sql = getConexao().prepareStatement
@@ -404,13 +339,24 @@ public class PessoaDAO extends DAO {
         }
     }
 
-    protected void CarregaObjetoPessoa(Pessoa obj, ResultSet resultado) throws Exception {
-        obj.setCodigo(resultado.getInt("codPessoa"));
-        obj.setNome(resultado.getString("Nome"));
-        obj.setDataNascimento(resultado.getDate("DataNascimento"));
-        obj.setCPF(resultado.getString("CPF"));
-        obj.setRG(resultado.getString("RG"));
-        obj.setTipoPessoa(resultado.getString("TipoPessoa"));
-        obj.setAtivo(resultado.getInt("ativo"));
+    //Método CarregarObjetoPessoa
+    protected void CarregaObjetoPessoa(T obj, ResultSet resultado) throws Exception {
+        
+        if("Fornecedor".equals(resultado.getString("categoriaPessoa"))){
+            obj.setCodigo(resultado.getInt("codPessoa"));
+            obj.setNome(resultado.getString("Nome"));
+            obj.setTipoPessoa(resultado.getString("TipoPessoa"));
+            obj.setAtivo(resultado.getInt("ativo"));
+            obj.setCategoriaPessoa(CategoriaPessoa.Fornecedor);
+        }
+        else{
+            obj.setCodigo(resultado.getInt("codPessoa"));
+            obj.setNome(resultado.getString("Nome"));
+            obj.setTipoPessoa(resultado.getString("TipoPessoa"));
+            obj.setAtivo(resultado.getInt("ativo"));
+            obj.setDataNascimento(resultado.getDate("DataNascimento"));
+            obj.setCPF(resultado.getString("CPF"));
+            obj.setRG(resultado.getString("RG"));
+        }
     }
 }
