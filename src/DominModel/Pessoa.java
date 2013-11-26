@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Pessoa {
+
     private int codigo;
     private CategoriaPessoa categoriaPessoa;
     private String nome;
@@ -108,14 +109,14 @@ public class Pessoa {
     }
 
     public void setRG(String rg) throws Exception {
-        //Pattern PRG = Pattern.compile("[0-9].[0-9]{3}.[0-9]{3}-[0-9]");
-        //Matcher verificacao = PRG.matcher(rg);
+        Pattern PRG = Pattern.compile("[\\d\\w\\.-]{6,20}");
+        Matcher verificacao = PRG.matcher(rg);
 
-        //if (verificacao.matches()) {
-        this.RG = rg;
-        //} else {
-        //  throw new Exception("Entrada para o campo RG INVALIDA!");
-        //}
+        if (verificacao.matches()) {
+            this.RG = rg;
+        } else {
+            throw new Exception("Entrada para o campo RG INVALIDA!");
+        }
     }
 
     public void setCPF(String CPF) throws Exception {
@@ -210,7 +211,7 @@ public class Pessoa {
     public List<Telefone> getTelefones() {
         return telefones;
     }
-    
+
     //hashCode
     @Override
     public int hashCode() {
@@ -228,7 +229,7 @@ public class Pessoa {
         hash = 97 * hash + Objects.hashCode(this.telefones);
         return hash;
     }
-    
+
     //equals
     @Override
     public boolean equals(Object obj) {
@@ -274,14 +275,13 @@ public class Pessoa {
         }
         return true;
     }
-    
+
     //toString
     @Override
     public String toString() {
-        return "Pessoa{" + "Codigo da Pessoa = " + codigo + ", Categoria = " 
-                + categoriaPessoa + ", Nome = " + nome 
-                + ", Data de Nascimento=" + dataNascimento + ", RG = " + RG 
-                + ", CPF = " + CPF + ", Tipo =" + tipoPessoa + '}';
+        return "Pessoa{" + "Codigo da Pessoa = " + codigo + ", Categoria = "
+                + categoriaPessoa + ", Nome = " + nome
+                + ", Data de Nascimento=" + dataNascimento + ", RG = " + RG
+                + ", CPF = " + CPF + ", Tipo =" + tipoPessoa + '}' + '\n';
     }
-    
 }
