@@ -22,15 +22,22 @@ public class Main {
         Fornecedor fo = new Fornecedor();
         FornecedorDAO ford = new FornecedorDAO();
         
-        //fo.setCnpj("11.111.111/111-11");
+        
         //System.out.print(fo.getCnpj());
         
-        /*fo.setNome("Embalarte");
-        fo.setCnpj("11111111");
-        fo.setCategoriaPessoa(CategoriaPessoa.Fornecedor);
-        fo.setTipoPessoa("Juridica");*/
+        //fo.setNome("Supermercado");
+        //fo.setCnpj("11.111.111/1111-11");
+        //fo.setCategoriaPessoa(CategoriaPessoa.Fornecedor);
+        //fo.setTipoPessoa("Juridica");
+        List<Fornecedor> listaFo = new ArrayList<Fornecedor>();
         
-        //ford.SalvarFornecedor(fo);
+        //listaFo = ford.BuscarFornecedor(fo);
+        
+        //ford.SalvarFornecedor(fo);        
+        //fo = ford.AbrirFornecedor(11);
+        //listaFo = ford.ListarFornecedores();
+        
+        //System.out.print(listaFo.toString());
         
         //Funcionario
         Funcionario f = new Funcionario();
@@ -39,15 +46,17 @@ public class Main {
         Cargo c = new Cargo();
         CargoDAO ca= new CargoDAO();
         
-        listaF = fd.ListarFuncionarios();
+        //f.setRG("7777MG-17.777");
+        //f.setNome("Phi");
+        //f.setCodigo(10);
         
-        System.out.print(listaF.toString());
+        //f = fd.AbrirFuncionario(10);
+        //listaF = fd.ListarFuncionarios();
         
+        //listaF = fd.BuscarFuncionario(f);
+        //System.out.print(listaF.toString());
         
-        
-        
-        
-        //f = fd.AbrirFuncionario()
+        //f = fd.AbrirFuncionario(10);
         
         Endereco e = new Endereco();
         Email em = new Email();
@@ -74,10 +83,13 @@ public class Main {
         ClienteDAO clid = new ClienteDAO();
         List<Cliente> listaC = new ArrayList<Cliente>();
         
+        cli.setNome("Paul");
+        listaC = clid.BuscarCliente(cli);
         //listaC = clid.ListarClientes();
-        
-        //System.out.print(listaC.toString());
-        
+        //cli = clid.AbrirCliente(7);
+        //clid.RemoverCliente(cli);
+        //System.out.print(cli.toString());
+        System.out.print(listaC.toString());
         
         
         /*cli.setNome("Paulo Vitor");
