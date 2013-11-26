@@ -10,12 +10,13 @@ public class Produto {
     private String nome;
     private double preco;
     private String descricao;
+    private int ativo;
     private TipoProduto tipo;
-    
 
     //Construtor
     public Produto() {
         this.codigo = 0;
+        this.ativo = 1;
     }
 
     //Getters
@@ -39,6 +40,9 @@ public class Produto {
         return tipo;
     }
 
+    public int getAtivo() {
+        return ativo;
+    }
 
     //Setters
     public void setCodigo(int codigo) throws Exception {
@@ -49,7 +53,7 @@ public class Produto {
         }
     }
 
-    public void setNome(String nome) throws Exception{
+    public void setNome(String nome) throws Exception {
         Pattern Nome = Pattern.compile("[\\w\\s]{3,}");
         Matcher verifica = Nome.matcher(nome);
 
@@ -60,7 +64,7 @@ public class Produto {
         }
     }
 
-    public void setPreco(double preco) throws Exception{
+    public void setPreco(double preco) throws Exception {
         if (preco > 0) {
             this.preco = preco;
         } else {
@@ -68,7 +72,7 @@ public class Produto {
         }
     }
 
-    public void setDescricao(String descricao)  throws Exception{
+    public void setDescricao(String descricao) throws Exception {
         Pattern Descricao = Pattern.compile("[\\w\\s]{3,}");
         Matcher verifica = Descricao.matcher(descricao);
 
@@ -77,24 +81,34 @@ public class Produto {
         } else {
             throw new Exception("Campo 'Descrição' deve ter no mínimo 3 caracteres");
         }
-        
+
     }
 
     public void setTipo(TipoProduto tipo) {
         this.tipo = tipo;
     }
-    
+
+    public void setAtivo(int ativo) throws Exception {
+        if ((ativo == 0) || (ativo == 1)) {
+            this.ativo = ativo;
+        } else {
+            throw new Exception("Campo 'ativo' deve receber valor '1' ou '0'");
+        }
+    }
+
     //hashCode
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 83 * hash + this.codigo;
-        hash = 83 * hash + Objects.hashCode(this.nome);
-        hash = 83 * hash + (int) (Double.doubleToLongBits(this.preco) ^ (Double.doubleToLongBits(this.preco) >>> 32));
-        hash = 83 * hash + Objects.hashCode(this.descricao);
-        hash = 83 * hash + Objects.hashCode(this.tipo);
+        hash = 79 * hash + this.codigo;
+        hash = 79 * hash + Objects.hashCode(this.nome);
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this.preco) ^ (Double.doubleToLongBits(this.preco) >>> 32));
+        hash = 79 * hash + Objects.hashCode(this.descricao);
+        hash = 79 * hash + this.ativo;
+        hash = 79 * hash + Objects.hashCode(this.tipo);
         return hash;
     }
+    
 
     //equals
     @Override
@@ -118,6 +132,9 @@ public class Produto {
         if (!Objects.equals(this.descricao, other.descricao)) {
             return false;
         }
+        if (this.ativo != other.ativo) {
+            return false;
+        }
         if (!Objects.equals(this.tipo, other.tipo)) {
             return false;
         }
@@ -127,9 +144,8 @@ public class Produto {
     //toString
     @Override
     public String toString() {
-        return "Produto{" + "Codigo = " + codigo + ", Nome = " + nome 
-                + ", Preco = " + preco + ", Descricao = " + descricao 
+        return "Produto{" + "Codigo = " + codigo + ", Nome = " + nome
+                + ", Preco = " + preco + ", Descricao = " + descricao
                 + ", Tipo = " + tipo.getTipo() + '}';
     }
-    
 }
