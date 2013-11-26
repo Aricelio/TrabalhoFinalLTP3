@@ -1,16 +1,21 @@
 package DominModel;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Refeicao {
 
     private int codigo;
     private double preco;
+    private int ativo;
+    private String descricao;
     private TipoRefeicao tipo;
 
     //Construtor
     public Refeicao() {
         this.codigo = 0;
+        this.ativo = 1;
     }
 
     //Getters
@@ -24,6 +29,14 @@ public class Refeicao {
 
     public TipoRefeicao getTipo() {
         return tipo;
+    }
+    
+    public int getAtivo() {
+        return ativo;
+    }
+    
+    public String getDescricao() {
+        return descricao;
     }
 
     //Setters 
@@ -47,15 +60,37 @@ public class Refeicao {
         this.tipo = tipo;
     }
     
+    public void setAtivo(int ativo) throws Exception {
+        if ((ativo == 0) || (ativo == 1)) {
+            this.ativo = ativo;
+        } else {
+            throw new Exception("Campo 'ativo' deve receber valor '1' ou '0'");
+        }
+    }
+    
+    public void setDescricao(String descricao) throws Exception {
+        Pattern Descricao = Pattern.compile("[\\w\\s]{3,}");
+        Matcher verifica = Descricao.matcher(descricao);
+
+        if (verifica.matches()) {
+            this.descricao = descricao;
+        } else {
+            throw new Exception("Campo 'Descrição' deve ter no mínimo 3 caracteres");
+        }
+    }
+    
     //hashCode
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 37 * hash + this.codigo;
-        hash = 37 * hash + (int) (Double.doubleToLongBits(this.preco) ^ (Double.doubleToLongBits(this.preco) >>> 32));
-        hash = 37 * hash + Objects.hashCode(this.tipo);
+        hash = 73 * hash + this.codigo;
+        hash = 73 * hash + (int) (Double.doubleToLongBits(this.preco) ^ (Double.doubleToLongBits(this.preco) >>> 32));
+        hash = 73 * hash + this.ativo;
+        hash = 73 * hash + Objects.hashCode(this.descricao);
+        hash = 73 * hash + Objects.hashCode(this.tipo);
         return hash;
     }
+    
 
     //equals
     @Override
@@ -73,6 +108,12 @@ public class Refeicao {
         if (Double.doubleToLongBits(this.preco) != Double.doubleToLongBits(other.preco)) {
             return false;
         }
+        if (this.ativo != other.ativo) {
+            return false;
+        }
+        if (!Objects.equals(this.descricao, other.descricao)) {
+            return false;
+        }
         if (!Objects.equals(this.tipo, other.tipo)) {
             return false;
         }
@@ -83,7 +124,8 @@ public class Refeicao {
     @Override
     public String toString() {
         return "Refeicao{" + "Codigo = " + codigo + ", Preco=" + preco 
-                + ", Tipo = " + tipo.getTipo() + '}';
+                + ", Tipo = " + tipo.getTipo() 
+                + ", Descrição = " + descricao  + '}';
     }
     
 }
