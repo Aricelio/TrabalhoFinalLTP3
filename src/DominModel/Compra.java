@@ -1,9 +1,11 @@
 
 package DominModel;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,9 +18,11 @@ public class Compra {
     private String formaPagamento;
     private Sessao sessao;
     private Funcionario funcionario;
+    private List<ItemCompra> itensCompra;
     
     //Construtor
     public Compra() {
+        itensCompra = new ArrayList<ItemCompra>();
         this.codigo = 0;
     }
     
@@ -45,6 +49,10 @@ public class Compra {
 
     public Funcionario getFuncionario() {
         return funcionario;
+    }
+    
+    public List<ItemCompra> getItensCompra(){
+        return itensCompra;
     }
     
     //Setters 
@@ -93,20 +101,46 @@ public class Compra {
     public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
     }
+    
+    //Adiciona um item a compra
+    public void addItemCompra(ItemCompra itemCompra) throws Exception{
+        if(!itensCompra.contains(itemCompra)){
+            itensCompra.add(itemCompra);
+            
+            double valor = itemCompra.getValorTotalItem() + getValorTotal();
+            setValorTotal(valor);
+        }
+        else{
+         throw new Exception("Esse item já esta contido na lista de Compras");
+        }
+    }
+    
+    //Remove um item da venda
+    public void removeItemCompra(ItemCompra itemCompra) throws Exception{
+        if(itensCompra.contains(itemCompra)){
+            itensCompra.remove(itemCompra);
+            
+            double valor = getValorTotal() - itemCompra.getValorTotalItem();
+            setValorTotal(valor);
+        }
+        else{
+         throw new Exception("Esse item não existe na lista de Compras");
+        }
+    }
 
     //hashCode
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 43 * hash + this.codigo;
-        hash = 43 * hash + Objects.hashCode(this.data);
-        hash = 43 * hash + (int) (Double.doubleToLongBits(this.valorTotal) ^ (Double.doubleToLongBits(this.valorTotal) >>> 32));
-        hash = 43 * hash + Objects.hashCode(this.formaPagamento);
-        hash = 43 * hash + Objects.hashCode(this.sessao);
-        hash = 43 * hash + Objects.hashCode(this.funcionario);
+        int hash = 3;
+        hash = 53 * hash + this.codigo;
+        hash = 53 * hash + Objects.hashCode(this.data);
+        hash = 53 * hash + (int) (Double.doubleToLongBits(this.valorTotal) ^ (Double.doubleToLongBits(this.valorTotal) >>> 32));
+        hash = 53 * hash + Objects.hashCode(this.formaPagamento);
+        hash = 53 * hash + Objects.hashCode(this.sessao);
+        hash = 53 * hash + Objects.hashCode(this.funcionario);
+        hash = 53 * hash + Objects.hashCode(this.itensCompra);
         return hash;
     }
-    
     
     //equals
     @Override
@@ -134,6 +168,9 @@ public class Compra {
             return false;
         }
         if (!Objects.equals(this.funcionario, other.funcionario)) {
+            return false;
+        }
+        if (!Objects.equals(this.itensCompra, other.itensCompra)) {
             return false;
         }
         return true;
