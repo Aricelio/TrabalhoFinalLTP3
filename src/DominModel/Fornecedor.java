@@ -52,10 +52,5 @@ public class Fornecedor extends Pessoa {
         return true;
     }
     
-    //toString
-    @Override
-    public String toString() {
-        return "Fornecedor{" + "CNPJ = " + cnpj + '}';
-    }
     
 }
