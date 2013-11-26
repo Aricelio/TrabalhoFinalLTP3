@@ -30,6 +30,12 @@ public class ItemVenda {
     public Produto getProduto() {
         return produto;
     }
+    
+    public double getValorTotalItem() 
+    {
+        double total =  getQuantidade() * produto.getPreco();
+        return total;
+    }
 
     //Setters 
     public void setCodigo(int codigo) throws Exception {
