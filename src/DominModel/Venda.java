@@ -1,8 +1,10 @@
 package DominModel;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,9 +18,11 @@ public class Venda {
     private Sessao sessao;
     private Cliente cliente;
     private Funcionario funcionario;
+    private List<ItemVenda> itensVenda;
 
     //Construtor
     public Venda() {
+        itensVenda = new ArrayList<ItemVenda>();
         this.codigo = 0;
     }
 
@@ -51,6 +55,10 @@ public class Venda {
         return funcionario;
     }
 
+    public List<ItemVenda> getItensVenda(){
+        return this.itensVenda;
+    }
+    
     //Setters 
     public void setCodigo(int codigo) throws Exception {
         if (codigo > 0) {
@@ -103,17 +111,44 @@ public class Venda {
         this.funcionario = funcionario;
     }
     
+    //Adiciona um Item a venda
+    public void addItemVenda(ItemVenda itemVenda) throws Exception{
+        if(!itensVenda.contains(itemVenda)){
+            itensVenda.add(itemVenda);
+            
+            double valor = itemVenda.getValorTotalItem() + getValorTotal();
+            setValorTotal(valor);
+        }
+        else{
+         throw new Exception("Esse item já esta contido na lista de Vendas");
+        }
+    }
+    
+    //Remove um item da venda
+    public void removeItemVenda(ItemVenda itemVenda) throws Exception{
+        if(itensVenda.contains(itemVenda)){
+            itensVenda.remove(itemVenda);
+            
+            double valor = getValorTotal() - itemVenda.getValorTotalItem();
+            setValorTotal(valor);
+        }
+        else{
+         throw new Exception("Esse item não existe na lista de Vendas!");
+        }
+    }
+
     //hashCode
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + this.codigo;
-        hash = 83 * hash + Objects.hashCode(this.data);
-        hash = 83 * hash + (int) (Double.doubleToLongBits(this.valorTotal) ^ (Double.doubleToLongBits(this.valorTotal) >>> 32));
-        hash = 83 * hash + Objects.hashCode(this.formaPagamento);
-        hash = 83 * hash + Objects.hashCode(this.sessao);
-        hash = 83 * hash + Objects.hashCode(this.cliente);
-        hash = 83 * hash + Objects.hashCode(this.funcionario);
+        int hash = 5;
+        hash = 43 * hash + this.codigo;
+        hash = 43 * hash + Objects.hashCode(this.data);
+        hash = 43 * hash + (int) (Double.doubleToLongBits(this.valorTotal) ^ (Double.doubleToLongBits(this.valorTotal) >>> 32));
+        hash = 43 * hash + Objects.hashCode(this.formaPagamento);
+        hash = 43 * hash + Objects.hashCode(this.sessao);
+        hash = 43 * hash + Objects.hashCode(this.cliente);
+        hash = 43 * hash + Objects.hashCode(this.funcionario);
+        hash = 43 * hash + Objects.hashCode(this.itensVenda);
         return hash;
     }
 
@@ -146,6 +181,9 @@ public class Venda {
             return false;
         }
         if (!Objects.equals(this.funcionario, other.funcionario)) {
+            return false;
+        }
+        if (!Objects.equals(this.itensVenda, other.itensVenda)) {
             return false;
         }
         return true;
