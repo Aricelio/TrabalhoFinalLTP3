@@ -1,6 +1,5 @@
 package DataAccess;
 
-import DominModel.Funcionario;
 import DominModel.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,14 +15,16 @@ public class UsuarioDAO extends DAO {
     public boolean Salvar(Usuario obj) {
         if (obj.getCodigo() == 0) {
             try {
-                PreparedStatement sql = getConexao().prepareStatement("insert into usuarios(login,senha,codFuncionario) values(?,?,?)");
+                PreparedStatement sql = getConexao().prepareStatement
+                        ("insert into usuarios(login,senha,codFuncionario) values(?,?,?)");
                 sql.setString(1, obj.getLogin());
                 sql.setString(2, obj.getSenha());
                 sql.setInt(3, obj.getFuncionario().getCodigo());
                 sql.executeUpdate();
 
                 //Pega a chave primária que foi gerada no banco de dados
-                PreparedStatement sqlConsulta = getConexao().prepareStatement("select codUsuario from Usuarios where login = ? and senha = ? and codFuncionario = ?");
+                PreparedStatement sqlConsulta = getConexao().prepareStatement
+                        ("select codUsuario from Usuarios where login = ? and senha = ? and codFuncionario = ?");
                 sqlConsulta.setString(1, obj.getLogin());
                 sqlConsulta.setString(2, obj.getSenha());
                 sqlConsulta.setInt(3, obj.getFuncionario().getCodigo());
@@ -69,8 +70,34 @@ public class UsuarioDAO extends DAO {
             System.err.println(ex.getMessage());
             return false;
         }
-
     }
 
+    //Método AbrirUsuario
+    public Usuario AbrirUsuario(int id) {
+        try {
+            PreparedStatement sql = getConexao().prepareStatement
+                    ("select * from Usuarios where codUsuario=?");
+            sql.setInt(1, id);
+
+            ResultSet resultado = sql.executeQuery();
+
+            if (resultado.next()) {
+                Usuario obj = new Usuario();                
+                FuncionarioDAO fDAO = new FuncionarioDAO();
+                
+                obj.setCodigo(resultado.getInt("codUsuario"));
+                obj.setLogin(resultado.getString("login"));
+                obj.setSenha(resultado.getString("senha"));
+                obj.setFuncionario(fDAO.AbrirFuncionario(resultado.getInt("codFuncionario")));
+           
+                return obj;
+            } else {
+                return null;
+            }
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            return null;
+        }
+    }
     
 }
