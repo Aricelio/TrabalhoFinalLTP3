@@ -1,22 +1,14 @@
 package DataAccess;
 
-import DominModel.Cargo;
 import DominModel.Funcionario;
-import DataAccess.CargoDAO;
-import DominModel.CategoriaPessoa;
-import DataAccess.UsuarioDAO;
-
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FuncionarioDAO extends PessoaDAO {
-
-    private Cargo cargo;
+public class FuncionarioDAO extends PessoaDAO<Funcionario> {
 
     //Construtor
     public FuncionarioDAO() {
@@ -56,13 +48,13 @@ public class FuncionarioDAO extends PessoaDAO {
 
     //Método RemoverFuncionario
     public boolean RemoverFuncionario(Funcionario fun) {
-        if (fun.getCodigo() >= 0) {
+        if ((fun.getCodigo() >= 0) && (fun.getAtivo() == 1)){
             try {
                 UsuarioDAO user = new UsuarioDAO();
-                
+
                 user.RemoverUsuario(fun.getCodigo());
                 super.RemoverPessoa(fun);
-                
+
                 return true;
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
@@ -72,35 +64,26 @@ public class FuncionarioDAO extends PessoaDAO {
         return false;
     }
 
+    //Método Abrir
     public Funcionario AbrirFuncionario(int id) {
         try {
             Funcionario funcionario = new Funcionario();
-            //ERRO: funcionario não esta recebendo o objeto pessoa
-            funcionario = (Funcionario) super.AbrirPessoa(id);
+
+            super.AbrirPessoa(funcionario, id);
 
             CargoDAO cargoDAO = new CargoDAO();
-
 
             //Seleciona o funcionario e armazena em 'resultado'
             PreparedStatement sql = getConexao().prepareStatement("select * from Funcionarios where codFuncionario=?");
             sql.setInt(1, id);
             ResultSet resultado = sql.executeQuery();
 
-            //Seleciona o codigo do cargo do funcionario e armazena em 'resultadoCargo'
-            PreparedStatement sqlConsultaCargo = getConexao().prepareStatement("select codCargo from Funcionarios where codFuncionario=?");
-            sqlConsultaCargo.setInt(1, id);
-            ResultSet resultadoCargo = sqlConsultaCargo.executeQuery();
-
-
-
             if (resultado.next()) {
-                funcionario.setCargo(cargoDAO.AbrirCargo(resultadoCargo.getInt("codCargo")));
+                funcionario.setCargo(cargoDAO.AbrirCargo(resultado.getInt("codCargo")));
                 return funcionario;
             } else {
                 return null;
             }
-
-
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
             return null;
@@ -126,16 +109,56 @@ public class FuncionarioDAO extends PessoaDAO {
 
                 //Carrega o restante dos dados (tabela funcionario)
                 f.setCargo(cargoDAO.AbrirCargo(resultado.getInt("codCargo")));
-                
 
                 listaF.add(f);
             }
-            
             return listaF;
-
         } catch (Exception ex) {
-             System.err.println(ex.getMessage());
-             return null;
+            System.err.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    //Método Buscar
+    public List<Funcionario> BuscarFuncionario(Funcionario filtro) {
+        try {
+            String sql = "select * from Pessoas P join Funcionarios F on P.codPessoa = F.codFuncionario where P.ativo = 1";
+            String where = "";
+
+            if (filtro.getNome() != null) {
+                if (filtro.getNome().length() > 0) {
+                    where = " P.nome like '%" + filtro.getNome() + "%' ";
+                }
+            }
+
+            if (filtro.getCodigo() > 0) {
+                if (where.length() > 0) {
+                    where = where + " and ";
+                }
+                where = where + " F.codFuncionario = " + filtro.getCodigo();
+            }
+
+            if (where.length() > 0) {
+                sql = sql + " and " + where;
+            }
+
+            Statement comando = getConexao().createStatement();
+            ResultSet resultado = comando.executeQuery(sql);
+
+
+            List<Funcionario> lista = new ArrayList<Funcionario>();
+
+            while (resultado.next()) {
+                Funcionario obj = new Funcionario();
+
+                CarregaObjetoPessoa(obj, resultado);
+
+                lista.add(obj);
+            }
+            return lista;
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            return null;
         }
     }
 }
