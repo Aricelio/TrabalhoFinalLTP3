@@ -279,9 +279,6 @@ public class Pessoa {
     //toString
     @Override
     public String toString() {
-        return "Pessoa{" + "Codigo da Pessoa = " + codigo + ", Categoria = "
-                + categoriaPessoa + ", Nome = " + nome
-                + ", Data de Nascimento=" + dataNascimento + ", RG = " + RG
-                + ", CPF = " + CPF + ", Tipo =" + tipoPessoa + '}' + '\n';
+        return nome;
     }
 }

@@ -4,6 +4,7 @@ package DominModel;
 import java.util.Objects;
 
 public class ItemProdutoFornecedor {
+    
     private int codigo;
     private Produto produto;
     private Fornecedor fornecedor;

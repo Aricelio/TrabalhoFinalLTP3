@@ -1,9 +1,11 @@
 
 package DominModel;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,9 +18,11 @@ public class VendaRefeicao {
     private Cliente cliente;
     private Funcionario funcionario;
     private Sessao sessao;
+    private List<ItemVendaRefeicao> itensVenda;
     
     //Construtor
     public VendaRefeicao() {
+        itensVenda = new ArrayList<ItemVendaRefeicao>();
         this.codigo = 0;
     }
     
@@ -49,6 +53,10 @@ public class VendaRefeicao {
 
     public Sessao getSessao() {
         return sessao;
+    }
+    
+    public List<ItemVendaRefeicao> getItensVendaRefeicao(){
+        return this.itensVenda;
     }
     
     //Setters

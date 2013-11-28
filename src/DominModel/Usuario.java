@@ -54,7 +54,7 @@ public class Usuario {
     }
 
     public void setSenha(String senha) throws Exception {
-        Pattern Nome = Pattern.compile("[\\w]{6,}");
+        Pattern Nome = Pattern.compile("[\\w]{3,}");
         Matcher verifica = Nome.matcher(login);
 
         if (verifica.matches()) {
