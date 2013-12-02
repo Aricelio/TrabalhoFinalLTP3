@@ -231,7 +231,7 @@ public class PessoaDAO<T extends Pessoa> extends DAO {
             end.setRua(resultado.getString("rua"));
             end.setBairro(resultado.getString("bairro"));
             end.setCidade(resultado.getString("cidade"));
-            end.setUf(resultado.getString("uf"));
+            end.setUf(resultado.getString("estado"));
 
 
             return end;
@@ -274,7 +274,7 @@ public class PessoaDAO<T extends Pessoa> extends DAO {
         if (obj.getCodigo() == 0) {
             try {
                 PreparedStatement sql = getConexao().prepareStatement
-                        ("insert into enderecos(codPessoa,numero,complemento,rua,bairro,cidade,uf) values(?,?,?,?,?,?,?)");
+                        ("insert into enderecos(codPessoa,numero,complemento,rua,bairro,cidade,estado) values(?,?,?,?,?,?,?)");
                 sql.setInt(1, pessoa.getCodigo());
                 sql.setInt(2, obj.getNumero());
                 sql.setString(3, obj.getComplemento());
@@ -290,7 +290,7 @@ public class PessoaDAO<T extends Pessoa> extends DAO {
         } else {
             try {
                 PreparedStatement sql = getConexao().prepareStatement
-                        ("update enderecos set codPessoa=?, numero=?, complemento=?, rua=?, bairro=?,cidade=?,uf=? where codEndereco = ?");
+                        ("update enderecos set codPessoa=?, numero=?, complemento=?, rua=?, bairro=?,cidade=?,estado=? where codEndereco = ?");
 
                 sql.setInt(1, pessoa.getCodigo());
                 sql.setInt(2, obj.getNumero());
