@@ -12,6 +12,7 @@ public class Produto {
     private String descricao;
     private int ativo;
     private TipoProduto tipo;
+    private int estoque;
 
     //Construtor
     public Produto() {
@@ -43,6 +44,11 @@ public class Produto {
     public int getAtivo() {
         return ativo;
     }
+
+    public int getEstoque() {
+        return estoque;
+    }
+    
 
     //Setters
     public void setCodigo(int codigo) throws Exception {
@@ -96,6 +102,16 @@ public class Produto {
         }
     }
 
+    public void setEstoque(int estoque) throws Exception{
+        if (estoque > 0) {
+            this.estoque = estoque;
+        } else {
+            throw new Exception("Valor passado para o campo 'estoque' não pode ser negativo!");
+        }
+    }
+    
+    
+
     //hashCode
     @Override
     public int hashCode() {
@@ -144,8 +160,6 @@ public class Produto {
     //toString
     @Override
     public String toString() {
-        return "Produto{" + "Codigo = " + codigo + ", Nome = " + nome
-                + ", Preco = " + preco + ", Descricao = " + descricao
-                + ", Tipo = " + tipo.getTipo() + '}';
+        return nome;
     }
 }

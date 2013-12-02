@@ -87,7 +87,7 @@ public class Pessoa {
     }
 
     public void setNome(String nome) throws Exception {
-        Pattern Nome = Pattern.compile("[\\w\\s]{3,}");
+        Pattern Nome = Pattern.compile("[\\w\\sÀ-àçã-õâ-ûéêõóòáúû]{3,}");
         Matcher verifica = Nome.matcher(nome);
 
         if (verifica.matches()) {
@@ -132,7 +132,7 @@ public class Pessoa {
     }
 
     public void setTipoPessoa(String tipoPessoa) throws Exception {
-        Pattern Tipo = Pattern.compile("[\\w\\s]{3,}");
+        Pattern Tipo = Pattern.compile("[\\w\\sÀ-àçã-õâ-ûéêõóòáúû]{3,}");
         Matcher verificacao = Tipo.matcher(tipoPessoa);
 
         if (verificacao.matches()) {

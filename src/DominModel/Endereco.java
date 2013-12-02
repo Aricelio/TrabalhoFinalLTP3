@@ -72,7 +72,7 @@ public class Endereco {
     }
 
     public void setRua(String rua) throws Exception {
-        Pattern Rua = Pattern.compile("[a-zA-Z0-9 ]*");
+        Pattern Rua = Pattern.compile("[\\w\\sÀ-àçã-õâ-ûéêõóòáúû]{3,}");
         Matcher verifica = Rua.matcher(rua);
 
         if (verifica.matches()) {
@@ -83,7 +83,7 @@ public class Endereco {
     }
 
     public void setBairro(String bairro) throws Exception {
-        Pattern Bairro = Pattern.compile("[a-zA-Z0-9 ]*");
+        Pattern Bairro = Pattern.compile("[\\w\\sÀ-àçã-õâ-ûéêõóòáúû]{3,}");
         Matcher verifica = Bairro.matcher(bairro);
 
         if (verifica.matches()) {
@@ -94,7 +94,7 @@ public class Endereco {
     }
 
     public void setCidade(String cidade) throws Exception {
-        Pattern Cidade = Pattern.compile("[a-zA-Z0-9 ]*");
+        Pattern Cidade = Pattern.compile("[\\w\\sÀ-àçã-õâ-ûéêõóòáúû]{3,}");
         Matcher verifica = Cidade.matcher(cidade);
 
         if (verifica.matches()) {

@@ -10,7 +10,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Venda {
-
     private int codigo;
     private Date data;
     private double valorTotal;
@@ -24,6 +23,7 @@ public class Venda {
     public Venda() {
         itensVenda = new ArrayList<ItemVenda>();
         this.codigo = 0;
+        this.valorTotal = 0;
     }
 
     //Getters
@@ -80,7 +80,7 @@ public class Venda {
     }
 
     public void setValorTotal(double valorTotal) throws Exception {
-        if (valorTotal > 0) {
+        if (valorTotal >= 0) {
             this.valorTotal = valorTotal;
         } else {
             throw new Exception("Valor passado para o campo 'Valor Total' não pode ser negativo!");
@@ -88,7 +88,7 @@ public class Venda {
     }
 
     public void setFormaPagamento(String formaPagamento) throws Exception{
-        Pattern FormaPagamento = Pattern.compile("[\\w\\s]{3,}");
+        Pattern FormaPagamento = Pattern.compile("[\\w\\sÀ-àçã-õâ-ûéêõóòáúû]{3,}");
         Matcher verifica = FormaPagamento.matcher(formaPagamento);
 
         if (verifica.matches()) {
