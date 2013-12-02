@@ -1,6 +1,5 @@
 package DataAccess;
 
-import DominModel.Estoque;
 import DominModel.Produto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,10 +17,11 @@ public class ProdutoDAO extends DAO {
     }
 
     //Método Salvar
-    public boolean Salvar(Produto obj, Estoque estoque) {
+    public boolean Salvar(Produto obj, int estoque) {
         if (obj.getCodigo() == 0) {
             try {
-                PreparedStatement sqlInsert = getConexao().prepareStatement("insert into produtos(nome,preco,descricao,codTipoProduto,ativo) values(?,?,?,?,?)");
+                PreparedStatement sqlInsert = getConexao().prepareStatement
+                        ("insert into produtos(nome,preco,descricao,codTipoProduto,ativo) values(?,?,?,?,?)");
                 sqlInsert.setString(1, obj.getNome());
                 sqlInsert.setDouble(2, obj.getPreco());
                 sqlInsert.setString(3, obj.getDescricao());
@@ -29,7 +29,8 @@ public class ProdutoDAO extends DAO {
                 sqlInsert.setInt(5, obj.getAtivo());
                 sqlInsert.executeUpdate();
 
-                PreparedStatement sqlConsulta = getConexao().prepareStatement("select codProduto from Produtos where nome= ? and descricao = ? and preco=? and codTipoProduto=?");
+                PreparedStatement sqlConsulta = getConexao().prepareStatement
+                        ("select codProduto from Produtos where nome= ? and descricao = ? and preco=? and codTipoProduto=?");
                 sqlConsulta.setString(1, obj.getNome());
                 sqlConsulta.setString(2, obj.getDescricao());
                 sqlConsulta.setDouble(3, obj.getPreco());
@@ -42,8 +43,13 @@ public class ProdutoDAO extends DAO {
                 }
 
                 //Salva o estoque
-                EstoqueDAO estoqueDAO = new EstoqueDAO();
-                estoqueDAO.SalvarEstoque(estoque);
+                if (estoque > 0) {
+                    PreparedStatement sqlInsertEstoque = getConexao().prepareStatement
+                            ("insert into estoque(estoque,codProduto) values(?,?)");
+                    sqlInsertEstoque.setInt(1, estoque);
+                    sqlInsertEstoque.setInt(2, obj.getCodigo());
+                }
+
 
                 return true;
             } catch (Exception ex) {
@@ -53,7 +59,8 @@ public class ProdutoDAO extends DAO {
         } else {
             try {
                 Connection con = getConexao();
-                PreparedStatement sql = con.prepareStatement("update Produtos set Nome=?, Descricao=? , preco=? , codTipoProduto=? where codProduto=?");
+                PreparedStatement sql = con.prepareStatement
+                        ("update Produtos set Nome=?, Descricao=? , preco=? , codTipoProduto=? where codProduto=?");
                 sql.setString(1, obj.getNome());
                 sql.setString(2, obj.getDescricao());
                 sql.setDouble(3, obj.getPreco());
@@ -73,15 +80,16 @@ public class ProdutoDAO extends DAO {
     public boolean Remover(Produto obj) {
         if ((obj.getCodigo() > 0) && (obj.getAtivo() == 1)) {
             try {
-                EstoqueDAO estoqueDAO = new EstoqueDAO();
-
                 //Seta o atributo ativo com valor '0'
-                PreparedStatement sqlUpdate = getConexao().prepareStatement("update Produtos set ativo = 0 where codProduto=?");
+                PreparedStatement sqlUpdate = getConexao().prepareStatement
+                        ("update Produtos set ativo = 0 where codProduto=?");
                 sqlUpdate.setInt(1, obj.getCodigo());
                 sqlUpdate.executeUpdate();
 
                 //Remove o registro do estoque referente ao Produto 
-                estoqueDAO.RemoverEstoque(estoqueDAO.AbrirEstoque(obj.getCodigo()));
+                PreparedStatement sqlDeleteEstoque = getConexao().prepareStatement
+                        ("delete from estoque where codProduto=?");
+                sqlDeleteEstoque.setInt(1, obj.getCodigo());
 
                 return true;
             } catch (Exception ex) {
@@ -95,16 +103,24 @@ public class ProdutoDAO extends DAO {
     //Abrir produto
     public Produto Abrir(int id) {
         try {
-            PreparedStatement sql = getConexao().prepareStatement("select * from produtos where codProduto=? and ativo = 1");
-            sql.setInt(1, id);
+            PreparedStatement sqlConsultaProduto = getConexao().prepareStatement("select * from produtos where codProduto=? and ativo = 1");            
+            sqlConsultaProduto.setInt(1, id);
+            
+            PreparedStatement sqlConsultaEstoque = getConexao().prepareStatement("select * from estoque where codProduto=?");            
+            sqlConsultaEstoque.setInt(1, id);
 
-            ResultSet resultado = sql.executeQuery();
+            ResultSet resultadoProduto = sqlConsultaProduto.executeQuery();
+            ResultSet resultadoEstoque = sqlConsultaEstoque.executeQuery();
 
-            if (resultado.next()) {
+            if (resultadoProduto.next()) {
                 Produto obj = new Produto();
 
-                CarregaObjetoProduto(obj, resultado);
-
+                CarregaObjetoProduto(obj, resultadoProduto);
+                
+                if(resultadoEstoque.next()){
+                    obj.setEstoque(resultadoEstoque.getInt("estoque"));
+                }
+                
                 return obj;
             } else {
                 return null;
@@ -119,7 +135,7 @@ public class ProdutoDAO extends DAO {
     public List<Produto> ListarProdutos() {
         try {
             PreparedStatement sql = getConexao().prepareStatement("select * from Produtos where ativo = 1");
-
+                   
             ResultSet resultado = sql.executeQuery();
 
             List<Produto> lista = new ArrayList<Produto>();
@@ -128,7 +144,7 @@ public class ProdutoDAO extends DAO {
                 Produto obj = new Produto();
 
                 CarregaObjetoProduto(obj, resultado);
-
+                
                 lista.add(obj);
             }
 
@@ -145,12 +161,14 @@ public class ProdutoDAO extends DAO {
             String sql = "select * from Produtos where ativo = 1";
             String where = "";
 
+            //Filtra o Nome
             if (filtro.getNome() != null) {
                 if (filtro.getNome().length() > 0) {
                     where = " nome like '%" + filtro.getNome() + "%' ";
                 }
             }
-            
+
+            //Filtra o Codigo
             if (filtro.getCodigo() > 0) {
                 if (where.length() > 0) {
                     where = where + " and ";
@@ -170,6 +188,7 @@ public class ProdutoDAO extends DAO {
             while (resultado.next()) {
                 Produto obj = new Produto();
                 CarregaObjetoProduto(obj, resultado);
+                
                 lista.add(obj);
             }
             return lista;
@@ -187,5 +206,6 @@ public class ProdutoDAO extends DAO {
         obj.setDescricao(resultado.getString("Descricao"));
         obj.setPreco(resultado.getDouble("Preco"));
         obj.setTipo(tipo.Abrir(resultado.getInt("codTipoProduto")));
+        
     }
 }
