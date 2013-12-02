@@ -22,23 +22,23 @@ public class frmPrincipal extends javax.swing.JFrame {
         mniLogoff = new javax.swing.JMenuItem();
         mniSair = new javax.swing.JMenuItem();
         mnuProdutos = new javax.swing.JMenu();
-        mniEditarP = new javax.swing.JMenuItem();
+        mniNovoP = new javax.swing.JMenuItem();
         mniBuscarP = new javax.swing.JMenuItem();
         mniRelatoriosP = new javax.swing.JMenuItem();
         mnuRefeicao = new javax.swing.JMenu();
-        mniEditarR = new javax.swing.JMenuItem();
+        mniNovoR = new javax.swing.JMenuItem();
         mniListarR = new javax.swing.JMenuItem();
         mniRelatoriosR = new javax.swing.JMenuItem();
         mnuClientes = new javax.swing.JMenu();
-        mniEditarC = new javax.swing.JMenuItem();
-        mniListarC = new javax.swing.JMenuItem();
+        mniNovoC = new javax.swing.JMenuItem();
+        mniBuscarCli = new javax.swing.JMenuItem();
         mniRelatoriosC = new javax.swing.JMenuItem();
         mnuFuncionarios = new javax.swing.JMenu();
-        mniEditarFu = new javax.swing.JMenuItem();
+        mniNovoFu = new javax.swing.JMenuItem();
         mniListarFu = new javax.swing.JMenuItem();
         mniRelatoriosFu = new javax.swing.JMenuItem();
         mnuFornecedores = new javax.swing.JMenu();
-        mniEditarFo = new javax.swing.JMenuItem();
+        mniNovoFo = new javax.swing.JMenuItem();
         mniListarFo = new javax.swing.JMenuItem();
         mniRelatorios = new javax.swing.JMenuItem();
         mnuTransacoes = new javax.swing.JMenu();
@@ -71,13 +71,14 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         mnuProdutos.setText("Produtos");
 
-        mniEditarP.setText("Editar");
-        mniEditarP.addActionListener(new java.awt.event.ActionListener() {
+        mniNovoP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Document-icon.png"))); // NOI18N
+        mniNovoP.setText("Novo");
+        mniNovoP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniEditarPActionPerformed(evt);
+                mniNovoPActionPerformed(evt);
             }
         });
-        mnuProdutos.add(mniEditarP);
+        mnuProdutos.add(mniNovoP);
 
         mniBuscarP.setText("Buscar");
         mniBuscarP.addActionListener(new java.awt.event.ActionListener() {
@@ -94,13 +95,14 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         mnuRefeicao.setText("Refeicao");
 
-        mniEditarR.setText("Editar");
-        mniEditarR.addActionListener(new java.awt.event.ActionListener() {
+        mniNovoR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Document-icon.png"))); // NOI18N
+        mniNovoR.setText("Novo");
+        mniNovoR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniEditarRActionPerformed(evt);
+                mniNovoRActionPerformed(evt);
             }
         });
-        mnuRefeicao.add(mniEditarR);
+        mnuRefeicao.add(mniNovoR);
 
         mniListarR.setText("Listar Tipos");
         mnuRefeicao.add(mniListarR);
@@ -113,11 +115,22 @@ public class frmPrincipal extends javax.swing.JFrame {
         mnuClientes.setText("Clientes");
         mnuClientes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        mniEditarC.setText("Editar");
-        mnuClientes.add(mniEditarC);
+        mniNovoC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Pessoa.png"))); // NOI18N
+        mniNovoC.setText("Novo");
+        mniNovoC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniNovoCActionPerformed(evt);
+            }
+        });
+        mnuClientes.add(mniNovoC);
 
-        mniListarC.setText("Listar");
-        mnuClientes.add(mniListarC);
+        mniBuscarCli.setText("Buscar");
+        mniBuscarCli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniBuscarCliActionPerformed(evt);
+            }
+        });
+        mnuClientes.add(mniBuscarCli);
 
         mniRelatoriosC.setText("Relatórios");
         mnuClientes.add(mniRelatoriosC);
@@ -126,10 +139,16 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         mnuFuncionarios.setText("Funcionarios");
 
-        mniEditarFu.setText("Editar");
-        mnuFuncionarios.add(mniEditarFu);
+        mniNovoFu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Pessoa.png"))); // NOI18N
+        mniNovoFu.setText("Novo");
+        mnuFuncionarios.add(mniNovoFu);
 
-        mniListarFu.setText("Listar");
+        mniListarFu.setText("Buscar");
+        mniListarFu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniListarFuActionPerformed(evt);
+            }
+        });
         mnuFuncionarios.add(mniListarFu);
 
         mniRelatoriosFu.setText("Relatorios");
@@ -139,10 +158,16 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         mnuFornecedores.setText("Fornecedores");
 
-        mniEditarFo.setText("Editar");
-        mnuFornecedores.add(mniEditarFo);
+        mniNovoFo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Casa.png"))); // NOI18N
+        mniNovoFo.setText("Novo");
+        mniNovoFo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniNovoFoActionPerformed(evt);
+            }
+        });
+        mnuFornecedores.add(mniNovoFo);
 
-        mniListarFo.setText("Listar");
+        mniListarFo.setText("Buscar");
         mnuFornecedores.add(mniListarFo);
 
         mniRelatorios.setText("Relatórios");
@@ -152,6 +177,7 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         mnuTransacoes.setText("Transações");
 
+        mniVendaProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Shopping-Cart-icon.png"))); // NOI18N
         mniVendaProduto.setText("Cadastrar Venda de Produtos");
         mniVendaProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -185,31 +211,53 @@ public class frmPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mniBuscarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBuscarPActionPerformed
-        
+
         frmProdutoBuscar janela = new frmProdutoBuscar();
         add(janela);
         janela.setVisible(true);
     }//GEN-LAST:event_mniBuscarPActionPerformed
 
-    private void mniEditarRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniEditarRActionPerformed
+    private void mniNovoRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoRActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_mniEditarRActionPerformed
+    }//GEN-LAST:event_mniNovoRActionPerformed
 
     private void mniLogoffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLogoffActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_mniLogoffActionPerformed
 
-    private void mniEditarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniEditarPActionPerformed
-        frmProdutoEditar janela = new frmProdutoEditar(null, null);
+    private void mniNovoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoPActionPerformed
+        frmProdutoEditar janela = new frmProdutoEditar(null, null, true);
         add(janela);
         janela.setVisible(true);
-    }//GEN-LAST:event_mniEditarPActionPerformed
+    }//GEN-LAST:event_mniNovoPActionPerformed
 
     private void mniVendaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVendaProdutoActionPerformed
         frmVendaCadastrar janela = new frmVendaCadastrar();
         add(janela);
         janela.setVisible(true);
     }//GEN-LAST:event_mniVendaProdutoActionPerformed
+
+    private void mniBuscarCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBuscarCliActionPerformed
+        frmClienteBuscar janela = new frmClienteBuscar();
+        add(janela);
+        janela.setVisible(true);
+    }//GEN-LAST:event_mniBuscarCliActionPerformed
+
+    private void mniNovoCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoCActionPerformed
+        frmClienteEditar janela = new frmClienteEditar(null, null);
+        add(janela);
+        janela.setVisible(true);
+    }//GEN-LAST:event_mniNovoCActionPerformed
+
+    private void mniNovoFoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoFoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniNovoFoActionPerformed
+
+    private void mniListarFuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListarFuActionPerformed
+        frmFuncionarioBuscar janela = new frmFuncionarioBuscar();
+        add(janela);
+        janela.setVisible(true);
+    }//GEN-LAST:event_mniListarFuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,18 +300,18 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JPopupMenu jPopupMenu3;
     private javax.swing.JMenuBar jmbBarraMenu;
+    private javax.swing.JMenuItem mniBuscarCli;
     private javax.swing.JMenuItem mniBuscarP;
     private javax.swing.JMenuItem mniCompraProduto;
-    private javax.swing.JMenuItem mniEditarC;
-    private javax.swing.JMenuItem mniEditarFo;
-    private javax.swing.JMenuItem mniEditarFu;
-    private javax.swing.JMenuItem mniEditarP;
-    private javax.swing.JMenuItem mniEditarR;
-    private javax.swing.JMenuItem mniListarC;
     private javax.swing.JMenuItem mniListarFo;
     private javax.swing.JMenuItem mniListarFu;
     private javax.swing.JMenuItem mniListarR;
     private javax.swing.JMenuItem mniLogoff;
+    private javax.swing.JMenuItem mniNovoC;
+    private javax.swing.JMenuItem mniNovoFo;
+    private javax.swing.JMenuItem mniNovoFu;
+    private javax.swing.JMenuItem mniNovoP;
+    private javax.swing.JMenuItem mniNovoR;
     private javax.swing.JMenuItem mniRelatorios;
     private javax.swing.JMenuItem mniRelatoriosC;
     private javax.swing.JMenuItem mniRelatoriosFu;

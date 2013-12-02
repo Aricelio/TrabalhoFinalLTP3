@@ -11,22 +11,31 @@ import javax.swing.JOptionPane;
 public class frmProdutoEditar extends javax.swing.JInternalFrame {
 
     private TipoProdutoDAO tipoDAO;
-    private Produto produto = new Produto();
+    private Produto produto;
     private ProdutoDAO produtoDAO = new ProdutoDAO();
 
     //Construtor
-    public frmProdutoEditar(Produto p, ProdutoDAO dao) {
+    public frmProdutoEditar(Produto p, ProdutoDAO dao, boolean novoProduto) {
         initComponents();
         this.produto = p;
         this.produtoDAO = dao;
         tipoDAO = new TipoProdutoDAO();
-        carregaCampos();
         carregaTipos();
+        
+        if ((p != null) && (dao != null)) {
+            carregaCampos();
+        }
+        if (novoProduto) {
+            txtEstoque.setVisible(false);
+            lblEstoque.setVisible(false);
+        } else {
+            txtEstoque.setVisible(true);
+            lblEstoque.setVisible(true);
+        }
     }
 
-    @SuppressWarnings("unchecked")
-    
     //Carrega Tipos para o comboBox
+    @SuppressWarnings("unchecked")
     private void carregaTipos() {
         List<TipoProduto> tipos = new ArrayList<TipoProduto>();
         tipos = tipoDAO.ListarTipos();
@@ -35,16 +44,18 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
         for (TipoProduto t : tipos) {
             cbxTipo.addItem(t);
         }
-        //TipoProduto selecionado = (TipoProduto)cbxTipo.getSelectedItem();
     }
 
     //Carrega campos
     private void carregaCampos() {
         txtNome.setText(produto.getNome());
         txtDescricao.setText(produto.getDescricao());
-        txtPreco.setText(String.valueOf(produto.getPreco()));
-        cbxTipo.removeAllItems();
-        cbxTipo.addItem(produto.getTipo());
+        txtPrecoF.setValue(produto.getPreco());
+        txtEstoque.setText(String.valueOf(produto.getEstoque()));
+        cbxTipo.setSelectedItem(produto.getTipo());
+
+        
+        cbxTipo.repaint();
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -53,13 +64,15 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
         txtNome = new javax.swing.JTextField();
         txtDescricao = new javax.swing.JTextField();
         lblDescricao = new javax.swing.JLabel();
-        txtPreco = new javax.swing.JTextField();
         lblPreco = new javax.swing.JLabel();
         lblTipo = new javax.swing.JLabel();
         cbxTipo = new javax.swing.JComboBox();
         btnSalvar = new javax.swing.JButton();
         btnApagar = new javax.swing.JToggleButton();
         btnCancelar = new javax.swing.JButton();
+        lblEstoque = new javax.swing.JLabel();
+        txtEstoque = new javax.swing.JTextField();
+        txtPrecoF = new javax.swing.JFormattedTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -68,17 +81,25 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
         setMinimumSize(new java.awt.Dimension(20, 20));
         setName(""); // NOI18N
 
+        lblNome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblNome.setText("Nome:");
 
+        txtNome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        txtDescricao.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        lblDescricao.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblDescricao.setText("Descrição:");
 
+        lblPreco.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblPreco.setText("Preço:");
 
+        lblTipo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblTipo.setText("Tipo:");
 
-        cbxTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxTipo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        btnSalvar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btnSalvar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Salvar.png"))); // NOI18N
         btnSalvar.setText("Salvar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -87,7 +108,7 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
             }
         });
 
-        btnApagar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btnApagar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnApagar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Apagar.png"))); // NOI18N
         btnApagar.setText("Apagar");
         btnApagar.addActionListener(new java.awt.event.ActionListener() {
@@ -96,7 +117,7 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
             }
         });
 
-        btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Error-icon.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -104,6 +125,15 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
+
+        lblEstoque.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblEstoque.setText("Estoque:");
+
+        txtEstoque.setEditable(false);
+        txtEstoque.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        txtPrecoF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+        txtPrecoF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -121,7 +151,11 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblPreco)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtPrecoF, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblEstoque)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblDescricao)
@@ -131,13 +165,13 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
                             .addComponent(txtDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
                             .addComponent(cbxTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(201, 201, 201)
-                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(153, 153, 153)
+                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnApagar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnApagar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCancelar)))
-                .addContainerGap(53, Short.MAX_VALUE))
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,15 +185,19 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPreco)
-                    .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTipo)
-                    .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 252, Short.MAX_VALUE)
+                    .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrecoF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEstoque)
+                    .addComponent(txtEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 212, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnApagar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(49, 49, 49))
+                .addGap(50, 50, 50))
         );
 
         pack();
@@ -169,14 +207,16 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
 
         if (JOptionPane.showConfirmDialog(rootPane, "Deseja realemente salvar dos dados?") == 0) {
             try {
-                TipoProduto tipo = (TipoProduto) cbxTipo.getSelectedItem();
+                produto = new Produto();
+                TipoProduto tipo = new TipoProduto();
+                tipo = (TipoProduto) cbxTipo.getSelectedItem();
                 produto.setNome(txtNome.getText());
                 produto.setDescricao(txtDescricao.getText());
-                produto.setPreco(Double.parseDouble(txtPreco.getText()));
+                produto.setPreco(Double.parseDouble(txtPrecoF.getText()));
                 produto.setTipo(tipo);
 
-                produtoDAO.Salvar(produto, null);
 
+                produtoDAO.Salvar(produto, 0);
 
                 JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
 
@@ -199,7 +239,7 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
             try {
                 produtoDAO.Remover(produto);
                 JOptionPane.showMessageDialog(rootPane, "Exclusão concluida com sucesso!");
-                
+
                 this.setVisible(false);
                 frmProdutoBuscar janela = new frmProdutoBuscar();
                 this.getParent().add(janela);
@@ -215,7 +255,6 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
     //Botão Cancelar
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         if (JOptionPane.showConfirmDialog(rootPane, "Deseja realemente Cancelar?") == 0) {
-            //disposeOnClosed();
             this.setVisible(false);
             frmProdutoBuscar janela = new frmProdutoBuscar();
             this.getParent().add(janela);
@@ -228,11 +267,13 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSalvar;
     private javax.swing.JComboBox cbxTipo;
     private javax.swing.JLabel lblDescricao;
+    private javax.swing.JLabel lblEstoque;
     private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblPreco;
     private javax.swing.JLabel lblTipo;
     private javax.swing.JTextField txtDescricao;
+    private javax.swing.JTextField txtEstoque;
     private javax.swing.JTextField txtNome;
-    private javax.swing.JTextField txtPreco;
+    private javax.swing.JFormattedTextField txtPrecoF;
     // End of variables declaration//GEN-END:variables
 }

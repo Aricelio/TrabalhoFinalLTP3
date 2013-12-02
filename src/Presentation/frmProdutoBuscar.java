@@ -185,7 +185,7 @@ public class frmProdutoBuscar extends javax.swing.JInternalFrame {
         Produto p = new Produto();
         ProdutoDAO dao = new ProdutoDAO();
 
-        frmProdutoEditar janela = new frmProdutoEditar(p, dao);
+        frmProdutoEditar janela = new frmProdutoEditar(p, dao, true);
 
         this.getParent().add(janela);
         janela.setVisible(true);
@@ -198,8 +198,9 @@ public class frmProdutoBuscar extends javax.swing.JInternalFrame {
             Object valor = tblListagem.getValueAt(tblListagem.getSelectedRow(), 0);
             ProdutoDAO dao = new ProdutoDAO();
             Produto p = dao.Abrir((int) valor);
+            
 
-            frmProdutoEditar janela = new frmProdutoEditar(p, dao);
+            frmProdutoEditar janela = new frmProdutoEditar(p, dao, false);
             this.getParent().add(janela);
             janela.setVisible(true);
             this.setVisible(false);
