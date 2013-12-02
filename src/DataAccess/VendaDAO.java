@@ -21,7 +21,8 @@ public class VendaDAO extends DAO {
     public boolean Salvar(Venda obj) {
         if (obj.getCodigo() == 0) {
             try {
-                PreparedStatement sql = getConexao().prepareStatement("insert into vendas(data,valorTotal,formaPagamento,codSessao,codFuncionario,codCliente) values(?,?,?,?,?,?)");
+                PreparedStatement sql = getConexao().prepareStatement
+                        ("insert into vendas(data,valorTotal,formaPagamento,codSessao,codFuncionario,codCliente) values(?,?,?,?,?,?)");
                 sql.setDate(1, new java.sql.Date(obj.getData().getTime()));
                 sql.setDouble(2, obj.getValorTotal());
                 sql.setString(3, obj.getFormaPagamento());
@@ -30,7 +31,8 @@ public class VendaDAO extends DAO {
                 sql.setInt(6, obj.getCliente().getCodigo());
                 sql.executeUpdate();
 
-                PreparedStatement sqlConsulta = getConexao().prepareStatement("select codVenda from Vendas where valorTotal=? and Data=? and formaPagamento=? and codSessao=? and codFuncionario=? and codCliente=?");
+                PreparedStatement sqlConsulta = getConexao().prepareStatement
+                        ("select codVenda from Vendas where valorTotal=? and Data=? and formaPagamento=? and codSessao=? and codFuncionario=? and codCliente=?");
                 sqlConsulta.setDouble(1, obj.getValorTotal());
                 sqlConsulta.setDate(2, new java.sql.Date(obj.getData().getTime()));
                 sqlConsulta.setString(3, obj.getFormaPagamento());
@@ -78,7 +80,8 @@ public class VendaDAO extends DAO {
     private void SalvarItemVenda(Produto produto, Venda venda, ItemVenda obj) {
         if (obj.getCodigo() == 0) {
             try {
-                PreparedStatement sql = getConexao().prepareStatement("insert into ItemVenda(codProduto,codVenda,quantidade) values(?,?,?)");
+                PreparedStatement sql = getConexao().prepareStatement
+                        ("insert into ItemVenda(codProduto,codVenda,quantidade) values(?,?,?)");
                 sql.setInt(1, produto.getCodigo());
                 sql.setInt(2, venda.getCodigo());
                 sql.setInt(3, obj.getQuantidade());
@@ -91,7 +94,8 @@ public class VendaDAO extends DAO {
             }
         } else {
             try {
-                PreparedStatement sql = getConexao().prepareStatement("update ItemVenda set quantidade=?, codProduto=? where  codVenda=?");
+                PreparedStatement sql = getConexao().prepareStatement
+                        ("update ItemVenda set quantidade=?, codProduto=? where  codVenda=?");
                 sql.setInt(1, obj.getQuantidade());
                 sql.setInt(2, produto.getCodigo());
                 sql.setInt(3, obj.getCodigo());
