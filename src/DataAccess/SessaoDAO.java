@@ -20,7 +20,8 @@ public class SessaoDAO extends DAO {
     public boolean Salvar(Sessao obj) {
         if (obj.getCodigo() == 0) {
             try {
-                PreparedStatement sqlInsert = getConexao().prepareStatement("insert into sessoes(dataInicio,saldoAbertura,codCaixa,codUsuario) values(?,?,?,?)");
+                PreparedStatement sqlInsert = getConexao().prepareStatement
+                        ("insert into sessoes(dataInicio,saldoAbertura,codCaixa,codUsuario) values(?,?,?,?)");
 
                 sqlInsert.setDate(1, new java.sql.Date(obj.getDataInicio().getTime()));
                 //sqlInsert.setDate(2, new java.sql.Date(obj.getDataTermino().getTime()));
@@ -30,7 +31,8 @@ public class SessaoDAO extends DAO {
                 sqlInsert.setInt(6, obj.getUsuario().getCodigo());
                 sqlInsert.executeUpdate();
 
-                PreparedStatement sqlConsulta = getConexao().prepareStatement("select codSessao from Sessoes where dataInicio=? and saldoAbertura=? and codUsuario=? and codCaixa=?");
+                PreparedStatement sqlConsulta = getConexao().prepareStatement
+                        ("select codSessao from Sessoes where dataInicio=? and saldoAbertura=? and codUsuario=? and codCaixa=?");
                 sqlConsulta.setDate(1, new java.sql.Date(obj.getDataInicio().getTime()));
                 sqlConsulta.setDouble(2, obj.getSaldoAbertura());
                 sqlConsulta.setInt(3, obj.getUsuario().getCodigo());
