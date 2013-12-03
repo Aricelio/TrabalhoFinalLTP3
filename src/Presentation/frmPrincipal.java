@@ -27,7 +27,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         mniRelatoriosP = new javax.swing.JMenuItem();
         mnuRefeicao = new javax.swing.JMenu();
         mniNovoR = new javax.swing.JMenuItem();
-        mniListarR = new javax.swing.JMenuItem();
+        mniBuscarRefeicao = new javax.swing.JMenuItem();
         mniRelatoriosR = new javax.swing.JMenuItem();
         mnuClientes = new javax.swing.JMenu();
         mniNovoC = new javax.swing.JMenuItem();
@@ -39,7 +39,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         mniRelatoriosFu = new javax.swing.JMenuItem();
         mnuFornecedores = new javax.swing.JMenu();
         mniNovoFo = new javax.swing.JMenuItem();
-        mniListarFo = new javax.swing.JMenuItem();
+        mniBuscarFornecedor = new javax.swing.JMenuItem();
         mniRelatorios = new javax.swing.JMenuItem();
         mnuTransacoes = new javax.swing.JMenu();
         mniVendaProduto = new javax.swing.JMenuItem();
@@ -54,8 +54,10 @@ public class frmPrincipal extends javax.swing.JFrame {
         setTitle("SGC ICIL");
         setName("JFPrincipal"); // NOI18N
 
+        mnuSGV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Sucesso.png"))); // NOI18N
         mnuSGV.setText("SGV");
 
+        mniLogoff.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/cadeado.png"))); // NOI18N
         mniLogoff.setText("Logoff");
         mniLogoff.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -64,11 +66,13 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         mnuSGV.add(mniLogoff);
 
-        mniSair.setText("Sair");
+        mniSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Apagar.png"))); // NOI18N
+        mniSair.setText("Fechar");
         mnuSGV.add(mniSair);
 
         jmbBarraMenu.add(mnuSGV);
 
+        mnuProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/caixa.png"))); // NOI18N
         mnuProdutos.setText("Produtos");
 
         mniNovoP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Document-icon.png"))); // NOI18N
@@ -80,6 +84,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         mnuProdutos.add(mniNovoP);
 
+        mniBuscarP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/pesquisa.png"))); // NOI18N
         mniBuscarP.setText("Buscar");
         mniBuscarP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,11 +93,13 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         mnuProdutos.add(mniBuscarP);
 
+        mniRelatoriosP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/relatorio.png"))); // NOI18N
         mniRelatoriosP.setText("Relatórios");
         mnuProdutos.add(mniRelatoriosP);
 
         jmbBarraMenu.add(mnuProdutos);
 
+        mnuRefeicao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/bolo.png"))); // NOI18N
         mnuRefeicao.setText("Refeicao");
 
         mniNovoR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Document-icon.png"))); // NOI18N
@@ -104,14 +111,22 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         mnuRefeicao.add(mniNovoR);
 
-        mniListarR.setText("Listar Tipos");
-        mnuRefeicao.add(mniListarR);
+        mniBuscarRefeicao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/pesquisa.png"))); // NOI18N
+        mniBuscarRefeicao.setText("Buscar");
+        mniBuscarRefeicao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniBuscarRefeicaoActionPerformed(evt);
+            }
+        });
+        mnuRefeicao.add(mniBuscarRefeicao);
 
+        mniRelatoriosR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/relatorio.png"))); // NOI18N
         mniRelatoriosR.setText("Relatórios");
         mnuRefeicao.add(mniRelatoriosR);
 
         jmbBarraMenu.add(mnuRefeicao);
 
+        mnuClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Pessoa.png"))); // NOI18N
         mnuClientes.setText("Clientes");
         mnuClientes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -124,6 +139,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         mnuClientes.add(mniNovoC);
 
+        mniBuscarCli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/pesquisa.png"))); // NOI18N
         mniBuscarCli.setText("Buscar");
         mniBuscarCli.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,17 +148,25 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         mnuClientes.add(mniBuscarCli);
 
+        mniRelatoriosC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/relatorio.png"))); // NOI18N
         mniRelatoriosC.setText("Relatórios");
         mnuClientes.add(mniRelatoriosC);
 
         jmbBarraMenu.add(mnuClientes);
 
+        mnuFuncionarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Contact-Card-icon.png"))); // NOI18N
         mnuFuncionarios.setText("Funcionarios");
 
         mniNovoFu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Pessoa.png"))); // NOI18N
         mniNovoFu.setText("Novo");
+        mniNovoFu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniNovoFuActionPerformed(evt);
+            }
+        });
         mnuFuncionarios.add(mniNovoFu);
 
+        mniListarFu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/pesquisa.png"))); // NOI18N
         mniListarFu.setText("Buscar");
         mniListarFu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -151,11 +175,13 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         mnuFuncionarios.add(mniListarFu);
 
+        mniRelatoriosFu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/relatorio.png"))); // NOI18N
         mniRelatoriosFu.setText("Relatorios");
         mnuFuncionarios.add(mniRelatoriosFu);
 
         jmbBarraMenu.add(mnuFuncionarios);
 
+        mnuFornecedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Casa.png"))); // NOI18N
         mnuFornecedores.setText("Fornecedores");
 
         mniNovoFo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Casa.png"))); // NOI18N
@@ -167,14 +193,22 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         mnuFornecedores.add(mniNovoFo);
 
-        mniListarFo.setText("Buscar");
-        mnuFornecedores.add(mniListarFo);
+        mniBuscarFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/pesquisa.png"))); // NOI18N
+        mniBuscarFornecedor.setText("Buscar");
+        mniBuscarFornecedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniBuscarFornecedorActionPerformed(evt);
+            }
+        });
+        mnuFornecedores.add(mniBuscarFornecedor);
 
+        mniRelatorios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/relatorio.png"))); // NOI18N
         mniRelatorios.setText("Relatórios");
         mnuFornecedores.add(mniRelatorios);
 
         jmbBarraMenu.add(mnuFornecedores);
 
+        mnuTransacoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Shopping-Cart-icon.png"))); // NOI18N
         mnuTransacoes.setText("Transações");
 
         mniVendaProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Shopping-Cart-icon.png"))); // NOI18N
@@ -186,9 +220,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         mnuTransacoes.add(mniVendaProduto);
 
+        mniCompraProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Shopping-Cart-icon.png"))); // NOI18N
         mniCompraProduto.setText("Cadastrar Compra de Produtos");
         mnuTransacoes.add(mniCompraProduto);
 
+        mniVendaRefeicao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Shopping-Cart-icon.png"))); // NOI18N
         mniVendaRefeicao.setText("Cadastrar Venda de Refeições");
         mnuTransacoes.add(mniVendaRefeicao);
 
@@ -218,7 +254,9 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniBuscarPActionPerformed
 
     private void mniNovoRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoRActionPerformed
-        // TODO add your handling code here:
+        frmRefeicaoEditar janela = new frmRefeicaoEditar(null,null);
+        add(janela);
+        janela.setVisible(true);
     }//GEN-LAST:event_mniNovoRActionPerformed
 
     private void mniLogoffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLogoffActionPerformed
@@ -250,7 +288,9 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniNovoCActionPerformed
 
     private void mniNovoFoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoFoActionPerformed
-        // TODO add your handling code here:
+        frmFornecedorEditar janela = new frmFornecedorEditar(null,null);
+        add(janela);
+        janela.setVisible(true);
     }//GEN-LAST:event_mniNovoFoActionPerformed
 
     private void mniListarFuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListarFuActionPerformed
@@ -258,6 +298,24 @@ public class frmPrincipal extends javax.swing.JFrame {
         add(janela);
         janela.setVisible(true);
     }//GEN-LAST:event_mniListarFuActionPerformed
+
+    private void mniNovoFuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoFuActionPerformed
+        frmFuncionarioEditar janela = new frmFuncionarioEditar(null, null);
+        add(janela);
+        janela.setVisible(true);        
+    }//GEN-LAST:event_mniNovoFuActionPerformed
+
+    private void mniBuscarFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBuscarFornecedorActionPerformed
+        frmFornecedorBuscar janela = new frmFornecedorBuscar();
+        add(janela);
+        janela.setVisible(true);
+    }//GEN-LAST:event_mniBuscarFornecedorActionPerformed
+
+    private void mniBuscarRefeicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBuscarRefeicaoActionPerformed
+        frmRefeicaoBuscar janela = new frmRefeicaoBuscar();
+        add(janela);
+        janela.setVisible(true);
+    }//GEN-LAST:event_mniBuscarRefeicaoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -301,11 +359,11 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jPopupMenu3;
     private javax.swing.JMenuBar jmbBarraMenu;
     private javax.swing.JMenuItem mniBuscarCli;
+    private javax.swing.JMenuItem mniBuscarFornecedor;
     private javax.swing.JMenuItem mniBuscarP;
+    private javax.swing.JMenuItem mniBuscarRefeicao;
     private javax.swing.JMenuItem mniCompraProduto;
-    private javax.swing.JMenuItem mniListarFo;
     private javax.swing.JMenuItem mniListarFu;
-    private javax.swing.JMenuItem mniListarR;
     private javax.swing.JMenuItem mniLogoff;
     private javax.swing.JMenuItem mniNovoC;
     private javax.swing.JMenuItem mniNovoFo;

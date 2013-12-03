@@ -38,11 +38,17 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="mnuSGV">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Imagens/Icones/Sucesso.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="SGV"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mniLogoff">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagens/Icones/cadeado.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Logoff"/>
               </Properties>
               <Events>
@@ -51,13 +57,19 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniSair">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Sair"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagens/Icones/Apagar.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Fechar"/>
               </Properties>
             </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="mnuProdutos">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Imagens/Icones/caixa.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Produtos"/>
           </Properties>
           <SubComponents>
@@ -74,6 +86,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniBuscarP">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagens/Icones/pesquisa.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Buscar"/>
               </Properties>
               <Events>
@@ -82,6 +97,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniRelatoriosP">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagens/Icones/relatorio.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Relat&#xf3;rios"/>
               </Properties>
             </MenuItem>
@@ -89,6 +107,9 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="mnuRefeicao">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Imagens/Icones/bolo.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Refeicao"/>
           </Properties>
           <SubComponents>
@@ -103,13 +124,22 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniNovoRActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mniListarR">
+            <MenuItem class="javax.swing.JMenuItem" name="mniBuscarRefeicao">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Listar Tipos"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagens/Icones/pesquisa.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Buscar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniBuscarRefeicaoActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniRelatoriosR">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagens/Icones/relatorio.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Relat&#xf3;rios"/>
               </Properties>
             </MenuItem>
@@ -117,6 +147,9 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="mnuClientes">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Imagens/Icones/Pessoa.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Clientes"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="0"/>
@@ -136,6 +169,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniBuscarCli">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagens/Icones/pesquisa.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Buscar"/>
               </Properties>
               <Events>
@@ -144,6 +180,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniRelatoriosC">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagens/Icones/relatorio.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Relat&#xf3;rios"/>
               </Properties>
             </MenuItem>
@@ -151,6 +190,9 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="mnuFuncionarios">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Imagens/Icones/Contact-Card-icon.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Funcionarios"/>
           </Properties>
           <SubComponents>
@@ -161,9 +203,15 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniNovoFuActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniListarFu">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagens/Icones/pesquisa.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Buscar"/>
               </Properties>
               <Events>
@@ -172,6 +220,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniRelatoriosFu">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagens/Icones/relatorio.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Relatorios"/>
               </Properties>
             </MenuItem>
@@ -179,6 +230,9 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="mnuFornecedores">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Imagens/Icones/Casa.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Fornecedores"/>
           </Properties>
           <SubComponents>
@@ -193,13 +247,22 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniNovoFoActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mniListarFo">
+            <MenuItem class="javax.swing.JMenuItem" name="mniBuscarFornecedor">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagens/Icones/pesquisa.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Buscar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniBuscarFornecedorActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniRelatorios">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagens/Icones/relatorio.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Relat&#xf3;rios"/>
               </Properties>
             </MenuItem>
@@ -207,6 +270,9 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="mnuTransacoes">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Imagens/Icones/Shopping-Cart-icon.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Transa&#xe7;&#xf5;es"/>
           </Properties>
           <SubComponents>
@@ -223,11 +289,17 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniCompraProduto">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagens/Icones/Shopping-Cart-icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Cadastrar Compra de Produtos"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniVendaRefeicao">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagens/Icones/Shopping-Cart-icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Cadastrar Venda de Refei&#xe7;&#xf5;es"/>
               </Properties>
             </MenuItem>

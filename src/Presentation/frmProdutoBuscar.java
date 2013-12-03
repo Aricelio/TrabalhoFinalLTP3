@@ -27,7 +27,6 @@ public class frmProdutoBuscar extends javax.swing.JInternalFrame {
             model.addColumn("Preço");
             model.addColumn("Descrição");
             model.addColumn("Tipo");
-            //model.addColumn("Estoque");
 
             for (Produto p : lista) {
                 Vector valores = new Vector();
@@ -67,9 +66,12 @@ public class frmProdutoBuscar extends javax.swing.JInternalFrame {
         setMinimumSize(new java.awt.Dimension(20, 34));
         setOpaque(true);
 
+        lblNome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblNome.setText("Nome:");
 
-        btnFiltrar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtNome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        btnFiltrar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnFiltrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Contact-Card-icon.png"))); // NOI18N
         btnFiltrar.setText("Filtrar");
         btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
@@ -78,7 +80,7 @@ public class frmProdutoBuscar extends javax.swing.JInternalFrame {
             }
         });
 
-        btnNovo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btnNovo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Document-icon.png"))); // NOI18N
         btnNovo.setText("Novo");
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -87,8 +89,12 @@ public class frmProdutoBuscar extends javax.swing.JInternalFrame {
             }
         });
 
+        lblCodigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblCodigo.setText("Codigo:");
 
+        txtCodigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        tblListagem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tblListagem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -128,7 +134,7 @@ public class frmProdutoBuscar extends javax.swing.JInternalFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1028, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1049, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         layout.setVerticalGroup(
@@ -142,11 +148,11 @@ public class frmProdutoBuscar extends javax.swing.JInternalFrame {
                     .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblCodigo))
-                .addContainerGap(395, Short.MAX_VALUE))
+                .addContainerGap(403, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addGap(86, 86, 86)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
                     .addContainerGap()))
         );
 

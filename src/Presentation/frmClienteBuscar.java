@@ -9,13 +9,13 @@ import javax.swing.table.DefaultTableModel;
 
 public class frmClienteBuscar extends javax.swing.JInternalFrame {
 
-    ClienteDAO clienteDAO = new ClienteDAO();
-
     public frmClienteBuscar() {
         initComponents();
         preencheTabela(clienteDAO.ListarClientes());
     }
 
+    ClienteDAO clienteDAO = new ClienteDAO();
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -122,6 +122,7 @@ public class frmClienteBuscar extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Preenche a tabela de Clientes
     private void preencheTabela(List<Cliente> lista) {
         try {
             DefaultTableModel model = new DefaultTableModel();

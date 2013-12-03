@@ -37,13 +37,13 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
         String formaPagamento = (String) cbxFormaPagamento.getSelectedItem();
         Cliente clienteSelecionado = (Cliente) cbxCliente.getSelectedItem();
         FuncionarioDAO dao = new FuncionarioDAO();
-
+        
         //Variaveis criadas para teste
-        Date data = new Date();
+        //Date data = new Date();
         Funcionario f = dao.AbrirFuncionario(10);
 
         try {
-            venda.setData(data);
+            venda.setData((Date)txtData.getValue());
             venda.setFormaPagamento(formaPagamento);
             venda.setCliente(clienteSelecionado);
             venda.setFuncionario(f);
@@ -141,11 +141,7 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
         lblData.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblData.setText("Data: ");
 
-        try {
-            txtData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
+        txtData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
         txtData.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         lblFormaPagamento.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -195,7 +191,7 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
                 .addGroup(pnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCliente)
                     .addComponent(cbxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(207, Short.MAX_VALUE))
+                .addContainerGap(211, Short.MAX_VALUE))
         );
 
         tpVendas.addTab("Geral", pnGeral);
@@ -292,7 +288,7 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
                         .addGroup(pnItensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblTotalVenda)
                             .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(26, Short.MAX_VALUE))
+                        .addContainerGap(30, Short.MAX_VALUE))
                     .addGroup(pnItensLayout.createSequentialGroup()
                         .addGroup(pnItensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbxProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
