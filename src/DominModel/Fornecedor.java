@@ -9,10 +9,12 @@ public class Fornecedor extends Pessoa {
 
     private String cnpj;
 
+    //Construtor
     public Fornecedor() {
-       
+       setCategoriaPessoa(CategoriaPessoa.Fornecedor);
     }
 
+    //Getter e Setter
     public String getCnpj() {
         return cnpj;
     }

@@ -75,11 +75,6 @@ public class Cargo {
     //toString
     @Override
     public String toString() {
-        return "Cargo{" + "codigo do Cargo = " + codigo + ", Cargo = " + cargo + '}';
+        return cargo;
     }
-    
-    
-    
-    
-    
 }

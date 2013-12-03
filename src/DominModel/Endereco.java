@@ -116,7 +116,7 @@ public class Endereco {
     }
 
     public void setComplemento(String complemento) throws Exception {
-        Pattern Complemento = Pattern.compile("[a-zA-Z]*");
+        Pattern Complemento = Pattern.compile("[\\w\\sÀ-àçã-õâ-ûéêõóòáúû]{1,}");
         Matcher verifica = Complemento.matcher(complemento);
 
         if (verifica.matches()) {

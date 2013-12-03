@@ -69,7 +69,7 @@ public class Refeicao {
     }
     
     public void setDescricao(String descricao) throws Exception {
-        Pattern Descricao = Pattern.compile("[\\w\\s]{3,}");
+        Pattern Descricao = Pattern.compile("[\\w\\sÀ-àçã-õâ-ûéêõóòáúû:;]{3,}");
         Matcher verifica = Descricao.matcher(descricao);
 
         if (verifica.matches()) {

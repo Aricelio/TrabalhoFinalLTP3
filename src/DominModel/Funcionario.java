@@ -9,7 +9,6 @@ public class Funcionario extends Pessoa {
 
     //Construtor
     public Funcionario() {
-        super();
         setCategoriaPessoa(CategoriaPessoa.Funcionario);
     }
 

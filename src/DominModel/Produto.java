@@ -1,5 +1,7 @@
 package DominModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,11 +15,13 @@ public class Produto {
     private int ativo;
     private TipoProduto tipo;
     private int estoque;
+    private List<ItemProdutoFornecedor> fornecedores;
 
     //Construtor
     public Produto() {
         this.codigo = 0;
         this.ativo = 1;
+        this.fornecedores = new ArrayList<ItemProdutoFornecedor>();
     }
 
     //Getters
@@ -48,7 +52,10 @@ public class Produto {
     public int getEstoque() {
         return estoque;
     }
-    
+
+    public List<ItemProdutoFornecedor> getFornecedores() {
+        return fornecedores;
+    }
 
     //Setters
     public void setCodigo(int codigo) throws Exception {
@@ -102,26 +109,44 @@ public class Produto {
         }
     }
 
-    public void setEstoque(int estoque) throws Exception{
+    public void setEstoque(int estoque) throws Exception {
         if (estoque > 0) {
             this.estoque = estoque;
         } else {
             throw new Exception("Valor passado para o campo 'estoque' não pode ser negativo!");
         }
     }
-    
-    
+
+    //Adiciona um Item a venda
+    public void addFornecedor(ItemProdutoFornecedor fornecedor) throws Exception {
+        if (!fornecedores.contains(fornecedor)) {
+            fornecedores.add(fornecedor);
+        } else {
+            throw new Exception("Esse fornecedor ja esta contido na lista");
+        }
+    }
+
+    //Remove um item da venda
+    public void removeFornecedor(ItemProdutoFornecedor fornecedor) throws Exception {
+        if (fornecedores.contains(fornecedor)) {
+            fornecedores.remove(fornecedor);
+        } else {
+            throw new Exception("Esse fornecedor não esta contido na lista");
+        }
+    }
 
     //hashCode
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + this.codigo;
-        hash = 79 * hash + Objects.hashCode(this.nome);
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this.preco) ^ (Double.doubleToLongBits(this.preco) >>> 32));
-        hash = 79 * hash + Objects.hashCode(this.descricao);
-        hash = 79 * hash + this.ativo;
-        hash = 79 * hash + Objects.hashCode(this.tipo);
+        int hash = 5;
+        hash = 83 * hash + this.codigo;
+        hash = 83 * hash + Objects.hashCode(this.nome);
+        hash = 83 * hash + (int) (Double.doubleToLongBits(this.preco) ^ (Double.doubleToLongBits(this.preco) >>> 32));
+        hash = 83 * hash + Objects.hashCode(this.descricao);
+        hash = 83 * hash + this.ativo;
+        hash = 83 * hash + Objects.hashCode(this.tipo);
+        hash = 83 * hash + this.estoque;
+        hash = 83 * hash + Objects.hashCode(this.fornecedores);
         return hash;
     }
     
@@ -154,9 +179,16 @@ public class Produto {
         if (!Objects.equals(this.tipo, other.tipo)) {
             return false;
         }
+        if (this.estoque != other.estoque) {
+            return false;
+        }
+        if (!Objects.equals(this.fornecedores, other.fornecedores)) {
+            return false;
+        }
         return true;
     }
     
+
     //toString
     @Override
     public String toString() {

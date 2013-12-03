@@ -39,7 +39,7 @@ public class TipoRefeicao {
     }
 
     public void setTipo(String tipo) throws Exception {
-        Pattern Tipo = Pattern.compile("[\\w\\s]{3,}");
+        Pattern Tipo = Pattern.compile("[\\w\\sÀ-àçã-õâ-ûéêõóòáúû]{3,}");
         Matcher verifica = Tipo.matcher(tipo);
 
         if (verifica.matches()) {
@@ -92,7 +92,7 @@ public class TipoRefeicao {
     //tostring
     @Override
     public String toString() {
-        return "Tipo de Refeicao{" + "Codigo = " + codigo + ", Tipo = " + tipo + '}';
+        return tipo;
     }
     
 }

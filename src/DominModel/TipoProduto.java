@@ -39,7 +39,7 @@ public class TipoProduto {
     }
 
     public void setTipo(String tipo) throws Exception {
-        Pattern Tipo = Pattern.compile("[\\w\\sÀ-àçã-õâ-û]{3,}");
+        Pattern Tipo = Pattern.compile("[\\w\\sÀ-àçã-õâ-ûéêõóòáúû]{3,}");
         Matcher verifica = Tipo.matcher(tipo);
 
         if (verifica.matches()) {
