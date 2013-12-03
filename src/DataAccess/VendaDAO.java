@@ -58,7 +58,8 @@ public class VendaDAO extends DAO {
         } else {
             try {
                 Connection con = getConexao();
-                PreparedStatement sqlUpdate = con.prepareStatement("update Vendas set valorTotal=?, Data=?,formaPagamento=?,codSessao=?,codFuncionario=?,codCliente=? where codVenda=?");
+                PreparedStatement sqlUpdate = con.prepareStatement
+                        ("update Vendas set valorTotal=?, Data=?,formaPagamento=?,codSessao=?,codFuncionario=?,codCliente=? where codVenda=?");
                 sqlUpdate.setDouble(1, obj.getValorTotal());
                 sqlUpdate.setDate(2, new java.sql.Date(obj.getData().getTime()));
                 sqlUpdate.setString(3, obj.getFormaPagamento());

@@ -1,5 +1,7 @@
 package DataAccess;
 
+import DominModel.Fornecedor;
+import DominModel.ItemProdutoFornecedor;
 import DominModel.Produto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -103,10 +105,12 @@ public class ProdutoDAO extends DAO {
     //Abrir produto
     public Produto Abrir(int id) {
         try {
-            PreparedStatement sqlConsultaProduto = getConexao().prepareStatement("select * from produtos where codProduto=? and ativo = 1");            
+            PreparedStatement sqlConsultaProduto = getConexao().prepareStatement
+                    ("select * from produtos where codProduto=? and ativo = 1");            
             sqlConsultaProduto.setInt(1, id);
             
-            PreparedStatement sqlConsultaEstoque = getConexao().prepareStatement("select * from estoque where codProduto=?");            
+            PreparedStatement sqlConsultaEstoque = getConexao().prepareStatement
+                    ("select * from estoque where codProduto=?");            
             sqlConsultaEstoque.setInt(1, id);
 
             ResultSet resultadoProduto = sqlConsultaProduto.executeQuery();
@@ -131,6 +135,33 @@ public class ProdutoDAO extends DAO {
         }
     }
 
+    //Listar itemProdutoFornecedor
+    public List<ItemProdutoFornecedor> ListarItemProdutoFornecedor(Produto obj){
+        try{
+            List<ItemProdutoFornecedor> lista = new ArrayList<ItemProdutoFornecedor>();
+            PreparedStatement sql = getConexao().prepareStatement
+                    ("select * from ItemProdutoFornecedor where codProduto=?");
+            sql.setInt(1, obj.getCodigo());
+            
+            ResultSet resultado  = sql.executeQuery();
+            
+            while(resultado.next()){
+                ItemProdutoFornecedor item = new ItemProdutoFornecedor();
+                FornecedorDAO dao = new FornecedorDAO();
+                
+                item.setFornecedor(dao.AbrirFornecedor(resultado.getInt("codFornecedor")));
+                item.setProduto(obj);
+                item.setCodigo(obj.getCodigo());
+                
+                lista.add(item);
+            }
+            return lista;
+        }
+        catch(Exception ex){
+            System.err.println(ex.getMessage());
+            return null;
+        }
+    }
     //Listar Todos
     public List<Produto> ListarProdutos() {
         try {

@@ -90,7 +90,8 @@ public class FornecedorDAO extends PessoaDAO<Fornecedor> {
     public List<Fornecedor> ListarFornecedores() {
         try {
 
-            PreparedStatement sqlListar = getConexao().prepareStatement("select * from Pessoas P join Fornecedores F on P.codPessoa = F.codFornecedor where P.ativo = 1");
+            PreparedStatement sqlListar = getConexao().prepareStatement
+                    ("select * from Pessoas P join Fornecedores F on P.codPessoa = F.codFornecedor where P.ativo = 1");
             ResultSet resultado = sqlListar.executeQuery();
 
             List<Fornecedor> listaF = new ArrayList<Fornecedor>();

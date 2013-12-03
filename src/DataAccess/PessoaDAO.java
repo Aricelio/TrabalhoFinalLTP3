@@ -347,7 +347,7 @@ public class PessoaDAO<T extends Pessoa> extends DAO {
             obj.setNome(resultado.getString("Nome"));
             obj.setTipoPessoa(resultado.getString("TipoPessoa"));
             obj.setAtivo(resultado.getInt("ativo"));
-            obj.setCategoriaPessoa(CategoriaPessoa.Fornecedor);
+            //obj.setCategoriaPessoa(CategoriaPessoa.Fornecedor);
         }
         else{
             obj.setCodigo(resultado.getInt("codPessoa"));

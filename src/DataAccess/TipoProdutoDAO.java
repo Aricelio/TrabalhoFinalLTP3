@@ -23,7 +23,7 @@ public class TipoProdutoDAO extends DAO {
                 PreparedStatement sqlInsert = getConexao().prepareStatement
                         ("insert into tipoProduto(tipo,ativo) values(?,?)");
                 sqlInsert.setString(1, obj.getTipo());
-                sqlInsert.setInt(2, obj.getAtivo());
+                sqlInsert.setInt(2, 1);
                 sqlInsert.executeUpdate();
 
                 //Pega a chave primária que foi gerada no banco de dados
@@ -35,7 +35,6 @@ public class TipoProdutoDAO extends DAO {
                 if (resultado.next()) {
                     obj.setCodigo(resultado.getInt("codTipoProduto"));
                 }
-
                 return true;
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
