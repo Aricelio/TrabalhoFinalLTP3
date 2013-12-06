@@ -19,7 +19,7 @@ public class ProdutoDAO extends DAO {
     }
 
     //Método Salvar
-    public boolean Salvar(Produto obj, int estoque) {
+    public boolean Salvar(Produto obj) {
         if (obj.getCodigo() == 0) {
             try {
                 PreparedStatement sqlInsert = getConexao().prepareStatement
@@ -45,10 +45,10 @@ public class ProdutoDAO extends DAO {
                 }
 
                 //Salva o estoque
-                if (estoque > 0) {
+                if (obj.getEstoque() > 0) {
                     PreparedStatement sqlInsertEstoque = getConexao().prepareStatement
                             ("insert into estoque(estoque,codProduto) values(?,?)");
-                    sqlInsertEstoque.setInt(1, estoque);
+                    sqlInsertEstoque.setInt(1, obj.getEstoque());
                     sqlInsertEstoque.setInt(2, obj.getCodigo());
                 }
 
