@@ -2,11 +2,12 @@
 package DataAccess;
 
 import DominModel.Caixa;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 
-class CaixaDAO extends DAO{
+public class CaixaDAO extends DAO{
 
     //Construtor
     public CaixaDAO() {
@@ -14,8 +15,46 @@ class CaixaDAO extends DAO{
     }
     
     //Método Salvar
-    
-    
+    public boolean Salvar(Caixa obj) {
+        if (obj.getCodigo() == 0) {
+            try {
+                PreparedStatement sqlInsert = getConexao().prepareStatement
+                        ("insert into caixa(saldo) values(?)");
+
+                sqlInsert.setDouble(1, obj.getSaldo());
+                sqlInsert.executeUpdate();
+                
+                PreparedStatement sqlConsulta = getConexao().prepareStatement
+                        ("select codCaixa from caixa where saldo=?");
+                sqlConsulta.setDouble(1, obj.getSaldo());
+                
+
+                ResultSet resultado = sqlConsulta.executeQuery();
+
+                if (resultado.next()) {
+                    obj.setCodigo(resultado.getInt("codCaixa"));
+                }
+
+                return true;
+            } catch (Exception ex) {
+                System.err.println(ex.getMessage());
+                return false;
+            }
+        } else {
+            try {
+                Connection con = getConexao();
+                PreparedStatement sql = con.prepareStatement("update Caixa set saldo=? where codCaixa=?");
+                sql.setDouble(1, obj.getSaldo());
+                sql.setInt(2, obj.getCodigo());
+                sql.executeUpdate();
+
+                return true;
+            } catch (Exception ex) {
+                System.err.println(ex.getMessage());
+                return false;
+            }
+        }
+    }    
     
     //Método Remover
     
