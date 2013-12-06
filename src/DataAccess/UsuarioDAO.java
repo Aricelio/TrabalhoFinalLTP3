@@ -76,7 +76,7 @@ public class UsuarioDAO extends DAO {
     //Método AbrirUsuario
     public Usuario AbrirUsuario(int id) {
         try {
-            PreparedStatement sql = getConexao().prepareStatement("select * from Usuarios where codUsuario=?");
+            PreparedStatement sql = getConexao().prepareStatement("select * from Usuarios where codFuncionario=?");
             sql.setInt(1, id);
 
             ResultSet resultado = sql.executeQuery();
@@ -106,7 +106,7 @@ public class UsuarioDAO extends DAO {
             PreparedStatement sql = getConexao().prepareStatement("select login,senha from usuarios");
             ResultSet resultado = sql.executeQuery();
 
-            if (resultado.next()) {
+            while (resultado.next()) {
                 if ((usuario.getLogin().equals(resultado.getString("login")))
                         && (usuario.getSenha().equals(resultado.getString("senha")))) {
                     
@@ -118,5 +118,23 @@ public class UsuarioDAO extends DAO {
             return false;
         }
         return false;
+    }
+    
+    public int RetornaCodFuncionario(Usuario usuario){
+        try {            
+            PreparedStatement sql = getConexao().prepareStatement("select * from usuarios");
+            ResultSet resultado = sql.executeQuery();
+
+            while (resultado.next()) {
+                if ((usuario.getLogin().equals(resultado.getString("login")))
+                        && (usuario.getSenha().equals(resultado.getString("senha")))) {
+                    
+                    return resultado.getInt("codFuncionario");
+                }
+            }
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+        return 0;
     }
 }
