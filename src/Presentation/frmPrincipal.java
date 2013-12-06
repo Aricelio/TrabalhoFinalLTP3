@@ -1,13 +1,62 @@
-
 package Presentation;
+
+import DominModel.Funcionario;
+import DominModel.Sessao;
+import DominModel.Caixa;
+import DataAccess.SessaoDAO;
+import DataAccess.UsuarioDAO;
+import DominModel.Usuario;
+import DataAccess.CaixaDAO;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class frmPrincipal extends javax.swing.JFrame {
 
-    public frmPrincipal() {
+    //Declaração de Variaveis
+    UsuarioDAO usuarioDAO = new UsuarioDAO();
+    Usuario usuario;
+    CaixaDAO caixaDAO = new CaixaDAO();
+    Funcionario funcionario = new Funcionario();
+    Sessao sessao;
+    SessaoDAO sessaoDAO;
+    Caixa caixa = new Caixa();
+
+    
+    //Construtor
+    public frmPrincipal(Funcionario funcionario) {
         initComponents();
+        this.funcionario = funcionario;
+        lblNomeUsuario.setText(this.funcionario.getNome());
+        carregaSessao(funcionario);
     }
 
-   
+    //Seta inicio da Sessão
+    private void carregaSessao(Funcionario funcionario) {
+        Date data = new Date();
+        try {
+            sessao = new Sessao();
+            sessaoDAO = new SessaoDAO();
+            caixa = caixaDAO.AbrirCaixa(1);
+
+            sessao.setDataInicio(data);
+            sessao.setUsuario(usuarioDAO.AbrirUsuario(funcionario.getCodigo()));
+            sessao.setCaixa(caixa);
+            sessao.setSaldoAbertura(caixa.getSaldo());
+
+            sessaoDAO.Salvar(sessao);
+            txtInicioSessao.setValue(sessao.getDataInicio());
+        } catch (Exception ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -17,6 +66,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jPopupMenu2 = new javax.swing.JPopupMenu();
         jPopupMenu3 = new javax.swing.JPopupMenu();
+        lblUsuario = new javax.swing.JLabel();
+        lblNomeUsuario = new javax.swing.JLabel();
+        sprInferior = new javax.swing.JSeparator();
+        lblSessao = new javax.swing.JLabel();
+        txtInicioSessao = new javax.swing.JFormattedTextField();
         jmbBarraMenu = new javax.swing.JMenuBar();
         mnuSGV = new javax.swing.JMenu();
         mniLogoff = new javax.swing.JMenuItem();
@@ -24,7 +78,9 @@ public class frmPrincipal extends javax.swing.JFrame {
         mnuProdutos = new javax.swing.JMenu();
         mniNovoP = new javax.swing.JMenuItem();
         mniBuscarP = new javax.swing.JMenuItem();
-        mniRelatoriosP = new javax.swing.JMenuItem();
+        mniRelatorioProduto = new javax.swing.JMenu();
+        mniRelatorioProdutoCadastrado = new javax.swing.JMenuItem();
+        mniRelatorioProdutoEstoqueBaixo = new javax.swing.JMenuItem();
         mnuRefeicao = new javax.swing.JMenu();
         mniNovoR = new javax.swing.JMenuItem();
         mniBuscarRefeicao = new javax.swing.JMenuItem();
@@ -53,6 +109,22 @@ public class frmPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SGC ICIL");
         setName("JFPrincipal"); // NOI18N
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+
+        lblUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblUsuario.setText("Usuario:");
+
+        lblNomeUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        lblSessao.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblSessao.setText("Sessão iniacada: ");
+
+        txtInicioSessao.setEditable(false);
+        txtInicioSessao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.FULL))));
 
         mnuSGV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Sucesso.png"))); // NOI18N
         mnuSGV.setText("SGV");
@@ -93,9 +165,26 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         mnuProdutos.add(mniBuscarP);
 
-        mniRelatoriosP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/relatorio.png"))); // NOI18N
-        mniRelatoriosP.setText("Relatórios");
-        mnuProdutos.add(mniRelatoriosP);
+        mniRelatorioProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/relatorio.png"))); // NOI18N
+        mniRelatorioProduto.setText("Relatorios");
+
+        mniRelatorioProdutoCadastrado.setText("Produtos Cadastrados");
+        mniRelatorioProdutoCadastrado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniRelatorioProdutoCadastradoActionPerformed(evt);
+            }
+        });
+        mniRelatorioProduto.add(mniRelatorioProdutoCadastrado);
+
+        mniRelatorioProdutoEstoqueBaixo.setText("Produtos com Estoque Baixo");
+        mniRelatorioProdutoEstoqueBaixo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniRelatorioProdutoEstoqueBaixoActionPerformed(evt);
+            }
+        });
+        mniRelatorioProduto.add(mniRelatorioProdutoEstoqueBaixo);
+
+        mnuProdutos.add(mniRelatorioProduto);
 
         jmbBarraMenu.add(mnuProdutos);
 
@@ -222,10 +311,20 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         mniCompraProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Shopping-Cart-icon.png"))); // NOI18N
         mniCompraProduto.setText("Cadastrar Compra de Produtos");
+        mniCompraProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniCompraProdutoActionPerformed(evt);
+            }
+        });
         mnuTransacoes.add(mniCompraProduto);
 
         mniVendaRefeicao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Shopping-Cart-icon.png"))); // NOI18N
         mniVendaRefeicao.setText("Cadastrar Venda de Refeições");
+        mniVendaRefeicao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniVendaRefeicaoActionPerformed(evt);
+            }
+        });
         mnuTransacoes.add(mniVendaRefeicao);
 
         jmbBarraMenu.add(mnuTransacoes);
@@ -236,11 +335,34 @@ public class frmPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1251, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(574, Short.MAX_VALUE)
+                .addComponent(lblSessao)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtInicioSessao, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(177, 177, 177)
+                .addComponent(lblUsuario)
+                .addGap(18, 18, 18)
+                .addComponent(lblNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60))
+            .addComponent(sprInferior, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 645, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(572, Short.MAX_VALUE)
+                .addComponent(sprInferior, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblUsuario)
+                            .addComponent(lblSessao)
+                            .addComponent(txtInicioSessao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(lblNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         pack();
@@ -254,13 +376,13 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniBuscarPActionPerformed
 
     private void mniNovoRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoRActionPerformed
-        frmRefeicaoEditar janela = new frmRefeicaoEditar(null,null);
+        frmRefeicaoEditar janela = new frmRefeicaoEditar(null, null);
         add(janela);
         janela.setVisible(true);
     }//GEN-LAST:event_mniNovoRActionPerformed
 
     private void mniLogoffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLogoffActionPerformed
-        // TODO add your handling code here:
+        logoff();
     }//GEN-LAST:event_mniLogoffActionPerformed
 
     private void mniNovoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoPActionPerformed
@@ -288,21 +410,31 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniNovoCActionPerformed
 
     private void mniNovoFoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoFoActionPerformed
-        frmFornecedorEditar janela = new frmFornecedorEditar(null,null);
+        frmFornecedorEditar janela = new frmFornecedorEditar(null, null);
         add(janela);
         janela.setVisible(true);
     }//GEN-LAST:event_mniNovoFoActionPerformed
 
     private void mniListarFuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListarFuActionPerformed
-        frmFuncionarioBuscar janela = new frmFuncionarioBuscar();
+        Usuario userSistema;
+        userSistema = usuarioDAO.AbrirUsuario(funcionario.getCodigo());
+        frmFuncionarioBuscar janela = new frmFuncionarioBuscar(userSistema);
         add(janela);
         janela.setVisible(true);
     }//GEN-LAST:event_mniListarFuActionPerformed
 
     private void mniNovoFuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoFuActionPerformed
-        frmFuncionarioEditar janela = new frmFuncionarioEditar(null, null);
-        add(janela);
-        janela.setVisible(true);        
+        usuario = usuarioDAO.AbrirUsuario(funcionario.getCodigo());
+                
+        if (("root".equals(usuario.getLogin())) && ("root".equals(usuario.getSenha()))){
+            frmFuncionarioEditar janela = new frmFuncionarioEditar(null, null, null, usuario);
+            add(janela);
+            janela.setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(rootPane, "Para acessar esse formulario é preciso ser usuario administrador");
+        }
+            
     }//GEN-LAST:event_mniNovoFuActionPerformed
 
     private void mniBuscarFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBuscarFornecedorActionPerformed
@@ -316,6 +448,94 @@ public class frmPrincipal extends javax.swing.JFrame {
         add(janela);
         janela.setVisible(true);
     }//GEN-LAST:event_mniBuscarRefeicaoActionPerformed
+
+    private void mniCompraProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniCompraProdutoActionPerformed
+        frmCompraCadastrar janela = new frmCompraCadastrar(funcionario,sessao);
+        add(janela);
+        janela.setVisible(true);
+    }//GEN-LAST:event_mniCompraProdutoActionPerformed
+
+    private void mniVendaRefeicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVendaRefeicaoActionPerformed
+        frmVendaRefeicaoCadastrar janela = new frmVendaRefeicaoCadastrar();
+        add(janela);
+        janela.setVisible(true);
+    }//GEN-LAST:event_mniVendaRefeicaoActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        logoff();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void mniRelatorioProdutoCadastradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRelatorioProdutoCadastradoActionPerformed
+        Connection conn = null;
+        try {
+            // Obtém o diretório da aplicação
+            String arquivo = System.getProperty("user.dir");
+
+            // Carrega conexão via JDBC
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/trabalhofinal", "root", "");
+            Statement sql = conn.createStatement();
+
+            // Carrega fonte de dados
+            ResultSet rs = sql.executeQuery("SELECT * FROM produtos where ativo = 1");
+            JRDataSource ds = new JRResultSetDataSource(rs);
+
+            // Preenche o relatório com os dados
+            JasperPrint print = JasperFillManager.fillReport(arquivo + "/src/Presentation/RelatorioProdutosCadastrados.jasper", null, ds);
+
+            // Exibe visualização dos dados
+            JasperViewer.viewReport(print, false);
+
+        } catch (JRException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } /*catch (ClassNotFoundException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } (catch (SQLException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }*/ finally {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_mniRelatorioProdutoCadastradoActionPerformed
+
+    private void mniRelatorioProdutoEstoqueBaixoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRelatorioProdutoEstoqueBaixoActionPerformed
+        Connection conn = null;
+        try {
+            // Obtém o diretório da aplicação
+            String arquivo = System.getProperty("user.dir");
+
+            // Carrega conexão via JDBC
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/trabalhofinal", "root", "");
+            Statement sql = conn.createStatement();
+
+            // Carrega fonte de dados
+            ResultSet rs = sql.executeQuery("SELECT * FROM pessoa");
+            JRDataSource ds = new JRResultSetDataSource(rs);
+
+            // Preenche o relatório com os dados
+            JasperPrint print = JasperFillManager.fillReport(arquivo + "/src/Presentation/RelatorioProdutosEstoque.jasper", null, ds);
+
+            // Exibe visualização dos dados
+            JasperViewer.viewReport(print, false);
+
+        } catch (JRException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } /*catch (ClassNotFoundException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } (catch (SQLException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }*/ finally {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_mniRelatorioProdutoEstoqueBaixoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -347,7 +567,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmPrincipal().setVisible(true);
+                new frmPrincipal(null).setVisible(true);
             }
         });
     }
@@ -358,6 +578,9 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JPopupMenu jPopupMenu3;
     private javax.swing.JMenuBar jmbBarraMenu;
+    private javax.swing.JLabel lblNomeUsuario;
+    private javax.swing.JLabel lblSessao;
+    private javax.swing.JLabel lblUsuario;
     private javax.swing.JMenuItem mniBuscarCli;
     private javax.swing.JMenuItem mniBuscarFornecedor;
     private javax.swing.JMenuItem mniBuscarP;
@@ -370,10 +593,12 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mniNovoFu;
     private javax.swing.JMenuItem mniNovoP;
     private javax.swing.JMenuItem mniNovoR;
+    private javax.swing.JMenu mniRelatorioProduto;
+    private javax.swing.JMenuItem mniRelatorioProdutoCadastrado;
+    private javax.swing.JMenuItem mniRelatorioProdutoEstoqueBaixo;
     private javax.swing.JMenuItem mniRelatorios;
     private javax.swing.JMenuItem mniRelatoriosC;
     private javax.swing.JMenuItem mniRelatoriosFu;
-    private javax.swing.JMenuItem mniRelatoriosP;
     private javax.swing.JMenuItem mniRelatoriosR;
     private javax.swing.JMenuItem mniSair;
     private javax.swing.JMenuItem mniVendaProduto;
@@ -385,5 +610,26 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu mnuRefeicao;
     private javax.swing.JMenu mnuSGV;
     private javax.swing.JMenu mnuTransacoes;
+    private javax.swing.JSeparator sprInferior;
+    private javax.swing.JFormattedTextField txtInicioSessao;
     // End of variables declaration//GEN-END:variables
+
+    //Faz logoff no sistema
+    protected void logoff() {
+        Date data = new Date();
+        try {
+            sessao.setDataTermino(data);
+            sessao.setSaldoFechamento(caixa.getSaldo());
+            sessaoDAO.Salvar(sessao);
+
+
+            frmLogin janela = new frmLogin();
+
+            janela.setVisible(true);
+            setVisible(false);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

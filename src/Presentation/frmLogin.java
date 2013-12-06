@@ -1,13 +1,20 @@
 
 package Presentation;
 
+import DataAccess.FuncionarioDAO;
 import DataAccess.UsuarioDAO;
+import DominModel.Funcionario;
 import DominModel.Usuario;
+import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 
 
 public class frmLogin extends javax.swing.JFrame {
 
+    //Declaração de Variaveis
+    FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+    Funcionario funcionario = new Funcionario();
+    
     public frmLogin() {
         initComponents();
     }
@@ -26,13 +33,24 @@ public class frmLogin extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SVG ICIL - Login");
 
+        lblUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblUsuario.setText("Usuario:");
 
+        PtxtSenha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        PtxtSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                PtxtSenhaKeyPressed(evt);
+            }
+        });
+
+        txtUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
+        lblSenha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblSenha.setText("Senha:");
 
-        btnEntrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Sucesso.png"))); // NOI18N
+        btnEntrar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnEntrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/cadeado.png"))); // NOI18N
         btnEntrar.setText("Entrar");
         btnEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -47,27 +65,25 @@ public class frmLogin extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(174, 174, 174)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(249, 249, 249)
-                        .addComponent(btnEntrar)
-                        .addGap(54, 54, 54))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(174, 174, 174)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblSenha)
-                                .addGap(16, 16, 16)
-                                .addComponent(PtxtSenha))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblUsuario)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtUsuario)))))
+                        .addComponent(lblSenha)
+                        .addGap(16, 16, 16)
+                        .addComponent(PtxtSenha))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)))
                 .addGap(172, 172, 172))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(lblImagemUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(149, 149, 149))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(249, 249, 249)
+                .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -83,42 +99,26 @@ public class frmLogin extends javax.swing.JFrame {
                     .addComponent(lblSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(PtxtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+                .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        try {
-            Usuario usuario = new Usuario();
-            Usuario userBanco = new Usuario();
-            UsuarioDAO usuarioDao = new UsuarioDAO();            
-            boolean confirm = false;
-
-            usuario.setLogin(txtUsuario.getText());
-            usuario.setSenha(PtxtSenha.getText());
-            
-            confirm = usuarioDao.AutenticarUsuario(usuario);
-            
-            if (confirm) {
-                frmPrincipal janela = new frmPrincipal();
-                janela.setVisible(true);
-                this.setVisible(false);
-                JOptionPane.showMessageDialog(rootPane, "Seja Bem Vindo!");
-            } else {
-                if((!"".equals(usuario.getLogin())) && (!"".equals(usuario.getSenha())))
-                    JOptionPane.showMessageDialog(rootPane, "Login ou senha Incorretos!");
-                else if ("".equals(usuario.getSenha()))
-                    JOptionPane.showMessageDialog(rootPane, "O campo Senha não pode ficar vazio!");
-            }
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(rootPane, "Erro! " + ex.getMessage());
-        }
+        EntrarSistema();
     }//GEN-LAST:event_btnEntrarActionPerformed
 
+    private void PtxtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PtxtSenhaKeyPressed
+        int tecla = evt.getKeyCode();
+        if(tecla == 10){
+            EntrarSistema();
+        }
+    }//GEN-LAST:event_PtxtSenhaKeyPressed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -161,4 +161,37 @@ public class frmLogin extends javax.swing.JFrame {
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
+
+    //Função que entra no sistema
+    protected void EntrarSistema() throws HeadlessException {
+        try {
+            Usuario usuario = new Usuario();
+            UsuarioDAO usuarioDao = new UsuarioDAO();            
+            boolean confirm = false;
+
+            usuario.setLogin(txtUsuario.getText());
+            usuario.setSenha(PtxtSenha.getText());
+            
+            confirm = usuarioDao.AutenticarUsuario(usuario);
+            
+            if (confirm) {
+                int codFuncionario = usuarioDao.RetornaCodFuncionario(usuario);
+                
+                funcionario = funcionarioDAO.AbrirFuncionario(codFuncionario);
+                
+                frmPrincipal janela = new frmPrincipal(funcionario);
+                janela.setVisible(true);
+                this.setVisible(false);
+                JOptionPane.showMessageDialog(rootPane, "Seja Bem Vindo! " + funcionario.getNome());
+            } else {
+                if((!"".equals(usuario.getLogin())) && (!"".equals(usuario.getSenha())))
+                    JOptionPane.showMessageDialog(rootPane, "Login ou senha Incorretos!");
+                else if ("".equals(usuario.getSenha()))
+                    JOptionPane.showMessageDialog(rootPane, "O campo Senha não pode ficar vazio!");
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, "Erro! " + ex.getMessage());
+        }
+    }
 }

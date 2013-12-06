@@ -20,19 +20,22 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
     private ProdutoDAO produtoDAO;
     private FornecedorDAO fornecedorDAO = new FornecedorDAO();
     private ItemProdutoFornecedor itemProdutoFornecedor;
+    private List<ItemProdutoFornecedor> fornecedores;
 
     //Construtor
     public frmProdutoEditar(Produto p, ProdutoDAO dao, boolean novoProduto) {
         initComponents();
         this.produto = p;
         this.produtoDAO = dao;
+        
 
         carregaTipos();
         carregaFornecedores();
 
         if (produto != null) {
             carregaCampos();
-            preencheTabela(produtoDAO.ListarItemProdutoFornecedor(produto));
+            fornecedores = produtoDAO.ListarItemProdutoFornecedor(produto);
+            preencheTabela(fornecedores);
         } else {
             preencheTabela(null);
             produto = new Produto();
@@ -46,7 +49,7 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
         }
     }
 
-    //Carrega Tipos para o comboBox
+    //Carrega o comoBox dos tipos
     @SuppressWarnings("unchecked")
     private void carregaTipos() {
         List<TipoProduto> tipos = new ArrayList<TipoProduto>();
@@ -358,7 +361,7 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
                 produto.setTipo(tipo);
 
 
-                produtoDAO.Salvar(produto, 0);
+                produtoDAO.Salvar(produto);
 
                 JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
 
