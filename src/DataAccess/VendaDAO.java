@@ -81,6 +81,7 @@ public class VendaDAO extends DAO {
     private void SalvarItemVenda(Produto produto, Venda venda, ItemVenda obj) {
         if (obj.getCodigo() == 0) {
             try {
+                int codEstoque;
                 PreparedStatement sql = getConexao().prepareStatement
                         ("insert into ItemVenda(codProduto,codVenda,quantidade) values(?,?,?)");
                 sql.setInt(1, produto.getCodigo());
@@ -89,6 +90,23 @@ public class VendaDAO extends DAO {
                 sql.executeUpdate();
 
                 obj.setCodigo(venda.getCodigo());
+                
+                //Atualiza o estoque
+                PreparedStatement sqlConsultaEstoque = getConexao().prepareStatement
+                        ("select * from estoque where codProduto=?");
+                sqlConsultaEstoque.setInt(1, produto.getCodigo());
+                
+                ResultSet resultado = sqlConsultaEstoque.executeQuery();
+                
+                if(resultado.next()){
+                    
+                    
+                    PreparedStatement sqlUpdateEstoque = getConexao().prepareStatement
+                            ("update estoque ser estoque=? where codProduto=?");
+                    sqlUpdateEstoque.setInt(1, produto.getEstoque());
+                    sqlUpdateEstoque.setInt(2, produto.getCodigo());
+                    sqlUpdateEstoque.executeUpdate();
+                }
 
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
