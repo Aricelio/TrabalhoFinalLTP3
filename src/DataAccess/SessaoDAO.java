@@ -24,15 +24,13 @@ public class SessaoDAO extends DAO {
                         ("insert into sessoes(dataInicio,saldoAbertura,codCaixa,codUsuario) values(?,?,?,?)");
 
                 sqlInsert.setDate(1, new java.sql.Date(obj.getDataInicio().getTime()));
-                //sqlInsert.setDate(2, new java.sql.Date(obj.getDataTermino().getTime()));
-                sqlInsert.setDouble(3, obj.getSaldoAbertura());
-                //sqlInsert.setDouble(4, obj.getSaldoFechamento());
-                sqlInsert.setInt(5, obj.getCaixa().getCodigo());
-                sqlInsert.setInt(6, obj.getUsuario().getCodigo());
+                sqlInsert.setDouble(2, obj.getSaldoAbertura());
+                sqlInsert.setInt(3, obj.getCaixa().getCodigo());
+                sqlInsert.setInt(4, obj.getUsuario().getCodigo());
                 sqlInsert.executeUpdate();
 
                 PreparedStatement sqlConsulta = getConexao().prepareStatement
-                        ("select codSessao from Sessoes where dataInicio=? and saldoAbertura=? and codUsuario=? and codCaixa=?");
+                        ("select max(codSessao) from Sessoes where dataInicio=? and saldoAbertura=? and codUsuario=? and codCaixa=?");
                 sqlConsulta.setDate(1, new java.sql.Date(obj.getDataInicio().getTime()));
                 sqlConsulta.setDouble(2, obj.getSaldoAbertura());
                 sqlConsulta.setInt(3, obj.getUsuario().getCodigo());
@@ -41,7 +39,7 @@ public class SessaoDAO extends DAO {
                 ResultSet resultado = sqlConsulta.executeQuery();
 
                 if (resultado.next()) {
-                    obj.setCodigo(resultado.getInt("codSessao"));
+                    obj.setCodigo(resultado.getInt("max(codSessao)"));
                 }
 
                 return true;
