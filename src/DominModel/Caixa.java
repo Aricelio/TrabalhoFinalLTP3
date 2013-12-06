@@ -8,6 +8,7 @@ public class Caixa {
     //Construtor 
     public Caixa() {
         this.codigo = 0;
+        this.saldo = 0;
     }
     
     //Getters

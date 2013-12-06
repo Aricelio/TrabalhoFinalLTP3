@@ -48,7 +48,7 @@ public class ItemCompra {
     }
 
     public void setQuantidade(int quantidade) throws Exception{
-        if (codigo > 0) {
+        if (quantidade > 0) {
             this.quantidade = quantidade;
         } else {
             throw new Exception("Valor passado para o campo 'quantidade' não pode ser negativo!");

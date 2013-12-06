@@ -76,7 +76,7 @@ public class Compra {
     }
 
     public void setValorTotal(double valorTotal) throws Exception{
-        if (valorTotal > 0) {
+        if (valorTotal >= 0) {
             this.valorTotal = valorTotal;
         } else {
             throw new Exception("Valor passado para o campo 'Valor Total' não pode ser negativo!");
@@ -84,7 +84,7 @@ public class Compra {
     }
 
     public void setFormaPagamento(String formaPagamento) throws Exception{
-        Pattern FormaPagamento = Pattern.compile("[\\w\\s]{3,}");
+        Pattern FormaPagamento = Pattern.compile("[\\w\\sÀ-àçã-õâ-ûéêõóòáúû]{3,}");
         Matcher verifica = FormaPagamento.matcher(formaPagamento);
 
         if (verifica.matches()) {
@@ -132,15 +132,13 @@ public class Compra {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 53 * hash + this.codigo;
-        hash = 53 * hash + Objects.hashCode(this.data);
-        hash = 53 * hash + (int) (Double.doubleToLongBits(this.valorTotal) ^ (Double.doubleToLongBits(this.valorTotal) >>> 32));
-        hash = 53 * hash + Objects.hashCode(this.formaPagamento);
-        hash = 53 * hash + Objects.hashCode(this.sessao);
-        hash = 53 * hash + Objects.hashCode(this.funcionario);
-        hash = 53 * hash + Objects.hashCode(this.itensCompra);
+        hash = 11 * hash + Objects.hashCode(this.data);
+        hash = 11 * hash + (int) (Double.doubleToLongBits(this.valorTotal) ^ (Double.doubleToLongBits(this.valorTotal) >>> 32));
+        hash = 11 * hash + Objects.hashCode(this.formaPagamento);
+        hash = 11 * hash + Objects.hashCode(this.itensCompra);
         return hash;
     }
+    
     
     //equals
     @Override
@@ -152,9 +150,6 @@ public class Compra {
             return false;
         }
         final Compra other = (Compra) obj;
-        if (this.codigo != other.codigo) {
-            return false;
-        }
         if (!Objects.equals(this.data, other.data)) {
             return false;
         }
@@ -164,17 +159,12 @@ public class Compra {
         if (!Objects.equals(this.formaPagamento, other.formaPagamento)) {
             return false;
         }
-        if (!Objects.equals(this.sessao, other.sessao)) {
-            return false;
-        }
-        if (!Objects.equals(this.funcionario, other.funcionario)) {
-            return false;
-        }
         if (!Objects.equals(this.itensCompra, other.itensCompra)) {
             return false;
         }
         return true;
     }
+    
     
     //toString
     @Override

@@ -33,12 +33,12 @@ public class Fornecedor extends Pessoa {
     //hashCode
     @Override
     public int hashCode() {
-        int hash = 5;
+        int hash = 7;
         hash = 79 * hash + Objects.hashCode(this.cnpj);
         return hash;
     }
 
-    //equals
+    //Equals
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

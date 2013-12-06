@@ -19,8 +19,6 @@ public class Sessao {
     //Construtor
     public Sessao() {
         this.codigo = 0;
-        this.dataInicio = new Date();
-        this.saldoAbertura = caixa.getSaldo();
     }
 
 
@@ -70,7 +68,7 @@ public class Sessao {
         if (calendario.getTime().before(dataInicio)) {
             this.dataInicio = dataInicio;
         } else {
-            throw new ErroValidacaoException("Valor passado para o campo 'Data' é invalido!");
+            throw new ErroValidacaoException("Valor passado para o campo 'Data' é invalido!","DataInicio");
         }
     }
 
@@ -81,7 +79,7 @@ public class Sessao {
         if (calendario.getTime().before(dataTermino)) {
             this.dataTermino = new Date();
         } else {
-            throw new ErroValidacaoException("Valor passado para o campo 'Data' é invalido!");
+            throw new ErroValidacaoException("Valor passado para o campo 'Data' é invalido!","DataTermino");
         }
     }
 

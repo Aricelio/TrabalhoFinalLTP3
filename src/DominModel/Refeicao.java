@@ -123,9 +123,7 @@ public class Refeicao {
     //toString
     @Override
     public String toString() {
-        return "Refeicao{" + "Codigo = " + codigo + ", Preco=" + preco 
-                + ", Tipo = " + tipo.getTipo() 
-                + ", Descrição = " + descricao  + '}';
+        return tipo.getTipo();
     }
     
 }

@@ -135,22 +135,24 @@ public class Produto {
         }
     }
 
+    
+    
+
+    
+    
+
     //hashCode
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 83 * hash + this.codigo;
-        hash = 83 * hash + Objects.hashCode(this.nome);
-        hash = 83 * hash + (int) (Double.doubleToLongBits(this.preco) ^ (Double.doubleToLongBits(this.preco) >>> 32));
-        hash = 83 * hash + Objects.hashCode(this.descricao);
-        hash = 83 * hash + this.ativo;
-        hash = 83 * hash + Objects.hashCode(this.tipo);
-        hash = 83 * hash + this.estoque;
-        hash = 83 * hash + Objects.hashCode(this.fornecedores);
+        hash = 71 * hash + Objects.hashCode(this.nome);
+        hash = 71 * hash + (int) (Double.doubleToLongBits(this.preco) ^ (Double.doubleToLongBits(this.preco) >>> 32));
+        hash = 71 * hash + Objects.hashCode(this.descricao);
+        hash = 71 * hash + Objects.hashCode(this.tipo);
+        hash = 71 * hash + Objects.hashCode(this.fornecedores);
         return hash;
     }
     
-
     //equals
     @Override
     public boolean equals(Object obj) {
@@ -161,9 +163,6 @@ public class Produto {
             return false;
         }
         final Produto other = (Produto) obj;
-        if (this.codigo != other.codigo) {
-            return false;
-        }
         if (!Objects.equals(this.nome, other.nome)) {
             return false;
         }
@@ -173,13 +172,7 @@ public class Produto {
         if (!Objects.equals(this.descricao, other.descricao)) {
             return false;
         }
-        if (this.ativo != other.ativo) {
-            return false;
-        }
         if (!Objects.equals(this.tipo, other.tipo)) {
-            return false;
-        }
-        if (this.estoque != other.estoque) {
             return false;
         }
         if (!Objects.equals(this.fornecedores, other.fornecedores)) {

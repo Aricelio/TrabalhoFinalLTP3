@@ -70,11 +70,11 @@ public class Pessoa {
     }
 
     //Setters
-    public void setCodigo(int codigo) throws Exception {
+    public void setCodigo(int codigo) throws ErroValidacaoException {
         if (codigo > 0) {
             this.codigo = codigo;
         } else {
-            throw new Exception("Valor passado para o campo 'codigo' não pode ser negativo!");
+            throw new ErroValidacaoException("Valor passado para o campo 'codigo' não pode ser negativo!","id");
         }
     }
 
@@ -86,14 +86,14 @@ public class Pessoa {
         }
     }
 
-    public void setNome(String nome) throws Exception {
+    public void setNome(String nome) throws ErroValidacaoException {
         Pattern Nome = Pattern.compile("[\\w\\sÀ-àçã-õâ-ûéêõóòáúû]{3,}");
         Matcher verifica = Nome.matcher(nome);
 
         if (verifica.matches()) {
             this.nome = nome;
         } else {
-            throw new Exception("Campo 'Nome' deve ter no mínimo 3 caracteres");
+            throw new ErroValidacaoException("Campo 'Nome' deve ter no mínimo 3 caracteres","Nome");
         }
     }
 
@@ -104,7 +104,7 @@ public class Pessoa {
         if (calendario.getTime().before(dataNascimento)) {
             this.dataNascimento = dataNascimento;
         } else {
-            throw new ErroValidacaoException("Valor passado para o campo 'Data' é invalido!");
+            throw new ErroValidacaoException("Valor passado para o campo 'Data' é invalido!","Data");
         }
     }
 
@@ -216,19 +216,16 @@ public class Pessoa {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + this.codigo;
-        hash = 97 * hash + (this.categoriaPessoa != null ? this.categoriaPessoa.hashCode() : 0);
-        hash = 97 * hash + Objects.hashCode(this.nome);
-        hash = 97 * hash + Objects.hashCode(this.dataNascimento);
-        hash = 97 * hash + Objects.hashCode(this.RG);
-        hash = 97 * hash + Objects.hashCode(this.CPF);
-        hash = 97 * hash + Objects.hashCode(this.tipoPessoa);
-        hash = 97 * hash + this.ativo;
-        hash = 97 * hash + Objects.hashCode(this.emails);
-        hash = 97 * hash + Objects.hashCode(this.enderecos);
-        hash = 97 * hash + Objects.hashCode(this.telefones);
+        hash = 47 * hash + (this.categoriaPessoa != null ? this.categoriaPessoa.hashCode() : 0);
+        hash = 47 * hash + Objects.hashCode(this.nome);
+        hash = 47 * hash + Objects.hashCode(this.dataNascimento);
+        hash = 47 * hash + Objects.hashCode(this.tipoPessoa);
+        hash = 47 * hash + Objects.hashCode(this.emails);
+        hash = 47 * hash + Objects.hashCode(this.enderecos);
+        hash = 47 * hash + Objects.hashCode(this.telefones);
         return hash;
     }
+    
 
     //equals
     @Override
@@ -240,9 +237,6 @@ public class Pessoa {
             return false;
         }
         final Pessoa other = (Pessoa) obj;
-        if (this.codigo != other.codigo) {
-            return false;
-        }
         if (this.categoriaPessoa != other.categoriaPessoa) {
             return false;
         }
@@ -252,16 +246,7 @@ public class Pessoa {
         if (!Objects.equals(this.dataNascimento, other.dataNascimento)) {
             return false;
         }
-        if (!Objects.equals(this.RG, other.RG)) {
-            return false;
-        }
-        if (!Objects.equals(this.CPF, other.CPF)) {
-            return false;
-        }
         if (!Objects.equals(this.tipoPessoa, other.tipoPessoa)) {
-            return false;
-        }
-        if (this.ativo != other.ativo) {
             return false;
         }
         if (!Objects.equals(this.emails, other.emails)) {
@@ -275,6 +260,7 @@ public class Pessoa {
         }
         return true;
     }
+    
 
     //toString
     @Override
