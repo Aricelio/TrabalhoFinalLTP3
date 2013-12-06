@@ -1,13 +1,15 @@
 package Presentation;
 
+import DataAccess.CaixaDAO;
 import DominModel.Cliente;
 import DataAccess.ClienteDAO;
-import DataAccess.FuncionarioDAO;
 import DataAccess.ProdutoDAO;
 import DataAccess.VendaDAO;
+import DominModel.Caixa;
 import DominModel.Funcionario;
 import DominModel.ItemVenda;
 import DominModel.Produto;
+import DominModel.Sessao;
 import DominModel.Venda;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,10 +26,17 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
     Venda venda = new Venda();
     ItemVenda itemVenda;
     ClienteDAO clienteDAO = new ClienteDAO();
+    Funcionario funcionario = new Funcionario();
+    Sessao sessao;
+    Caixa caixa;
+    CaixaDAO caixaDAO = new CaixaDAO();
 
     //Construtor
-    public frmVendaCadastrar() {
+    public frmVendaCadastrar(Funcionario funcionario, Sessao sessao) {
         initComponents();
+        this.funcionario = funcionario;
+        this.sessao = sessao;
+        this.caixa = caixaDAO.AbrirCaixa(1);
         carregaClientes();
         carregaProdutos();
         preencheTabela(null);
@@ -37,17 +46,13 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
     private void carregaVenda() {
         String formaPagamento = (String) cbxFormaPagamento.getSelectedItem();
         Cliente clienteSelecionado = (Cliente) cbxCliente.getSelectedItem();
-        FuncionarioDAO dao = new FuncionarioDAO();
-
-        //Variaveis criadas para teste
-        //Date data = new Date();
-        Funcionario f = dao.AbrirFuncionario(10);
 
         try {
+            venda.setSessao(sessao);
             venda.setData(new Date());
             venda.setFormaPagamento(formaPagamento);
             venda.setCliente(clienteSelecionado);
-            venda.setFuncionario(f);
+            venda.setFuncionario(funcionario);
         } catch (Exception ex) {
             Logger.getLogger(frmVendaCadastrar.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -345,8 +350,11 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
                 VendaDAO vendaDAO = new VendaDAO();
 
                 vendaDAO.Salvar(venda);
+                caixa.setSaldo(caixa.getSaldo() + venda.getValorTotal());
+                caixaDAO.Salvar(caixa);
 
                 JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
+                
                 //Fecha a tela atual e abre a tela de busca
                 this.setVisible(false);
                 frmProdutoBuscar janela = new frmProdutoBuscar();
@@ -380,6 +388,7 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
             int quantidade = Integer.parseInt(txtQuantidade.getText());
 
             if (prodSelecionado.getEstoque() >= quantidade) {
+                prodSelecionado.setEstoque(prodSelecionado.getEstoque() - quantidade);   
                 itemVenda = new ItemVenda();
                 itemVenda.setProduto(prodSelecionado);
                 itemVenda.setQuantidade(quantidade);
