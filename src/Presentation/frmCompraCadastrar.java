@@ -94,6 +94,7 @@ public class frmCompraCadastrar extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
+        setTitle("Compra de Produtos");
 
         tpVendas.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
@@ -289,7 +290,7 @@ public class frmCompraCadastrar extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(383, Short.MAX_VALUE)
+                .addContainerGap(387, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -297,7 +298,7 @@ public class frmCompraCadastrar extends javax.swing.JInternalFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(tpVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 109, Short.MAX_VALUE)))
+                    .addGap(0, 113, Short.MAX_VALUE)))
         );
 
         pack();
@@ -371,7 +372,7 @@ public class frmCompraCadastrar extends javax.swing.JInternalFrame {
              && ("Á vista".equals(compra.getFormaPagamento()))
              && ((compra.getValorTotal() + itemCompra.getValorTotalItem()) > caixa.getSaldo())) 
             {
-                JOptionPane.showMessageDialog(rootPane, "Valor total do produto é maior do que o valor do caixa.");
+                JOptionPane.showMessageDialog(rootPane, "Valor total do produto é maior do que o valor em caixa.");
             } else {
                 prodSelecionado.setEstoque(prodSelecionado.getEstoque() + quantidade);   
                 itemCompra.setCompra(compra);
