@@ -67,10 +67,10 @@ public class frmPrincipal extends javax.swing.JFrame {
         jPopupMenu2 = new javax.swing.JPopupMenu();
         jPopupMenu3 = new javax.swing.JPopupMenu();
         lblUsuario = new javax.swing.JLabel();
-        lblNomeUsuario = new javax.swing.JLabel();
         sprInferior = new javax.swing.JSeparator();
         lblSessao = new javax.swing.JLabel();
         txtInicioSessao = new javax.swing.JFormattedTextField();
+        lblNomeUsuario = new javax.swing.JLabel();
         jmbBarraMenu = new javax.swing.JMenuBar();
         mnuSGV = new javax.swing.JMenu();
         mniLogoff = new javax.swing.JMenuItem();
@@ -118,13 +118,13 @@ public class frmPrincipal extends javax.swing.JFrame {
         lblUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblUsuario.setText("Usuario:");
 
-        lblNomeUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
         lblSessao.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblSessao.setText("Sessão iniacada: ");
 
         txtInicioSessao.setEditable(false);
-        txtInicioSessao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.FULL))));
+        txtInicioSessao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
+
+        lblNomeUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         mnuSGV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Sucesso.png"))); // NOI18N
         mnuSGV.setText("SGV");
@@ -335,33 +335,30 @@ public class frmPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(574, Short.MAX_VALUE)
+            .addComponent(sprInferior, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(624, Short.MAX_VALUE)
                 .addComponent(lblSessao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtInicioSessao, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(177, 177, 177)
+                .addComponent(txtInicioSessao, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(235, 235, 235)
                 .addComponent(lblUsuario)
-                .addGap(18, 18, 18)
-                .addComponent(lblNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60))
-            .addComponent(sprInferior, javax.swing.GroupLayout.Alignment.TRAILING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(572, Short.MAX_VALUE)
+                .addContainerGap(602, Short.MAX_VALUE)
                 .addComponent(sprInferior, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblUsuario)
-                            .addComponent(lblSessao)
-                            .addComponent(txtInicioSessao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(lblNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblUsuario)
+                        .addComponent(lblSessao)
+                        .addComponent(txtInicioSessao))
+                    .addComponent(lblNomeUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -392,7 +389,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniNovoPActionPerformed
 
     private void mniVendaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVendaProdutoActionPerformed
-        frmVendaCadastrar janela = new frmVendaCadastrar();
+        frmVendaCadastrar janela = new frmVendaCadastrar(funcionario,sessao);
         add(janela);
         janela.setVisible(true);
     }//GEN-LAST:event_mniVendaProdutoActionPerformed
@@ -466,7 +463,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void mniRelatorioProdutoCadastradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRelatorioProdutoCadastradoActionPerformed
-        Connection conn = null;
+        /*Connection conn = null;
         try {
             // Obtém o diretório da aplicação
             String arquivo = System.getProperty("user.dir");
@@ -492,17 +489,17 @@ public class frmPrincipal extends javax.swing.JFrame {
             Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } (catch (SQLException ex) {
             Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }*/ finally {
+        } finally {
             try {
                 conn.close();
             } catch (SQLException ex) {
                 Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        }*/
     }//GEN-LAST:event_mniRelatorioProdutoCadastradoActionPerformed
 
     private void mniRelatorioProdutoEstoqueBaixoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRelatorioProdutoEstoqueBaixoActionPerformed
-        Connection conn = null;
+        /*Connection conn = null;
         try {
             // Obtém o diretório da aplicação
             String arquivo = System.getProperty("user.dir");
@@ -528,13 +525,13 @@ public class frmPrincipal extends javax.swing.JFrame {
             Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } (catch (SQLException ex) {
             Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }*/ finally {
+        } finally {
             try {
                 conn.close();
             } catch (SQLException ex) {
                 Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        }*/
     }//GEN-LAST:event_mniRelatorioProdutoEstoqueBaixoActionPerformed
 
     /**
