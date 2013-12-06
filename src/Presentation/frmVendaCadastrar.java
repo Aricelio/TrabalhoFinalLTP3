@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class frmVendaCadastrar extends javax.swing.JInternalFrame {
+
     ProdutoDAO produtoDAO = new ProdutoDAO();
     Venda venda = new Venda();
     ItemVenda itemVenda;
@@ -37,13 +38,13 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
         String formaPagamento = (String) cbxFormaPagamento.getSelectedItem();
         Cliente clienteSelecionado = (Cliente) cbxCliente.getSelectedItem();
         FuncionarioDAO dao = new FuncionarioDAO();
-        
+
         //Variaveis criadas para teste
         //Date data = new Date();
         Funcionario f = dao.AbrirFuncionario(10);
 
         try {
-            venda.setData((Date)txtData.getValue());
+            venda.setData(new Date());
             venda.setFormaPagamento(formaPagamento);
             venda.setCliente(clienteSelecionado);
             venda.setFuncionario(f);
@@ -110,13 +111,6 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         tpVendas = new javax.swing.JTabbedPane();
-        pnGeral = new javax.swing.JPanel();
-        lblData = new javax.swing.JLabel();
-        txtData = new javax.swing.JFormattedTextField();
-        lblFormaPagamento = new javax.swing.JLabel();
-        cbxCliente = new javax.swing.JComboBox();
-        lblCliente = new javax.swing.JLabel();
-        cbxFormaPagamento = new javax.swing.JComboBox();
         pnItens = new javax.swing.JPanel();
         cbxProduto = new javax.swing.JComboBox();
         pnlListagem = new javax.swing.JScrollPane();
@@ -128,6 +122,11 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
         lblProduto = new javax.swing.JLabel();
         lblQuantidade = new javax.swing.JLabel();
         txtQuantidade = new javax.swing.JTextField();
+        pnGeral = new javax.swing.JPanel();
+        lblFormaPagamento = new javax.swing.JLabel();
+        cbxCliente = new javax.swing.JComboBox();
+        lblCliente = new javax.swing.JLabel();
+        cbxFormaPagamento = new javax.swing.JComboBox();
         btnSalvarVenda = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
@@ -137,64 +136,6 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
         setTitle("Cadastro de Vendas de Produtos");
 
         tpVendas.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        lblData.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblData.setText("Data: ");
-
-        txtData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
-        txtData.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        lblFormaPagamento.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblFormaPagamento.setText("Forma de Pagamento:");
-
-        cbxCliente.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        cbxCliente.setToolTipText("");
-
-        lblCliente.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblCliente.setText("Cliente:");
-
-        cbxFormaPagamento.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        cbxFormaPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Á vista", "Á prazo", "Cheque", "Cartão de Crédito" }));
-        cbxFormaPagamento.setToolTipText("");
-
-        javax.swing.GroupLayout pnGeralLayout = new javax.swing.GroupLayout(pnGeral);
-        pnGeral.setLayout(pnGeralLayout);
-        pnGeralLayout.setHorizontalGroup(
-            pnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnGeralLayout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addGroup(pnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(pnGeralLayout.createSequentialGroup()
-                        .addComponent(lblCliente)
-                        .addGap(18, 18, 18)
-                        .addComponent(cbxCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(pnGeralLayout.createSequentialGroup()
-                        .addComponent(lblData)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(lblFormaPagamento)
-                        .addGap(18, 18, 18)
-                        .addComponent(cbxFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(514, Short.MAX_VALUE))
-        );
-        pnGeralLayout.setVerticalGroup(
-            pnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnGeralLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addGroup(pnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFormaPagamento)
-                    .addComponent(cbxFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblData))
-                .addGap(34, 34, 34)
-                .addGroup(pnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCliente)
-                    .addComponent(cbxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(211, Short.MAX_VALUE))
-        );
-
-        tpVendas.addTab("Geral", pnGeral);
 
         cbxProduto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cbxProduto.addActionListener(new java.awt.event.ActionListener() {
@@ -288,7 +229,7 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
                         .addGroup(pnItensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblTotalVenda)
                             .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(30, Short.MAX_VALUE))
+                        .addContainerGap(38, Short.MAX_VALUE))
                     .addGroup(pnItensLayout.createSequentialGroup()
                         .addGroup(pnItensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbxProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -305,6 +246,52 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
         );
 
         tpVendas.addTab("Itens", pnItens);
+
+        lblFormaPagamento.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblFormaPagamento.setText("Forma de Pagamento:");
+
+        cbxCliente.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cbxCliente.setToolTipText("");
+
+        lblCliente.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblCliente.setText("Cliente:");
+
+        cbxFormaPagamento.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cbxFormaPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Á vista", "Á prazo", "Cheque", "Cartão de Crédito" }));
+        cbxFormaPagamento.setToolTipText("");
+
+        javax.swing.GroupLayout pnGeralLayout = new javax.swing.GroupLayout(pnGeral);
+        pnGeral.setLayout(pnGeralLayout);
+        pnGeralLayout.setHorizontalGroup(
+            pnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnGeralLayout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addGroup(pnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnGeralLayout.createSequentialGroup()
+                        .addComponent(lblFormaPagamento)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbxFormaPagamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnGeralLayout.createSequentialGroup()
+                        .addComponent(lblCliente)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(575, Short.MAX_VALUE))
+        );
+        pnGeralLayout.setVerticalGroup(
+            pnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnGeralLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(pnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFormaPagamento)
+                    .addComponent(cbxFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(pnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCliente)
+                    .addComponent(cbxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(219, Short.MAX_VALUE))
+        );
+
+        tpVendas.addTab("Geral", pnGeral);
 
         btnSalvarVenda.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnSalvarVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Salvar.png"))); // NOI18N
@@ -355,10 +342,10 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
 
         if (JOptionPane.showConfirmDialog(rootPane, "Deseja realemente salvar os dados?") == 0) {
             try {
-                VendaDAO vendaDAO = new VendaDAO();                
-                
+                VendaDAO vendaDAO = new VendaDAO();
+
                 vendaDAO.Salvar(venda);
-               
+
                 JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
                 //Fecha a tela atual e abre a tela de busca
                 this.setVisible(false);
@@ -389,19 +376,23 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
         try {
             carregaVenda();
             Produto prodSelecionado = (Produto) cbxProduto.getSelectedItem();
+            prodSelecionado = produtoDAO.Abrir(prodSelecionado.getCodigo());
             int quantidade = Integer.parseInt(txtQuantidade.getText());
 
-            itemVenda = new ItemVenda();
-            itemVenda.setProduto(prodSelecionado);
-            itemVenda.setQuantidade(quantidade);
-            itemVenda.setVenda(venda);
-
-            venda.addItemVenda(itemVenda);
-            txtTotalVenda.setText("R$  " + venda.getValorTotal());
+            if (prodSelecionado.getEstoque() >= quantidade) {
+                itemVenda = new ItemVenda();
+                itemVenda.setProduto(prodSelecionado);
+                itemVenda.setQuantidade(quantidade);
+                itemVenda.setVenda(venda);
+                venda.addItemVenda(itemVenda);
+                txtTotalVenda.setText("R$  " + venda.getValorTotal());
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Não há estoque suficiente para este produto.");
+            }
             preencheTabela(venda.getItensVenda());
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(rootPane, "Erro ao tentar Adicionar Produto! " + ex.getMessage()); 
+            JOptionPane.showMessageDialog(rootPane, "Erro ao tentar Adicionar Produto! " + ex.getMessage());
         }
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
@@ -422,14 +413,13 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
             preencheTabela(venda.getItensVenda());
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(rootPane, "Erro ao tentar Remover Produto! " + ex.getMessage()); 
+            JOptionPane.showMessageDialog(rootPane, "Erro ao tentar Remover Produto! " + ex.getMessage());
         }
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void cbxProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProdutoActionPerformed
         txtQuantidade.setText("");
     }//GEN-LAST:event_cbxProdutoActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnCancelar;
@@ -439,7 +429,6 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cbxFormaPagamento;
     private javax.swing.JComboBox cbxProduto;
     private javax.swing.JLabel lblCliente;
-    private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblFormaPagamento;
     private javax.swing.JLabel lblProduto;
     private javax.swing.JLabel lblQuantidade;
@@ -449,7 +438,6 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane pnlListagem;
     private javax.swing.JTable tblListagem;
     private javax.swing.JTabbedPane tpVendas;
-    private javax.swing.JFormattedTextField txtData;
     private javax.swing.JTextField txtQuantidade;
     private javax.swing.JTextField txtTotalVenda;
     // End of variables declaration//GEN-END:variables
