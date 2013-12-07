@@ -453,7 +453,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniCompraProdutoActionPerformed
 
     private void mniVendaRefeicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVendaRefeicaoActionPerformed
-        frmVendaRefeicaoCadastrar janela = new frmVendaRefeicaoCadastrar();
+        frmVendaRefeicaoCadastrar janela = new frmVendaRefeicaoCadastrar(funcionario,sessao);
         add(janela);
         janela.setVisible(true);
     }//GEN-LAST:event_mniVendaRefeicaoActionPerformed
