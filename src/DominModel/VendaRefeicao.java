@@ -110,6 +110,32 @@ public class VendaRefeicao {
         this.sessao = sessao;
     }
     
+    //Adiciona um Item a venda
+    public void addItemVenda(ItemVendaRefeicao itemVenda) throws Exception{
+        if(!itensVenda.contains(itemVenda)){
+            itensVenda.add(itemVenda);
+            
+            double valor = itemVenda.getValorTotalItem() + getValorTotal();
+            setValorTotal(valor);
+        }
+        else{
+         throw new Exception("Esse item já esta contido na lista de Vendas");
+        }
+    }
+    
+    //Remove um item da venda
+    public void removeItemVenda(ItemVendaRefeicao itemVenda) throws Exception{
+        if(itensVenda.contains(itemVenda)){
+            itensVenda.remove(itemVenda);
+            
+            double valor = getValorTotal() - itemVenda.getValorTotalItem();
+            setValorTotal(valor);
+        }
+        else{
+         throw new Exception("Esse item não existe na lista de Vendas!");
+        }
+    }
+    
     //hashCode
     @Override
     public int hashCode() {
@@ -157,6 +183,7 @@ public class VendaRefeicao {
         }
         return true;
     }
+
     
     //toString
     @Override
