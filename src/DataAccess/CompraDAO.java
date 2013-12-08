@@ -3,6 +3,7 @@ package DataAccess;
 import DominModel.Compra;
 import DominModel.ItemCompra;
 import DominModel.Produto;
+import DataAccess.FornecedorDAO;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -13,6 +14,9 @@ import java.util.List;
 
 public class CompraDAO extends DAO {
 
+    //Declaração de variaveis
+    FornecedorDAO fornecedorDAO = new FornecedorDAO();
+    
     //Construtor
     public CompraDAO() {
         super();
@@ -22,23 +26,25 @@ public class CompraDAO extends DAO {
     public boolean Salvar(Compra obj) {
         if (obj.getCodigo() == 0) {
             try {
-                PreparedStatement sql = getConexao().prepareStatement
-                        ("insert into compras(data,valorTotal,formaPagamento,codSessao,codFuncionario) values(?,?,?,?,?)");
-                //sql.setDate(1, new java.sql.Date(obj.getData().getTime()));
+
+                //Insere os dados na tabela de compra
+                PreparedStatement sql = getConexao().prepareStatement("insert into compras(data,valorTotal,formaPagamento,codSessao,codFuncionario,codFornecedor) values(?,?,?,?,?,?)");
                 sql.setDate(1, new java.sql.Date(obj.getData().getTime()));
                 sql.setDouble(2, obj.getValorTotal());
                 sql.setString(3, obj.getFormaPagamento());
                 sql.setInt(4, obj.getSessao().getCodigo());
                 sql.setInt(5, obj.getFuncionario().getCodigo());
+                sql.setInt(6, obj.getFornecedor().getCodigo());
                 sql.executeUpdate();
 
-                PreparedStatement sqlConsulta = getConexao().prepareStatement
-                        ("select codCompra from compras where valorTotal=? and Data=? and formaPagamento=? and codSessao=? and codFuncionario=?");
+                //Pega o codigo da compra que foi gerando no banco de dados
+                PreparedStatement sqlConsulta = getConexao().prepareStatement("select codCompra from compras where valorTotal=? and Data=? and formaPagamento=? and codSessao=? and codFuncionario=? and codFornecedor=?");
                 sqlConsulta.setDouble(1, obj.getValorTotal());
                 sqlConsulta.setDate(2, new java.sql.Date(obj.getData().getTime()));
                 sqlConsulta.setString(3, obj.getFormaPagamento());
                 sqlConsulta.setInt(4, obj.getSessao().getCodigo());
                 sqlConsulta.setInt(5, obj.getFuncionario().getCodigo());
+                sqlConsulta.setInt(6, obj.getFornecedor().getCodigo());
 
 
                 ResultSet resultado = sqlConsulta.executeQuery();
@@ -59,13 +65,13 @@ public class CompraDAO extends DAO {
         } else {
             try {
                 Connection con = getConexao();
-                PreparedStatement sqlUpdate = con.prepareStatement
-                        ("update Compras set valorTotal=?, Data=?,formaPagamento=?,codSessao=?,codFuncionario=? where codCompra=?");
+                PreparedStatement sqlUpdate = con.prepareStatement("update Compras set valorTotal=?, Data=?,formaPagamento=?,codSessao=?,codFuncionario=?,codFornecedor=? where codCompra=?");
                 sqlUpdate.setDouble(1, obj.getValorTotal());
                 sqlUpdate.setDate(2, new java.sql.Date(obj.getData().getTime()));
                 sqlUpdate.setString(3, obj.getFormaPagamento());
                 sqlUpdate.setInt(4, obj.getSessao().getCodigo());
                 sqlUpdate.setInt(5, obj.getFuncionario().getCodigo());
+                sqlUpdate.setInt(6, obj.getFornecedor().getCodigo());
                 sqlUpdate.setInt(7, obj.getCodigo());
                 sqlUpdate.executeUpdate();
                 return true;
@@ -81,13 +87,34 @@ public class CompraDAO extends DAO {
         if (obj.getCodigo() == 0) {
             try {
                 int codEstoque;
-                PreparedStatement sql = getConexao().prepareStatement
-                        ("insert into ItemCompra(codProduto,codCompra,quantidade) values(?,?,?)");
+                boolean confirmacao = false;
+
+                //Insere os dados na tabela ItemCompra
+                PreparedStatement sql = getConexao().prepareStatement("insert into ItemCompra(codProduto,codCompra,quantidade) values(?,?,?)");
                 sql.setInt(1, produto.getCodigo());
                 sql.setInt(2, compra.getCodigo());
                 sql.setInt(3, obj.getQuantidade());
                 sql.executeUpdate();
                 obj.setCodigo(compra.getCodigo());
+
+                //Verifica se o produto ja tem o fornecedor em que foi feito a compra
+                PreparedStatement sqlConsulta = getConexao().prepareStatement("select * from itemProdutoFornecedor where codProduto=?");
+                sqlConsulta.setInt(1, produto.getCodigo());
+
+                ResultSet resultadoConsulta = sqlConsulta.executeQuery();
+                while (resultadoConsulta.next()) {
+                    if (resultadoConsulta.getInt("codFornecedor") == compra.getFornecedor().getCodigo()) {
+                        confirmacao = true;
+                    } 
+                }
+                if (!confirmacao) {
+                    PreparedStatement sqlInsert = getConexao().prepareStatement
+                            ("insert into itemprodutofornecedor(codFornecedor,codProduto) values(?,?)");
+                    sqlInsert.setInt(1, compra.getFornecedor().getCodigo());
+                    sqlInsert.setInt(2, produto.getCodigo());
+                    sqlInsert.executeUpdate();
+                }
+
 
                 //Atualiza o estoque
                 PreparedStatement sqlConsultaEstoque = getConexao().prepareStatement
@@ -115,7 +142,8 @@ public class CompraDAO extends DAO {
             }
         } else {
             try {
-                PreparedStatement sql = getConexao().prepareStatement("update ItemCompra set quantidade=?, codProduto=? where  codCompra=?");
+                PreparedStatement sql = getConexao().prepareStatement
+                        ("update ItemCompra set quantidade=?, codProduto=? where  codCompra=?");
                 sql.setInt(1, obj.getQuantidade());
                 sql.setInt(2, produto.getCodigo());
                 sql.setInt(3, obj.getCodigo());
@@ -131,12 +159,14 @@ public class CompraDAO extends DAO {
         if (obj.getCodigo() > 0) {
             try {
                 //Apaga o registro da tabela de ItensVenda
-                PreparedStatement sqlDeleteItens = getConexao().prepareStatement("delete from ItemCompra where codCompra=?");
+                PreparedStatement sqlDeleteItens = getConexao().prepareStatement
+                        ("delete from ItemCompra where codCompra=?");
                 sqlDeleteItens.setInt(1, obj.getCodigo());
                 sqlDeleteItens.executeUpdate();
 
                 //Apaga o resgistro da tabela de Vendas
-                PreparedStatement sql = getConexao().prepareStatement("delete from compras where codCompra=?");
+                PreparedStatement sql = getConexao().prepareStatement
+                        ("delete from compras where codCompra=?");
                 sql.setInt(1, obj.getCodigo());
                 sql.executeUpdate();
                 return true;
@@ -152,7 +182,8 @@ public class CompraDAO extends DAO {
     //Método AbriVenda
     public Compra Abrir(int id) {
         try {
-            PreparedStatement sql = getConexao().prepareStatement("select * from Compras where codCompra=?");
+            PreparedStatement sql = getConexao().prepareStatement
+                    ("select * from Compras where codCompra=?");
             sql.setInt(1, id);
 
             ResultSet resultado = sql.executeQuery();
@@ -174,10 +205,10 @@ public class CompraDAO extends DAO {
         }
     }
 
-    //Método Listar vendas
+    //Método Listar compras
     public List<Compra> ListarCompras() {
         try {
-            PreparedStatement sql = getConexao().prepareStatement("select * from Vendas");
+            PreparedStatement sql = getConexao().prepareStatement("select * from Compras");
 
             ResultSet resultado = sql.executeQuery();
 
@@ -209,5 +240,6 @@ public class CompraDAO extends DAO {
         obj.setFormaPagamento(resultado.getString("formapagamento"));
         obj.setSessao(sessao.Abrir(resultado.getInt("codSessao")));
         obj.setFuncionario(funcionario.AbrirFuncionario(resultado.getInt("codFuncionario")));
+        obj.setFornecedor(fornecedorDAO.AbrirFornecedor(resultado.getInt("codFornecedor")));
     }
 }
