@@ -615,6 +615,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     protected void logoff() {
         Date data = new Date();
         try {
+            caixa = caixaDAO.AbrirCaixa(1);
             sessao.setDataTermino(data);
             sessao.setSaldoFechamento(caixa.getSaldo());
             sessaoDAO.Salvar(sessao);
