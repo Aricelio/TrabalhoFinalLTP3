@@ -345,16 +345,20 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
     //Botão Salvar
     private void btnSalvarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarVendaActionPerformed
 
-        if (JOptionPane.showConfirmDialog(rootPane, "Deseja realemente salvar os dados?") == 0) {
+        if (JOptionPane.showConfirmDialog(rootPane, "Deseja realmente salvar os dados?") == 0) {
             try {
                 VendaDAO vendaDAO = new VendaDAO();
 
                 vendaDAO.Salvar(venda);
-                caixa.setSaldo(caixa.getSaldo() + venda.getValorTotal());
-                caixaDAO.Salvar(caixa);
+
+                String formaPagamento = (String) cbxFormaPagamento.getSelectedItem();
+                if ("Á vista".equals(formaPagamento)) {
+                    caixa.setSaldo(caixa.getSaldo() + venda.getValorTotal());
+                    caixaDAO.Salvar(caixa);
+                }
 
                 JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
-                
+
                 //Fecha a tela atual e abre a tela de busca
                 this.setVisible(false);
                 frmProdutoBuscar janela = new frmProdutoBuscar();
@@ -388,7 +392,7 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
             int quantidade = Integer.parseInt(txtQuantidade.getText());
 
             if (prodSelecionado.getEstoque() >= quantidade) {
-                prodSelecionado.setEstoque(prodSelecionado.getEstoque() - quantidade);   
+                prodSelecionado.setEstoque(prodSelecionado.getEstoque() - quantidade);
                 itemVenda = new ItemVenda();
                 itemVenda.setProduto(prodSelecionado);
                 itemVenda.setQuantidade(quantidade);
