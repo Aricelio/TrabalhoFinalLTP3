@@ -347,7 +347,6 @@ public class PessoaDAO<T extends Pessoa> extends DAO {
             obj.setNome(resultado.getString("Nome"));
             obj.setTipoPessoa(resultado.getString("TipoPessoa"));
             obj.setAtivo(resultado.getInt("ativo"));
-            //obj.setCategoriaPessoa(CategoriaPessoa.Fornecedor);
         }
         else{
             obj.setCodigo(resultado.getInt("codPessoa"));
@@ -357,6 +356,52 @@ public class PessoaDAO<T extends Pessoa> extends DAO {
             obj.setDataNascimento(resultado.getDate("DataNascimento"));
             obj.setCPF(resultado.getString("CPF"));
             obj.setRG(resultado.getString("RG"));
+        }
+    }
+    
+    //Autenticar CPF
+    public boolean AutenticarCPF(String CPF){
+        try{
+            boolean retorno = false;
+            PreparedStatement sqlListarCPF = getConexao().prepareStatement
+                    ("select cpf from Pessoas where ativo = 1");
+            ResultSet resultado = sqlListarCPF.executeQuery();
+            
+            while(resultado.next()){
+                String resultadoCPF = resultado.getString("cpf");
+                if(CPF.equals(resultadoCPF)){
+                    retorno = true;
+                    break;
+                }
+            }
+            return retorno;
+        }
+        catch(Exception ex){
+            System.err.println(ex.getMessage());
+            return false;
+        }
+    }
+    
+    //Autenticar RG
+    public boolean AutenticarRG(String RG){
+        try{
+            boolean retorno = false;
+            PreparedStatement sqlListarCPF = getConexao().prepareStatement
+                    ("select rg from Pessoas where ativo = 1");
+            ResultSet resultado = sqlListarCPF.executeQuery();
+            
+            while(resultado.next()){
+                String resultadoRG = resultado.getString("rg");
+                if(RG.equals(resultadoRG)){
+                    retorno = true;
+                    break;
+                }
+            }
+            return retorno;
+        }
+        catch(Exception ex){
+            System.err.println(ex.getMessage());
+            return false;
         }
     }
 }
