@@ -102,7 +102,7 @@ public class VendaDAO extends DAO {
                     
                     
                     PreparedStatement sqlUpdateEstoque = getConexao().prepareStatement
-                            ("update estoque ser estoque=? where codProduto=?");
+                            ("update estoque set estoque=? where codProduto=?");
                     sqlUpdateEstoque.setInt(1, produto.getEstoque());
                     sqlUpdateEstoque.setInt(2, produto.getCodigo());
                     sqlUpdateEstoque.executeUpdate();
