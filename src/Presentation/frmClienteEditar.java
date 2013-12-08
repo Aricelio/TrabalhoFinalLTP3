@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class frmClienteEditar extends javax.swing.JInternalFrame {
-    
+
     //Declaração de Variaveis
     Cliente cliente;
     ClienteDAO clienteDAO;
@@ -24,10 +24,10 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
         initComponents();
         this.cliente = cli;
         this.clienteDAO = dao;
-        
+
         if (cliente != null && clienteDAO != null) {
             carregaCamposCliente();
-            
+
             if (cliente.getTelefones() != null) {
                 atualizaTabelaTelefones(cliente.getTelefones());
             }
@@ -37,8 +37,7 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
             if (cliente.getEmails() != null) {
                 atualizaTabelaEmails(cliente.getEmails());
             }
-        }
-        else {
+        } else {
             clienteDAO = new ClienteDAO();
             cliente = new Cliente();
         }
@@ -553,7 +552,7 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
         tblListagemEnderecos.setModel(model);
         tblListagemEnderecos.repaint();
     }
-    
+
     //Botão Adicionar Telefone
     private void btnAdicionarTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarTelefoneActionPerformed
         try {
@@ -626,18 +625,31 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
         if (JOptionPane.showConfirmDialog(rootPane, "Deseja realemente salvar dos dados?") == 0) {
-            try {             
-                cliente.setNome(txtNome.getText());
-                cliente.setDataNascimento((Date) txtData.getValue());
-                cliente.setCPF(txtCPF.getText());
-                cliente.setRG(txtRG.getText());
-                cliente.setTipoPessoa("Fisica");
+            try {
+                boolean autenticacao = true;
+                if (clienteDAO.AutenticarCPF(txtCPF.getText())) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro! CPF ja cadastrado!");
+                    autenticacao = false;
+                }
+                if (clienteDAO.AutenticarRG(txtRG.getText())) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro! RG ja cadastrado!");
+                    autenticacao = false;
+                }
+                if (autenticacao) {
+                    cliente.setNome(txtNome.getText());
+                    cliente.setDataNascimento((Date) txtData.getValue());
+                    cliente.setCPF(txtCPF.getText());
+                    cliente.setRG(txtRG.getText());
+                    cliente.setTipoPessoa("Fisica");
 
-                clienteDAO.SalvarCliente(cliente);
-                JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
+                    clienteDAO.SalvarCliente(cliente);
+                    JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
+                    
+                    this.setVisible(false);
+                }
             } catch (ErroValidacaoException ex) {
                 JOptionPane.showMessageDialog(rootPane, "Erro de validação! " + ex.getMessage());
-                if(ex.getCampo() == "Nome"){
+                if (ex.getCampo() == "Nome") {
                     txtNome.setBackground(Color.red);
                 }
             } catch (Exception ex) {
@@ -667,7 +679,7 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(rootPane, "Exclusão cancelada pelo usuario");
         }
     }//GEN-LAST:event_btnApagarActionPerformed
-    
+
     //Botão Cancelar
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         if (JOptionPane.showConfirmDialog(rootPane, "Deseja realemente Cancelar?") == 0) {
