@@ -88,7 +88,7 @@ public class VendaRefeicao {
     }
 
     public void setFormaPagamento(String formaPagamento) throws Exception{
-        Pattern FormaPagamento = Pattern.compile("[\\w\\s]{3,}");
+        Pattern FormaPagamento = Pattern.compile("[\\w\\sÀ-àçã-õâ-ûéêõóòáúû]{3,}");
         Matcher verifica = FormaPagamento.matcher(formaPagamento);
 
         if (verifica.matches()) {
