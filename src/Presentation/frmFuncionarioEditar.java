@@ -1,4 +1,3 @@
-
 package Presentation;
 
 import DataAccess.CargoDAO;
@@ -26,32 +25,30 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
     UsuarioDAO usuarioDAO = new UsuarioDAO();
     Usuario usuario = new Usuario();
     Usuario userSistema = new Usuario();
-    
+
     //Construtor
     public frmFuncionarioEditar(Funcionario funcionario, FuncionarioDAO funcionarioDAO, Usuario usuario, Usuario userSistema) {
         initComponents();
-        
+
         this.funcionario = funcionario;
         this.funcionarioDAO = funcionarioDAO;
         this.usuario = usuario;
         this.userSistema = userSistema;
         carregaCargos();
         if (funcionario != null && funcionarioDAO != null) {
-            
+
             carregaCamposFuncionario();
-            
+
             if (funcionario.getTelefones() != null) {
                 atualizaTabelaTelefones(funcionario.getTelefones());
-            }   
+            }
             if (funcionario.getEnderecos() != null) {
                 atualizaTabelaEnderecos(funcionario.getEnderecos());
             }
             if (funcionario.getEmails() != null) {
                 atualizaTabelaEmails(funcionario.getEmails());
             }
-        }
-        else
-        {
+        } else {
             this.funcionario = new Funcionario();
             this.funcionarioDAO = new FuncionarioDAO();
         }
@@ -556,7 +553,7 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
         txtLogin.setText(usuario.getLogin());
         txtSenha.setText(usuario.getSenha());
     }
-    
+
     //Carrega os Cargos para o ComboBox
     private void carregaCargos() {
         List<Cargo> cargos = new ArrayList<Cargo>();
@@ -567,7 +564,7 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
             cbxCargo.addItem(c);
         }
     }
-    
+
     //Botão Adicionar Telefone
     private void btnAdicionarTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarTelefoneActionPerformed
         try {
@@ -641,28 +638,39 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
 
         if (JOptionPane.showConfirmDialog(rootPane, "Deseja realemente salvar dos dados?") == 0) {
             try {
-                Usuario user = new Usuario();
-                Cargo cargo = (Cargo) cbxCargo.getSelectedItem();
-                funcionario.setNome(txtNome.getText());
-                funcionario.setDataNascimento((Date) txtData.getValue());
-                funcionario.setCPF(txtCPF.getText());
-                funcionario.setRG(txtRG.getText());
-                funcionario.setTipoPessoa("Fisica");
-                funcionario.setCargo(cargo);
+                boolean autenticacao = true;
+                if (funcionarioDAO.AutenticarCPF(txtCPF.getText())) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro! CPF ja cadastrado!");
+                    autenticacao = false;
+                }
+                if (funcionarioDAO.AutenticarRG(txtRG.getText())) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro! RG ja cadastrado!");
+                    autenticacao = false;
+                }
+                if (autenticacao) {
+                    Usuario user = new Usuario();
+                    Cargo cargo = (Cargo) cbxCargo.getSelectedItem();
+                    funcionario.setNome(txtNome.getText());
+                    funcionario.setDataNascimento((Date) txtData.getValue());
+                    funcionario.setCPF(txtCPF.getText());
+                    funcionario.setRG(txtRG.getText());
+                    funcionario.setTipoPessoa("Fisica");
+                    funcionario.setCargo(cargo);
 
-                funcionarioDAO.SalvarFuncionario(funcionario);
-                
-                user.setFuncionario(funcionario);
-                user.setLogin(txtLogin.getText());
-                user.setSenha(txtSenha.getText());
-                
-                usuarioDAO.Salvar(user);
-                
-                this.setVisible(false);
-                frmFuncionarioBuscar janela = new frmFuncionarioBuscar(userSistema);
-                this.getParent().add(janela);
-                janela.setVisible(true);
-                JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
+                    funcionarioDAO.SalvarFuncionario(funcionario);
+
+                    user.setFuncionario(funcionario);
+                    user.setLogin(txtLogin.getText());
+                    user.setSenha(txtSenha.getText());
+
+                    usuarioDAO.Salvar(user);
+                    JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
+                    this.setVisible(false);
+                    frmFuncionarioBuscar janela = new frmFuncionarioBuscar(userSistema);
+                    this.getParent().add(janela);
+                    janela.setVisible(true);
+                    
+                }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(rootPane, "Erro ao Salvar os dados! " + ex.getMessage());
             }
@@ -759,7 +767,6 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
         tblListagemEnderecos.setModel(model);
         tblListagemEnderecos.repaint();
     }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionarEmail;
     private javax.swing.JButton btnAdicionarEndereco;

@@ -36,14 +36,14 @@
               <EmptySpace min="-2" pref="258" max="-2" attributes="0"/>
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-              <Component id="tpClientes" alignment="0" pref="899" max="32767" attributes="0"/>
+              <Component id="tpClientes" alignment="0" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="429" max="32767" attributes="0"/>
+              <EmptySpace pref="433" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="btnApagar" alignment="1" max="32767" attributes="0"/>
                   <Component id="btnSalvar" alignment="1" max="32767" attributes="0"/>
@@ -55,7 +55,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                   <Component id="tpClientes" min="-2" pref="373" max="-2" attributes="0"/>
-                  <EmptySpace pref="101" max="32767" attributes="0"/>
+                  <EmptySpace pref="105" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>
