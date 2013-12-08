@@ -190,7 +190,7 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
         try {
             String formaPagamento = (String) cbxFormaPagamento.getSelectedItem();
             Cliente clienteSelecionado = (Cliente) cbxCliente.getSelectedItem();
-            
+
             vendaRefeicao.setData(new Date());
             vendaRefeicao.setFormaPagamento(formaPagamento);
             vendaRefeicao.setCliente(clienteSelecionado);
@@ -233,17 +233,19 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
                 int quantidade = Integer.parseInt(txtQuantidade.getText());
                 Refeicao refeicaoSelecionada = (Refeicao) cbxRefeicao.getSelectedItem();
                 refeicaoSelecionada = refeicaoDAO.Abrir(refeicaoSelecionada.getCodigo());
-                
+
                 itemVenda = new ItemVendaRefeicao();
                 itemVenda.setQuantidade(quantidade);
                 itemVenda.setVendaRefeicao(vendaRefeicao);
                 itemVenda.setRefeicao(refeicaoSelecionada);
                 vendaRefeicao.addItemVenda(itemVenda);
-                
+
 
                 dao.Salvar(vendaRefeicao);
-                caixa.setSaldo(caixa.getSaldo() + vendaRefeicao.getValorTotal());
-                caixaDAO.Salvar(caixa);
+                if ("Á vista".equals(lblFormaPagamento.getText())) {
+                    caixa.setSaldo(caixa.getSaldo() + vendaRefeicao.getValorTotal());
+                    caixaDAO.Salvar(caixa);
+                }
 
                 JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
 
@@ -273,7 +275,7 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
 
     private void cbxRefeicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxRefeicaoActionPerformed
         txtTotalVenda.setText("R$  " + vendaRefeicao.getValorTotal());
-        
+
     }//GEN-LAST:event_cbxRefeicaoActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
