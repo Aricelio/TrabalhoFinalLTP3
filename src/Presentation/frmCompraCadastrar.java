@@ -367,20 +367,20 @@ public class frmCompraCadastrar extends javax.swing.JInternalFrame {
             itemCompra = new ItemCompra();
             itemCompra.setQuantidade(quantidade);
             itemCompra.setProduto(prodSelecionado);
-            
-            if ((itemCompra.getValorTotalItem() > caixa.getSaldo()) 
-             && ("Á vista".equals(compra.getFormaPagamento()))
-             && ((compra.getValorTotal() + itemCompra.getValorTotalItem()) > caixa.getSaldo())) 
+
+            if ((itemCompra.getValorTotalItem() > caixa.getSaldo())
+                    && ("Á vista".equals(compra.getFormaPagamento()))
+                    && ((compra.getValorTotal() + itemCompra.getValorTotalItem()) > caixa.getSaldo())) 
             {
                 JOptionPane.showMessageDialog(rootPane, "Valor total do produto é maior do que o valor em caixa.");
             } else {
-                prodSelecionado.setEstoque(prodSelecionado.getEstoque() + quantidade);   
+                prodSelecionado.setEstoque(prodSelecionado.getEstoque() + quantidade);
                 itemCompra.setCompra(compra);
                 compra.addItemCompra(itemCompra);
                 txtTotalCompra.setText("R$  " + compra.getValorTotal());
                 preencheTabela(compra.getItensCompra());
             }
-            
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, "Erro ao tentar Adicionar Produto! " + ex.getMessage());
         }
@@ -417,8 +417,12 @@ public class frmCompraCadastrar extends javax.swing.JInternalFrame {
                 CompraDAO compraDAO = new CompraDAO();
 
                 compraDAO.Salvar(compra);
-                caixa.setSaldo(caixa.getSaldo() - compra.getValorTotal());
-                caixaDAO.Salvar(caixa);
+
+                String formaPagamento = (String) cbxFormaPagamento.getSelectedItem();
+                if ("Á vista".equals(formaPagamento)) {
+                    caixa.setSaldo(caixa.getSaldo() - compra.getValorTotal());
+                    caixaDAO.Salvar(caixa);
+                }
 
                 JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
 
