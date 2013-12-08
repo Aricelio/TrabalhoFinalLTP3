@@ -3,7 +3,6 @@ package Presentation;
 import DataAccess.CaixaDAO;
 import DataAccess.CompraDAO;
 import DataAccess.FornecedorDAO;
-import DataAccess.FuncionarioDAO;
 import DataAccess.ProdutoDAO;
 import DominModel.Caixa;
 import DominModel.Compra;
@@ -306,14 +305,15 @@ public class frmCompraCadastrar extends javax.swing.JInternalFrame {
 
     //Seta o objeto compra
     private void carregaCompra() {
-        String formaPagamento = (String) cbxFormaPagamento.getSelectedItem();
-        FuncionarioDAO dao = new FuncionarioDAO();
-
+        String formaPagamento = (String) cbxFormaPagamento.getSelectedItem();       
+        Fornecedor fornecedorSelected = (Fornecedor) cbxFornecedor.getSelectedItem();
+        
         try {
             compra.setData(new Date());
             compra.setFormaPagamento(formaPagamento);
             compra.setFuncionario(funcionario);
             compra.setSessao(sessao);
+            compra.setFornecedor(fornecedorSelected);
         } catch (Exception ex) {
             Logger.getLogger(frmVendaCadastrar.class.getName()).log(Level.SEVERE, null, ex);
         }
