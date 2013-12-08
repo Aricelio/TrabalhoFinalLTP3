@@ -23,9 +23,9 @@ public class VendaRefeicaoDAO extends DAO{
     public boolean Salvar(VendaRefeicao obj) {
         if (obj.getCodigo() == 0) {
             try {
+                //Insere os dados na tabela de vendaRefeicao
                 PreparedStatement sql = getConexao().prepareStatement
                         ("insert into vendaRefeicao(data,valorTotal,formaPagamento,codSessao,codFuncionario,codCliente) values(?,?,?,?,?,?)");
-                //sql.setDate(1, new java.sql.Date(obj.getData().getTime()));
                 sql.setDate(1, new java.sql.Date(obj.getData().getTime()));
                 sql.setDouble(2, obj.getValorTotal());
                 sql.setString(3, obj.getFormaPagamento());
@@ -34,6 +34,7 @@ public class VendaRefeicaoDAO extends DAO{
                 sql.setInt(6, obj.getCliente().getCodigo());
                 sql.executeUpdate();
 
+                //Pega o código que foi gerado na tabela de VendaRefeicao
                 PreparedStatement sqlConsulta = getConexao().prepareStatement
                         ("select codVendaRefeicao  from vendaRefeicao where valorTotal=? and Data=? and formaPagamento=? and codSessao=? and codFuncionario=? and codCliente=?");
                 sqlConsulta.setDouble(1, obj.getValorTotal());
