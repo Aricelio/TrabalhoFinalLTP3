@@ -56,6 +56,7 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
         txtQuantidade = new javax.swing.JTextField();
         lblTotalVenda = new javax.swing.JLabel();
         txtTotalVenda = new javax.swing.JTextField();
+        btnGerarTotal = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -98,11 +99,6 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
         lblProduto.setText("Refeição:");
 
         cbxRefeicao.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        cbxRefeicao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxRefeicaoActionPerformed(evt);
-            }
-        });
 
         lblQuantidade.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblQuantidade.setText("Quantidade: ");
@@ -114,6 +110,14 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
 
         txtTotalVenda.setEditable(false);
         txtTotalVenda.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        btnGerarTotal.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnGerarTotal.setText("Gerar Total");
+        btnGerarTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGerarTotalActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,15 +139,8 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
                                 .addComponent(cbxFormaPagamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblCliente)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(89, 89, 89)
-                                        .addComponent(lblTotalVenda)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(48, 48, 48)
-                                        .addComponent(cbxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(48, 48, 48)
+                                .addComponent(cbxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblQuantidade)
                                 .addGap(12, 12, 12)
@@ -151,7 +148,13 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lblProduto)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbxRefeicao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(cbxRefeicao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblTotalVenda)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29)
+                                .addComponent(btnGerarTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(119, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -165,7 +168,7 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCliente)
                     .addComponent(cbxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblQuantidade)
                     .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -174,8 +177,9 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTotalVenda)
-                    .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                    .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGerarTotal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -212,7 +216,7 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
         }
     }
 
-    //Carrega o comboBox dos Produtos
+    //Carrega o comboBox dos Refeições
     private void carregaRefeicoes() {
         List<Refeicao> refeicoes = new ArrayList<Refeicao>();
         refeicoes = refeicaoDAO.ListarRefeicoes();
@@ -226,7 +230,7 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
     //Botão Salvar
     private void btnSalvarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarVendaActionPerformed
 
-        if (JOptionPane.showConfirmDialog(rootPane, "Deseja realemente salvar os dados?") == 0) {
+        if (JOptionPane.showConfirmDialog(rootPane, "Deseja realmente salvar os dados?") == 0) {
             try {
                 carregaVenda();
                 VendaRefeicaoDAO dao = new VendaRefeicaoDAO();
@@ -242,7 +246,8 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
 
 
                 dao.Salvar(vendaRefeicao);
-                if ("Á vista".equals(lblFormaPagamento.getText())) {
+                String formaPagamento = (String) cbxFormaPagamento.getSelectedItem();
+                if ("Á vista".equals(formaPagamento)) {
                     caixa.setSaldo(caixa.getSaldo() + vendaRefeicao.getValorTotal());
                     caixaDAO.Salvar(caixa);
                 }
@@ -273,12 +278,14 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void cbxRefeicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxRefeicaoActionPerformed
+    private void btnGerarTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarTotalActionPerformed
+        
         txtTotalVenda.setText("R$  " + vendaRefeicao.getValorTotal());
+    }//GEN-LAST:event_btnGerarTotalActionPerformed
 
-    }//GEN-LAST:event_cbxRefeicaoActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnGerarTotal;
     private javax.swing.JButton btnSalvarVenda;
     private javax.swing.JComboBox cbxCliente;
     private javax.swing.JComboBox cbxFormaPagamento;
