@@ -1,4 +1,3 @@
-
 package Presentation;
 
 import DataAccess.FornecedorDAO;
@@ -16,28 +15,26 @@ public class frmFornecedorEditar extends javax.swing.JInternalFrame {
     //Declaração de Variáveis
     Fornecedor fornecedor;
     FornecedorDAO fornecedorDAO;
-    
+
     //Construtor
     public frmFornecedorEditar(Fornecedor fornecedor, FornecedorDAO fornecedorDAO) {
         initComponents();
         this.fornecedor = fornecedor;
         this.fornecedorDAO = fornecedorDAO;
         if (fornecedor != null && fornecedorDAO != null) {
-            
+
             carregaCamposFornecedor();
-            
+
             if (fornecedor.getTelefones() != null) {
                 atualizaTabelaTelefones(fornecedor.getTelefones());
-            }   
+            }
             if (fornecedor.getEnderecos() != null) {
                 atualizaTabelaEnderecos(fornecedor.getEnderecos());
             }
             if (fornecedor.getEmails() != null) {
                 atualizaTabelaEmails(fornecedor.getEmails());
             }
-        }
-        else
-        {
+        } else {
             this.fornecedor = new Fornecedor();
             this.fornecedorDAO = new FornecedorDAO();
         }
@@ -48,7 +45,7 @@ public class frmFornecedorEditar extends javax.swing.JInternalFrame {
         txtNome.setText(fornecedor.getNome());
         txtCNPJ.setText(fornecedor.getCnpj());
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -533,13 +530,24 @@ public class frmFornecedorEditar extends javax.swing.JInternalFrame {
 
         if (JOptionPane.showConfirmDialog(rootPane, "Deseja realemente salvar dos dados?") == 0) {
             try {
-                fornecedor.setNome(txtNome.getText());
-                fornecedor.setCnpj(txtCNPJ.getText());
-                fornecedor.setTipoPessoa("Juridica");
-                
+                boolean autenticacao = true;
+                if (fornecedorDAO.AutenticarCNPJ(txtCNPJ.getText())) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro! CNPJ ja cadastrado!");
+                    autenticacao = false;
+                }
+                if (autenticacao) {
+                    fornecedor.setNome(txtNome.getText());
+                    fornecedor.setCnpj(txtCNPJ.getText());
+                    fornecedor.setTipoPessoa("Juridica");
 
-                fornecedorDAO.SalvarFornecedor(fornecedor);
-                JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
+                    fornecedorDAO.SalvarFornecedor(fornecedor);
+                    JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
+
+                    this.setVisible(false);
+                    frmFornecedorBuscar janela = new frmFornecedorBuscar();
+                    this.getParent().add(janela);
+                    janela.setVisible(true);
+                }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(rootPane, "Erro ao Salvar os dados! " + ex.getMessage());
             }
