@@ -155,4 +155,27 @@ public class FornecedorDAO extends PessoaDAO<Fornecedor> {
             return null;
         }
     }
+    
+    //Autenticar CNPJ
+    public boolean AutenticarCNPJ(String CNPJ){
+        try{
+            boolean retorno = false;
+            PreparedStatement sqlListarCPF = getConexao().prepareStatement
+                    ("select * from Pessoas P join Fornecedores F on P.codPessoa = F.codFornecedor where P.ativo = 1");
+            ResultSet resultado = sqlListarCPF.executeQuery();
+            
+            while(resultado.next()){
+                String resultadoCNPJ = resultado.getString("cnpj");
+                if(CNPJ.equals(resultadoCNPJ)){
+                    retorno = true;
+                    break;
+                }
+            }
+            return retorno;
+        }
+        catch(Exception ex){
+            System.err.println(ex.getMessage());
+            return false;
+        }
+    }
 }
