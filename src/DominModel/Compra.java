@@ -18,6 +18,7 @@ public class Compra {
     private String formaPagamento;
     private Sessao sessao;
     private Funcionario funcionario;
+    private Fornecedor fornecedor;
     private List<ItemCompra> itensCompra;
     
     //Construtor
@@ -54,6 +55,11 @@ public class Compra {
     public List<ItemCompra> getItensCompra(){
         return itensCompra;
     }
+
+    public Fornecedor getFornecedor() {
+        return fornecedor;
+    }
+    
     
     //Setters 
     public void setCodigo(int codigo) throws Exception{
@@ -101,6 +107,12 @@ public class Compra {
     public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
     }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+    
+    
     
     //Adiciona um item a compra
     public void addItemCompra(ItemCompra itemCompra) throws Exception{
@@ -131,15 +143,16 @@ public class Compra {
     //hashCode
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 11 * hash + Objects.hashCode(this.data);
-        hash = 11 * hash + (int) (Double.doubleToLongBits(this.valorTotal) ^ (Double.doubleToLongBits(this.valorTotal) >>> 32));
-        hash = 11 * hash + Objects.hashCode(this.formaPagamento);
-        hash = 11 * hash + Objects.hashCode(this.itensCompra);
+        int hash = 5;
+        hash = 89 * hash + Objects.hashCode(this.data);
+        hash = 89 * hash + (int) (Double.doubleToLongBits(this.valorTotal) ^ (Double.doubleToLongBits(this.valorTotal) >>> 32));
+        hash = 89 * hash + Objects.hashCode(this.formaPagamento);
+        hash = 89 * hash + Objects.hashCode(this.sessao);
+        hash = 89 * hash + Objects.hashCode(this.funcionario);
+        hash = 89 * hash + Objects.hashCode(this.fornecedor);
         return hash;
     }
-    
-    
+
     //equals
     @Override
     public boolean equals(Object obj) {
@@ -159,7 +172,13 @@ public class Compra {
         if (!Objects.equals(this.formaPagamento, other.formaPagamento)) {
             return false;
         }
-        if (!Objects.equals(this.itensCompra, other.itensCompra)) {
+        if (!Objects.equals(this.sessao, other.sessao)) {
+            return false;
+        }
+        if (!Objects.equals(this.funcionario, other.funcionario)) {
+            return false;
+        }
+        if (!Objects.equals(this.fornecedor, other.fornecedor)) {
             return false;
         }
         return true;
