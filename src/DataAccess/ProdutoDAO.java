@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProdutoDAO extends DAO {
+    
+    //Declaração de Variaveis
+    //FornecedorDAO fornecedorDAO = new FornecedorDAO();
 
     //Construtor
     public ProdutoDAO() {
@@ -22,6 +25,7 @@ public class ProdutoDAO extends DAO {
     public boolean Salvar(Produto obj) {
         if (obj.getCodigo() == 0) {
             try {
+                //Insere os dados na tabela de produtos
                 PreparedStatement sqlInsert = getConexao().prepareStatement
                         ("insert into produtos(nome,preco,descricao,codTipoProduto,ativo) values(?,?,?,?,?)");
                 sqlInsert.setString(1, obj.getNome());
@@ -31,6 +35,7 @@ public class ProdutoDAO extends DAO {
                 sqlInsert.setInt(5, obj.getAtivo());
                 sqlInsert.executeUpdate();
 
+                //Pega o codigo que foi gerado na tabela
                 PreparedStatement sqlConsulta = getConexao().prepareStatement
                         ("select codProduto from Produtos where nome= ? and descricao = ? and preco=? and codTipoProduto=?");
                 sqlConsulta.setString(1, obj.getNome());
@@ -51,8 +56,15 @@ public class ProdutoDAO extends DAO {
                     sqlInsertEstoque.setInt(1, obj.getEstoque());
                     sqlInsertEstoque.setInt(2, obj.getCodigo());
                 }
-
-
+                
+                //Salva os fornecedores do produto
+                for(ItemProdutoFornecedor p : obj.getFornecedores()){
+                    PreparedStatement sqlInsertItem = getConexao().prepareStatement
+                            ("insert into ItemProdutoFornecedor(codProduto,codFornecedor) values(?,?)");
+                    sqlInsertItem.setInt(1, obj.getCodigo());
+                    sqlInsertItem.setInt(2, p.getFornecedor().getCodigo());
+                    sqlInsertItem.executeUpdate();
+                }
                 return true;
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
@@ -69,8 +81,35 @@ public class ProdutoDAO extends DAO {
                 sql.setInt(4, obj.getTipo().getCodigo());
                 sql.setInt(5, obj.getCodigo());
                 sql.executeUpdate();
+                
+                //Deleta todos os registros referente ao produto da tabela ItemProdutoFornecedor
+                PreparedStatement sqlDeletaItem = getConexao().prepareStatement
+                            ("delete from ItemProdutoFornecedor where codProduto=?");
+                sqlDeletaItem.setInt(1, obj.getCodigo());
+                sqlDeletaItem.executeUpdate();
+                
+                //Salva os fornecedores do produto
+                for(ItemProdutoFornecedor p : obj.getFornecedores()){
+                    PreparedStatement sqlInsertItem = getConexao().prepareStatement
+                            ("insert into ItemProdutoFornecedor(codProduto,codFornecedor) values(?,?)");
+                    sqlInsertItem.setInt(1, obj.getCodigo());
+                    sqlInsertItem.setInt(2, p.getFornecedor().getCodigo());
+                    sqlInsertItem.executeUpdate();
+                }
+                
+                //Consulta a tabela de ItemProdutoFornecedor
+                /*PreparedStatement sqlConsultaItem = getConexao().prepareStatement
+                            ("select * from ItemProdutoFornecedor where codProduto=?");
+                sqlConsultaItem.setInt(1, obj.getCodigo());
+                
+                ResultSet resultConsulta = sqlConsultaItem.executeQuery();
+                List<Fornecedor> fornecedores = new ArrayList<Fornecedor>();
+                
+                while(resultConsulta.next()){
+                    fornecedores.add(fornecedorDAO.AbrirFornecedor(resultConsulta.getInt("codFornecedor")));
+                }*/
+                
                 return true;
-
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
                 return false;
@@ -92,6 +131,13 @@ public class ProdutoDAO extends DAO {
                 PreparedStatement sqlDeleteEstoque = getConexao().prepareStatement
                         ("delete from estoque where codProduto=?");
                 sqlDeleteEstoque.setInt(1, obj.getCodigo());
+                sqlDeleteEstoque.executeUpdate();
+                
+                //Remove o registro da tabela de itemProdutoFornecedor referente ao produto
+                PreparedStatement sqlDeletaItem = getConexao().prepareStatement
+                            ("delete from ItemProdutoFornecedor where codProduto=?");
+                sqlDeletaItem.setInt(1, obj.getCodigo());
+                sqlDeletaItem.executeUpdate();
 
                 return true;
             } catch (Exception ex) {
