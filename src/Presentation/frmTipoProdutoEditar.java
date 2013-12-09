@@ -263,6 +263,7 @@ public class frmTipoProdutoEditar extends javax.swing.JInternalFrame {
                 dao.SalvarTipo(tipo);
 
                 atualizaTabelaTipos(dao.ListarTipos());
+                carregaTipos();
 
                 JOptionPane.showMessageDialog(rootPane, "Tipo adicionado");
             } else {

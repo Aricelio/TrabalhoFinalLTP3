@@ -136,14 +136,17 @@ public class frmFuncionarioBuscar extends javax.swing.JInternalFrame {
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("Codigo");
             model.addColumn("Nome");
+            model.addColumn("Cargo");
             model.addColumn("Data de Nascimento");
+            
 
 
             for (Funcionario funcionario : lista) {
                 Vector valores = new Vector();
                 valores.add(0, funcionario.getCodigo());
                 valores.add(1, funcionario.getNome());
-                valores.add(2, funcionario.getDataNascimento());
+                valores.add(2, funcionario.getCargo().getCargo());
+                valores.add(3, funcionario.getDataNascimento());
                 model.addRow(valores);
             }
             tblListagem.setModel(model);

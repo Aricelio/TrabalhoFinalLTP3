@@ -179,9 +179,9 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
                                     .addComponent(lblCPF)
                                     .addComponent(lblSenha))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jpDadosGeraisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(jpDadosGeraisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                                    .addComponent(txtCPF, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE))))
                         .addGap(30, 30, 30)
                         .addGroup(jpDadosGeraisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jpDadosGeraisLayout.createSequentialGroup()
@@ -521,12 +521,12 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
                 .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(258, 258, 258))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(tpClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 899, Short.MAX_VALUE))
+                .addComponent(tpClientes))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(429, Short.MAX_VALUE)
+                .addContainerGap(437, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnApagar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -536,7 +536,7 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(25, 25, 25)
                     .addComponent(tpClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(101, Short.MAX_VALUE)))
+                    .addContainerGap(109, Short.MAX_VALUE)))
         );
 
         pack();
@@ -570,15 +570,18 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
         try {
             if (JOptionPane.showConfirmDialog(rootPane, "Deseja adicionar o Telefone?") == 0) {
                 Telefone t = new Telefone();
+
                 t.setDdd((byte) Integer.parseInt(txtDDD.getText()));
                 t.setOperadora((byte) Integer.parseInt(txtOperadora.getText()));
                 t.setTelefone(Integer.parseInt(txtTelefone.getText()));
 
-                funcionario.addTelefone(t);
-
-                atualizaTabelaTelefones(funcionario.getTelefones());
-
-                JOptionPane.showMessageDialog(rootPane, "Telefone adicionado");
+                if (funcionarioDAO.AutenticarTelefone(t)) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro! Telefone ja cadastrado!");
+                } else {
+                    funcionario.addTelefone(t);
+                    atualizaTabelaTelefones(funcionario.getTelefones());
+                    JOptionPane.showMessageDialog(rootPane, "Telefone adicionado");
+                }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Operação Cancelada");
             }
@@ -594,11 +597,13 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
                 Email e = new Email();
                 e.setEmail(txtEmail.getText());
 
-                funcionario.addEmail(e);
-
-                atualizaTabelaEmails(funcionario.getEmails());
-
-                JOptionPane.showMessageDialog(rootPane, "Email adicionado");
+                if (funcionarioDAO.AutenticarEmail(e)) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro! Telefone ja cadastrado!");
+                } else {
+                    funcionario.addEmail(e);
+                    atualizaTabelaEmails(funcionario.getEmails());
+                    JOptionPane.showMessageDialog(rootPane, "Email adicionado");
+                }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Operação Cancelada");
             }
@@ -669,7 +674,7 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
                     frmFuncionarioBuscar janela = new frmFuncionarioBuscar(userSistema);
                     this.getParent().add(janela);
                     janela.setVisible(true);
-                    
+
                 }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(rootPane, "Erro ao Salvar os dados! " + ex.getMessage());
