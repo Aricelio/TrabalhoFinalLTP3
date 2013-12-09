@@ -350,16 +350,14 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
 
         if (JOptionPane.showConfirmDialog(rootPane, "Deseja realemente salvar dos dados?") == 0) {
             try {
-                //produto = new Produto();
                 produtoDAO = new ProdutoDAO();
                 TipoProduto tipo = new TipoProduto();
 
                 tipo = (TipoProduto) cbxTipo.getSelectedItem();
                 produto.setNome(txtNome.getText());
                 produto.setDescricao(txtDescricao.getText());
-                produto.setPreco((long) txtPrecoF.getValue());
+                produto.setPreco((double) txtPrecoF.getValue());
                 produto.setTipo(tipo);
-
 
                 produtoDAO.Salvar(produto);
 
