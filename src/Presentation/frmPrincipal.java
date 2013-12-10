@@ -21,7 +21,7 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     //Declaração de Variaveis
     UsuarioDAO usuarioDAO = new UsuarioDAO();
-    Usuario usuario;
+    Usuario userSistema;
     CaixaDAO caixaDAO = new CaixaDAO();
     Funcionario funcionario = new Funcionario();
     Sessao sessao;
@@ -33,6 +33,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     public frmPrincipal(Funcionario funcionario) {
         initComponents();
         this.funcionario = funcionario;
+        userSistema = usuarioDAO.AbrirUsuario(funcionario.getCodigo());
         lblNomeUsuario.setText(this.funcionario.getNome());
         carregaSessao(funcionario);
     }
@@ -76,27 +77,27 @@ public class frmPrincipal extends javax.swing.JFrame {
         mniLogoff = new javax.swing.JMenuItem();
         mniSair = new javax.swing.JMenuItem();
         mnuProdutos = new javax.swing.JMenu();
-        mniNovoP = new javax.swing.JMenuItem();
-        mniBuscarP = new javax.swing.JMenuItem();
+        mniNovoProduto = new javax.swing.JMenuItem();
+        mniBuscarProduto = new javax.swing.JMenuItem();
         mniRelatorioProduto = new javax.swing.JMenu();
         mniRelatorioProdutoCadastrado = new javax.swing.JMenuItem();
         mniRelatorioProdutoEstoqueBaixo = new javax.swing.JMenuItem();
         mnuRefeicao = new javax.swing.JMenu();
-        mniNovoR = new javax.swing.JMenuItem();
+        mniNovoRefeicao = new javax.swing.JMenuItem();
         mniBuscarRefeicao = new javax.swing.JMenuItem();
-        mniRelatoriosR = new javax.swing.JMenuItem();
+        mniRelatoriosRefeicao = new javax.swing.JMenuItem();
         mnuClientes = new javax.swing.JMenu();
-        mniNovoC = new javax.swing.JMenuItem();
-        mniBuscarCli = new javax.swing.JMenuItem();
-        mniRelatoriosC = new javax.swing.JMenuItem();
+        mniNovoClientes = new javax.swing.JMenuItem();
+        mniBuscarClientes = new javax.swing.JMenuItem();
+        mniRelatoriosClientes = new javax.swing.JMenuItem();
         mnuFuncionarios = new javax.swing.JMenu();
-        mniNovoFu = new javax.swing.JMenuItem();
-        mniListarFu = new javax.swing.JMenuItem();
-        mniRelatoriosFu = new javax.swing.JMenuItem();
+        mniNovoFuncionario = new javax.swing.JMenuItem();
+        mniBuscarFuncionario = new javax.swing.JMenuItem();
+        mniRelatoriosFuncionarios = new javax.swing.JMenuItem();
         mnuFornecedores = new javax.swing.JMenu();
-        mniNovoFo = new javax.swing.JMenuItem();
+        mniNovoFornecedor = new javax.swing.JMenuItem();
         mniBuscarFornecedor = new javax.swing.JMenuItem();
-        mniRelatorios = new javax.swing.JMenuItem();
+        mniRelatoriosFornecedor = new javax.swing.JMenuItem();
         mnuTransacoes = new javax.swing.JMenu();
         mniVendaProduto = new javax.swing.JMenuItem();
         mniCompraProduto = new javax.swing.JMenuItem();
@@ -140,6 +141,11 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         mniSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Apagar.png"))); // NOI18N
         mniSair.setText("Fechar");
+        mniSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniSairActionPerformed(evt);
+            }
+        });
         mnuSGV.add(mniSair);
 
         jmbBarraMenu.add(mnuSGV);
@@ -147,23 +153,23 @@ public class frmPrincipal extends javax.swing.JFrame {
         mnuProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/caixa.png"))); // NOI18N
         mnuProdutos.setText("Produtos");
 
-        mniNovoP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Document-icon.png"))); // NOI18N
-        mniNovoP.setText("Novo");
-        mniNovoP.addActionListener(new java.awt.event.ActionListener() {
+        mniNovoProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Document-icon.png"))); // NOI18N
+        mniNovoProduto.setText("Novo");
+        mniNovoProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniNovoPActionPerformed(evt);
+                mniNovoProdutoActionPerformed(evt);
             }
         });
-        mnuProdutos.add(mniNovoP);
+        mnuProdutos.add(mniNovoProduto);
 
-        mniBuscarP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/pesquisa.png"))); // NOI18N
-        mniBuscarP.setText("Buscar");
-        mniBuscarP.addActionListener(new java.awt.event.ActionListener() {
+        mniBuscarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/pesquisa.png"))); // NOI18N
+        mniBuscarProduto.setText("Buscar");
+        mniBuscarProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniBuscarPActionPerformed(evt);
+                mniBuscarProdutoActionPerformed(evt);
             }
         });
-        mnuProdutos.add(mniBuscarP);
+        mnuProdutos.add(mniBuscarProduto);
 
         mniRelatorioProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/relatorio.png"))); // NOI18N
         mniRelatorioProduto.setText("Relatorios");
@@ -191,14 +197,14 @@ public class frmPrincipal extends javax.swing.JFrame {
         mnuRefeicao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/bolo.png"))); // NOI18N
         mnuRefeicao.setText("Refeicao");
 
-        mniNovoR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Document-icon.png"))); // NOI18N
-        mniNovoR.setText("Novo");
-        mniNovoR.addActionListener(new java.awt.event.ActionListener() {
+        mniNovoRefeicao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Document-icon.png"))); // NOI18N
+        mniNovoRefeicao.setText("Novo");
+        mniNovoRefeicao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniNovoRActionPerformed(evt);
+                mniNovoRefeicaoActionPerformed(evt);
             }
         });
-        mnuRefeicao.add(mniNovoR);
+        mnuRefeicao.add(mniNovoRefeicao);
 
         mniBuscarRefeicao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/pesquisa.png"))); // NOI18N
         mniBuscarRefeicao.setText("Buscar");
@@ -209,9 +215,9 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         mnuRefeicao.add(mniBuscarRefeicao);
 
-        mniRelatoriosR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/relatorio.png"))); // NOI18N
-        mniRelatoriosR.setText("Relatórios");
-        mnuRefeicao.add(mniRelatoriosR);
+        mniRelatoriosRefeicao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/relatorio.png"))); // NOI18N
+        mniRelatoriosRefeicao.setText("Relatórios");
+        mnuRefeicao.add(mniRelatoriosRefeicao);
 
         jmbBarraMenu.add(mnuRefeicao);
 
@@ -219,68 +225,68 @@ public class frmPrincipal extends javax.swing.JFrame {
         mnuClientes.setText("Clientes");
         mnuClientes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        mniNovoC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Pessoa.png"))); // NOI18N
-        mniNovoC.setText("Novo");
-        mniNovoC.addActionListener(new java.awt.event.ActionListener() {
+        mniNovoClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Pessoa.png"))); // NOI18N
+        mniNovoClientes.setText("Novo");
+        mniNovoClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniNovoCActionPerformed(evt);
+                mniNovoClientesActionPerformed(evt);
             }
         });
-        mnuClientes.add(mniNovoC);
+        mnuClientes.add(mniNovoClientes);
 
-        mniBuscarCli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/pesquisa.png"))); // NOI18N
-        mniBuscarCli.setText("Buscar");
-        mniBuscarCli.addActionListener(new java.awt.event.ActionListener() {
+        mniBuscarClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/pesquisa.png"))); // NOI18N
+        mniBuscarClientes.setText("Buscar");
+        mniBuscarClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniBuscarCliActionPerformed(evt);
+                mniBuscarClientesActionPerformed(evt);
             }
         });
-        mnuClientes.add(mniBuscarCli);
+        mnuClientes.add(mniBuscarClientes);
 
-        mniRelatoriosC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/relatorio.png"))); // NOI18N
-        mniRelatoriosC.setText("Relatórios");
-        mnuClientes.add(mniRelatoriosC);
+        mniRelatoriosClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/relatorio.png"))); // NOI18N
+        mniRelatoriosClientes.setText("Relatórios");
+        mnuClientes.add(mniRelatoriosClientes);
 
         jmbBarraMenu.add(mnuClientes);
 
         mnuFuncionarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Contact-Card-icon.png"))); // NOI18N
         mnuFuncionarios.setText("Funcionarios");
 
-        mniNovoFu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Pessoa.png"))); // NOI18N
-        mniNovoFu.setText("Novo");
-        mniNovoFu.addActionListener(new java.awt.event.ActionListener() {
+        mniNovoFuncionario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Pessoa.png"))); // NOI18N
+        mniNovoFuncionario.setText("Novo");
+        mniNovoFuncionario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniNovoFuActionPerformed(evt);
+                mniNovoFuncionarioActionPerformed(evt);
             }
         });
-        mnuFuncionarios.add(mniNovoFu);
+        mnuFuncionarios.add(mniNovoFuncionario);
 
-        mniListarFu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/pesquisa.png"))); // NOI18N
-        mniListarFu.setText("Buscar");
-        mniListarFu.addActionListener(new java.awt.event.ActionListener() {
+        mniBuscarFuncionario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/pesquisa.png"))); // NOI18N
+        mniBuscarFuncionario.setText("Buscar");
+        mniBuscarFuncionario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniListarFuActionPerformed(evt);
+                mniBuscarFuncionarioActionPerformed(evt);
             }
         });
-        mnuFuncionarios.add(mniListarFu);
+        mnuFuncionarios.add(mniBuscarFuncionario);
 
-        mniRelatoriosFu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/relatorio.png"))); // NOI18N
-        mniRelatoriosFu.setText("Relatorios");
-        mnuFuncionarios.add(mniRelatoriosFu);
+        mniRelatoriosFuncionarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/relatorio.png"))); // NOI18N
+        mniRelatoriosFuncionarios.setText("Relatorios");
+        mnuFuncionarios.add(mniRelatoriosFuncionarios);
 
         jmbBarraMenu.add(mnuFuncionarios);
 
         mnuFornecedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Casa.png"))); // NOI18N
         mnuFornecedores.setText("Fornecedores");
 
-        mniNovoFo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Casa.png"))); // NOI18N
-        mniNovoFo.setText("Novo");
-        mniNovoFo.addActionListener(new java.awt.event.ActionListener() {
+        mniNovoFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Casa.png"))); // NOI18N
+        mniNovoFornecedor.setText("Novo");
+        mniNovoFornecedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniNovoFoActionPerformed(evt);
+                mniNovoFornecedorActionPerformed(evt);
             }
         });
-        mnuFornecedores.add(mniNovoFo);
+        mnuFornecedores.add(mniNovoFornecedor);
 
         mniBuscarFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/pesquisa.png"))); // NOI18N
         mniBuscarFornecedor.setText("Buscar");
@@ -291,9 +297,9 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         mnuFornecedores.add(mniBuscarFornecedor);
 
-        mniRelatorios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/relatorio.png"))); // NOI18N
-        mniRelatorios.setText("Relatórios");
-        mnuFornecedores.add(mniRelatorios);
+        mniRelatoriosFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/relatorio.png"))); // NOI18N
+        mniRelatoriosFornecedor.setText("Relatórios");
+        mnuFornecedores.add(mniRelatoriosFornecedor);
 
         jmbBarraMenu.add(mnuFornecedores);
 
@@ -365,28 +371,28 @@ public class frmPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void mniBuscarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBuscarPActionPerformed
+    private void mniBuscarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBuscarProdutoActionPerformed
 
         frmProdutoBuscar janela = new frmProdutoBuscar();
         add(janela);
         janela.setVisible(true);
-    }//GEN-LAST:event_mniBuscarPActionPerformed
+    }//GEN-LAST:event_mniBuscarProdutoActionPerformed
 
-    private void mniNovoRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoRActionPerformed
+    private void mniNovoRefeicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoRefeicaoActionPerformed
         frmRefeicaoEditar janela = new frmRefeicaoEditar(null, null);
         add(janela);
         janela.setVisible(true);
-    }//GEN-LAST:event_mniNovoRActionPerformed
+    }//GEN-LAST:event_mniNovoRefeicaoActionPerformed
 
     private void mniLogoffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLogoffActionPerformed
         logoff();
     }//GEN-LAST:event_mniLogoffActionPerformed
 
-    private void mniNovoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoPActionPerformed
+    private void mniNovoProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoProdutoActionPerformed
         frmProdutoEditar janela = new frmProdutoEditar(null, null, true);
         add(janela);
         janela.setVisible(true);
-    }//GEN-LAST:event_mniNovoPActionPerformed
+    }//GEN-LAST:event_mniNovoProdutoActionPerformed
 
     private void mniVendaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVendaProdutoActionPerformed
         frmVendaCadastrar janela = new frmVendaCadastrar(funcionario,sessao);
@@ -394,37 +400,36 @@ public class frmPrincipal extends javax.swing.JFrame {
         janela.setVisible(true);
     }//GEN-LAST:event_mniVendaProdutoActionPerformed
 
-    private void mniBuscarCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBuscarCliActionPerformed
+    private void mniBuscarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBuscarClientesActionPerformed
         frmClienteBuscar janela = new frmClienteBuscar();
         add(janela);
         janela.setVisible(true);
-    }//GEN-LAST:event_mniBuscarCliActionPerformed
+    }//GEN-LAST:event_mniBuscarClientesActionPerformed
 
-    private void mniNovoCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoCActionPerformed
+    private void mniNovoClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoClientesActionPerformed
         frmClienteEditar janela = new frmClienteEditar(null, null);
         add(janela);
         janela.setVisible(true);
-    }//GEN-LAST:event_mniNovoCActionPerformed
+    }//GEN-LAST:event_mniNovoClientesActionPerformed
 
-    private void mniNovoFoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoFoActionPerformed
+    private void mniNovoFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoFornecedorActionPerformed
         frmFornecedorEditar janela = new frmFornecedorEditar(null, null);
         add(janela);
         janela.setVisible(true);
-    }//GEN-LAST:event_mniNovoFoActionPerformed
+    }//GEN-LAST:event_mniNovoFornecedorActionPerformed
 
-    private void mniListarFuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListarFuActionPerformed
-        Usuario userSistema;
-        userSistema = usuarioDAO.AbrirUsuario(funcionario.getCodigo());
+    private void mniBuscarFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBuscarFuncionarioActionPerformed
+        //Usuario userSistema;
+        //userSistema = usuarioDAO.AbrirUsuario(funcionario.getCodigo());
         frmFuncionarioBuscar janela = new frmFuncionarioBuscar(userSistema);
         add(janela);
         janela.setVisible(true);
-    }//GEN-LAST:event_mniListarFuActionPerformed
+    }//GEN-LAST:event_mniBuscarFuncionarioActionPerformed
 
-    private void mniNovoFuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoFuActionPerformed
-        usuario = usuarioDAO.AbrirUsuario(funcionario.getCodigo());
-                
-        if (("root".equals(usuario.getLogin())) && ("root".equals(usuario.getSenha()))){
-            frmFuncionarioEditar janela = new frmFuncionarioEditar(null, null, null, usuario);
+    private void mniNovoFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoFuncionarioActionPerformed
+        //userSistema = usuarioDAO.AbrirUsuario(funcionario.getCodigo());        
+        if (("root".equals(userSistema.getLogin())) && ("root".equals(userSistema.getSenha()))){
+            frmFuncionarioEditar janela = new frmFuncionarioEditar(null, null, null, userSistema);
             add(janela);
             janela.setVisible(true);
         }
@@ -432,7 +437,7 @@ public class frmPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Para acessar esse formulario é preciso ser usuario administrador");
         }
             
-    }//GEN-LAST:event_mniNovoFuActionPerformed
+    }//GEN-LAST:event_mniNovoFuncionarioActionPerformed
 
     private void mniBuscarFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBuscarFornecedorActionPerformed
         frmFornecedorBuscar janela = new frmFornecedorBuscar();
@@ -534,6 +539,10 @@ public class frmPrincipal extends javax.swing.JFrame {
         }*/
     }//GEN-LAST:event_mniRelatorioProdutoEstoqueBaixoActionPerformed
 
+    private void mniSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSairActionPerformed
+        logoff();
+    }//GEN-LAST:event_mniSairActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -578,25 +587,25 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel lblNomeUsuario;
     private javax.swing.JLabel lblSessao;
     private javax.swing.JLabel lblUsuario;
-    private javax.swing.JMenuItem mniBuscarCli;
+    private javax.swing.JMenuItem mniBuscarClientes;
     private javax.swing.JMenuItem mniBuscarFornecedor;
-    private javax.swing.JMenuItem mniBuscarP;
+    private javax.swing.JMenuItem mniBuscarFuncionario;
+    private javax.swing.JMenuItem mniBuscarProduto;
     private javax.swing.JMenuItem mniBuscarRefeicao;
     private javax.swing.JMenuItem mniCompraProduto;
-    private javax.swing.JMenuItem mniListarFu;
     private javax.swing.JMenuItem mniLogoff;
-    private javax.swing.JMenuItem mniNovoC;
-    private javax.swing.JMenuItem mniNovoFo;
-    private javax.swing.JMenuItem mniNovoFu;
-    private javax.swing.JMenuItem mniNovoP;
-    private javax.swing.JMenuItem mniNovoR;
+    private javax.swing.JMenuItem mniNovoClientes;
+    private javax.swing.JMenuItem mniNovoFornecedor;
+    private javax.swing.JMenuItem mniNovoFuncionario;
+    private javax.swing.JMenuItem mniNovoProduto;
+    private javax.swing.JMenuItem mniNovoRefeicao;
     private javax.swing.JMenu mniRelatorioProduto;
     private javax.swing.JMenuItem mniRelatorioProdutoCadastrado;
     private javax.swing.JMenuItem mniRelatorioProdutoEstoqueBaixo;
-    private javax.swing.JMenuItem mniRelatorios;
-    private javax.swing.JMenuItem mniRelatoriosC;
-    private javax.swing.JMenuItem mniRelatoriosFu;
-    private javax.swing.JMenuItem mniRelatoriosR;
+    private javax.swing.JMenuItem mniRelatoriosClientes;
+    private javax.swing.JMenuItem mniRelatoriosFornecedor;
+    private javax.swing.JMenuItem mniRelatoriosFuncionarios;
+    private javax.swing.JMenuItem mniRelatoriosRefeicao;
     private javax.swing.JMenuItem mniSair;
     private javax.swing.JMenuItem mniVendaProduto;
     private javax.swing.JMenuItem mniVendaRefeicao;
@@ -619,8 +628,6 @@ public class frmPrincipal extends javax.swing.JFrame {
             sessao.setDataTermino(data);
             sessao.setSaldoFechamento(caixa.getSaldo());
             sessaoDAO.Salvar(sessao);
-
-
             frmLogin janela = new frmLogin();
 
             janela.setVisible(true);
