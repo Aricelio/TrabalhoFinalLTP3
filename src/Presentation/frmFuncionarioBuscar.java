@@ -138,8 +138,6 @@ public class frmFuncionarioBuscar extends javax.swing.JInternalFrame {
             model.addColumn("Nome");
             model.addColumn("Cargo");
             model.addColumn("Data de Nascimento");
-            
-
 
             for (Funcionario funcionario : lista) {
                 Vector valores = new Vector();
