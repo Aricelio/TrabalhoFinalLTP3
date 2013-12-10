@@ -360,16 +360,16 @@ public class PessoaDAO<T extends Pessoa> extends DAO {
     }
     
     //Autenticar CPF
-    public boolean AutenticarCPF(String CPF){
+    public boolean AutenticarCPF(String CPF, Pessoa pessoa){
         try{
             boolean retorno = false;
             PreparedStatement sqlListarCPF = getConexao().prepareStatement
-                    ("select cpf from Pessoas where ativo = 1");
+                    ("select * from Pessoas where ativo = 1");
             ResultSet resultado = sqlListarCPF.executeQuery();
             
             while(resultado.next()){
                 String resultadoCPF = resultado.getString("cpf");
-                if(CPF.equals(resultadoCPF)){
+                if((CPF.equals(resultadoCPF)) && (pessoa.getCodigo() != resultado.getInt("codPessoa"))){
                     retorno = true;
                     break;
                 }
@@ -383,16 +383,63 @@ public class PessoaDAO<T extends Pessoa> extends DAO {
     }
     
     //Autenticar RG
-    public boolean AutenticarRG(String RG){
+    public boolean AutenticarRG(String RG, Pessoa pessoa){
         try{
             boolean retorno = false;
             PreparedStatement sqlListarCPF = getConexao().prepareStatement
-                    ("select rg from Pessoas where ativo = 1");
+                    ("select * from Pessoas where ativo = 1");
             ResultSet resultado = sqlListarCPF.executeQuery();
             
             while(resultado.next()){
                 String resultadoRG = resultado.getString("rg");
-                if(RG.equals(resultadoRG)){
+                if((RG.equals(resultadoRG)) && (pessoa.getCodigo() != resultado.getInt("codPessoa"))){
+                    retorno = true;
+                    break;
+                }
+            }
+            return retorno;
+        }
+        catch(Exception ex){
+            System.err.println(ex.getMessage());
+            return false;
+        }
+    }
+    
+    //Autenticar email
+    public boolean AutenticarEmail(Email email){
+        try{
+            boolean retorno = false;
+            PreparedStatement sqlListarCPF = getConexao().prepareStatement
+                    ("select email from Pessoas P join Emails E on P.codPessoa = E.codPessoa where ativo = 1");
+            ResultSet resultado = sqlListarCPF.executeQuery();
+            
+            while(resultado.next()){
+                String resultadoEmail = resultado.getString("email");
+                if(email.getEmail().equals(resultadoEmail)){
+                    retorno = true;
+                    break;
+                }
+            }
+            return retorno;
+        }
+        catch(Exception ex){
+            System.err.println(ex.getMessage());
+            return false;
+        }
+    }
+    
+    //Autenticar telefone
+    public boolean AutenticarTelefone(Telefone telefone){
+        try{
+            boolean retorno = false;
+            PreparedStatement sqlListarCPF = getConexao().prepareStatement
+                    ("select ddd,operadora,telefone from Pessoas P join Telefones T on P.codPessoa = T.codPessoa where ativo = 1");
+            ResultSet resultado = sqlListarCPF.executeQuery();
+            
+            while(resultado.next()){
+                if((telefone.getDdd() == resultado.getByte("ddd")) 
+                && ((telefone.getOperadora() == resultado.getByte("operadora"))) 
+                && ((telefone.getTelefone() == resultado.getInt("telefone")))){
                     retorno = true;
                     break;
                 }
