@@ -50,13 +50,13 @@ public class UsuarioDAO extends DAO {
                 sqlUpdate.setInt(4, obj.getFuncionario().getCodigo());
 
                 sqlUpdate.executeUpdate();
+                return true;
 
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
                 return false;
             }
         }
-        return false;
     }
 
     //Método Remover Usuario
