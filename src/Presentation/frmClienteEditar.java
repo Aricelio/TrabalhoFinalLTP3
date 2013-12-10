@@ -562,11 +562,13 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
                 t.setOperadora((byte) Integer.parseInt(txtOperadora.getText()));
                 t.setTelefone(Integer.parseInt(txtTelefone.getText()));
 
-                cliente.addTelefone(t);
-
-                atualizaTabelaTelefones(cliente.getTelefones());
-
-                JOptionPane.showMessageDialog(rootPane, "Telefone adicionado");
+                if (clienteDAO.AutenticarTelefone(t)) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro! Telefone ja cadastrado!");
+                } else {
+                    cliente.addTelefone(t);
+                    atualizaTabelaTelefones(cliente.getTelefones());
+                    JOptionPane.showMessageDialog(rootPane, "Telefone adicionado");
+                }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Operação Cancelada");
             }
@@ -581,12 +583,13 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
             if (JOptionPane.showConfirmDialog(rootPane, "Deseja adicionar o Email?") == 0) {
                 Email e = new Email();
                 e.setEmail(txtEmail.getText());
-
-                cliente.addEmail(e);
-
-                atualizaTabelaEmails(cliente.getEmails());
-
-                JOptionPane.showMessageDialog(rootPane, "Email adicionado");
+                if (clienteDAO.AutenticarEmail(e)) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro! Email ja cadastrado!");
+                } else {
+                    cliente.addEmail(e);
+                    atualizaTabelaEmails(cliente.getEmails());
+                    JOptionPane.showMessageDialog(rootPane, "Email adicionado");
+                }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Operação Cancelada");
             }
@@ -627,11 +630,11 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
         if (JOptionPane.showConfirmDialog(rootPane, "Deseja realemente salvar dos dados?") == 0) {
             try {
                 boolean autenticacao = true;
-                if (clienteDAO.AutenticarCPF(txtCPF.getText())) {
+                if (clienteDAO.AutenticarCPF(txtCPF.getText(), cliente)) {
                     JOptionPane.showMessageDialog(rootPane, "Erro! CPF ja cadastrado!");
                     autenticacao = false;
                 }
-                if (clienteDAO.AutenticarRG(txtRG.getText())) {
+                if (clienteDAO.AutenticarRG(txtRG.getText(), cliente)) {
                     JOptionPane.showMessageDialog(rootPane, "Erro! RG ja cadastrado!");
                     autenticacao = false;
                 }
@@ -644,7 +647,7 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
 
                     clienteDAO.SalvarCliente(cliente);
                     JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
-                    
+
                     this.setVisible(false);
                 }
             } catch (ErroValidacaoException ex) {
