@@ -72,6 +72,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         lblSessao = new javax.swing.JLabel();
         txtInicioSessao = new javax.swing.JFormattedTextField();
         lblNomeUsuario = new javax.swing.JLabel();
+        lblFundo = new javax.swing.JLabel();
         jmbBarraMenu = new javax.swing.JMenuBar();
         mnuSGV = new javax.swing.JMenu();
         mniLogoff = new javax.swing.JMenuItem();
@@ -108,7 +109,8 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenu6.setText("jMenu6");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("SGC ICIL");
+        setTitle("SGR ICIL");
+        setBackground(new java.awt.Color(255, 255, 255));
         setName("JFPrincipal"); // NOI18N
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -126,6 +128,8 @@ public class frmPrincipal extends javax.swing.JFrame {
         txtInicioSessao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
 
         lblNomeUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        lblFundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/login2.JPG"))); // NOI18N
 
         mnuSGV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Icones/Sucesso.png"))); // NOI18N
         mnuSGV.setText("SGV");
@@ -343,22 +347,29 @@ public class frmPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(sprInferior, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(624, Short.MAX_VALUE)
-                .addComponent(lblSessao)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtInicioSessao, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(235, 235, 235)
-                .addComponent(lblUsuario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59))
+                .addContainerGap(422, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblSessao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtInicioSessao, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(235, 235, 235)
+                        .addComponent(lblUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(59, 59, 59))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblFundo, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(381, 381, 381))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(602, Short.MAX_VALUE)
+                .addGap(48, 48, 48)
+                .addComponent(lblFundo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                 .addComponent(sprInferior, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblUsuario)
@@ -584,6 +595,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JPopupMenu jPopupMenu3;
     private javax.swing.JMenuBar jmbBarraMenu;
+    private javax.swing.JLabel lblFundo;
     private javax.swing.JLabel lblNomeUsuario;
     private javax.swing.JLabel lblSessao;
     private javax.swing.JLabel lblUsuario;
