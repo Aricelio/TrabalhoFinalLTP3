@@ -1,6 +1,7 @@
 package DataAccess;
 
 import DominModel.Cliente;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -30,7 +31,15 @@ public class ClienteDAO extends PessoaDAO<Cliente> {
                 return false;
             }
         } 
-        return false;
+        else{
+            try {
+                super.SalvarPessoa(cli);
+                return true;
+            } catch (Exception ex) {
+                System.err.println(ex.getMessage());
+                return false;
+            }
+        }
     }
     
     //Método Abrir Cliente
