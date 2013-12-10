@@ -38,6 +38,7 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
         if (funcionario != null && funcionarioDAO != null) {
 
             carregaCamposFuncionario();
+            //usuario = usuarioDAO.AbrirUsuario(funcionario.getCodigo());
 
             if (funcionario.getTelefones() != null) {
                 atualizaTabelaTelefones(funcionario.getTelefones());
@@ -544,7 +545,6 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
 
     //Carregar campos do Funcionario
     private void carregaCamposFuncionario() {
-        usuario = usuarioDAO.AbrirUsuario(funcionario.getCodigo());
         txtNome.setText(funcionario.getNome());
         txtData.setValue(funcionario.getDataNascimento());
         txtRG.setText(funcionario.getRG());
@@ -598,7 +598,7 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
                 e.setEmail(txtEmail.getText());
 
                 if (funcionarioDAO.AutenticarEmail(e)) {
-                    JOptionPane.showMessageDialog(rootPane, "Erro! Telefone ja cadastrado!");
+                    JOptionPane.showMessageDialog(rootPane, "Erro! Email ja cadastrado!");
                 } else {
                     funcionario.addEmail(e);
                     atualizaTabelaEmails(funcionario.getEmails());
@@ -644,16 +644,15 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
         if (JOptionPane.showConfirmDialog(rootPane, "Deseja realemente salvar dos dados?") == 0) {
             try {
                 boolean autenticacao = true;
-                if (funcionarioDAO.AutenticarCPF(txtCPF.getText())) {
+                if (funcionarioDAO.AutenticarCPF(txtCPF.getText(), funcionario)) {
                     JOptionPane.showMessageDialog(rootPane, "Erro! CPF ja cadastrado!");
                     autenticacao = false;
                 }
-                if (funcionarioDAO.AutenticarRG(txtRG.getText())) {
+                if (funcionarioDAO.AutenticarRG(txtRG.getText(), funcionario)) {
                     JOptionPane.showMessageDialog(rootPane, "Erro! RG ja cadastrado!");
                     autenticacao = false;
                 }
                 if (autenticacao) {
-                    Usuario user = new Usuario();
                     Cargo cargo = (Cargo) cbxCargo.getSelectedItem();
                     funcionario.setNome(txtNome.getText());
                     funcionario.setDataNascimento((Date) txtData.getValue());
@@ -664,17 +663,15 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
 
                     funcionarioDAO.SalvarFuncionario(funcionario);
 
-                    user.setFuncionario(funcionario);
-                    user.setLogin(txtLogin.getText());
-                    user.setSenha(txtSenha.getText());
-
-                    usuarioDAO.Salvar(user);
+                    usuario.setLogin(txtLogin.getText());
+                    usuario.setSenha(txtSenha.getText());
+                    usuarioDAO.Salvar(usuario);
+                    
                     JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
                     this.setVisible(false);
                     frmFuncionarioBuscar janela = new frmFuncionarioBuscar(userSistema);
                     this.getParent().add(janela);
                     janela.setVisible(true);
-
                 }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(rootPane, "Erro ao Salvar os dados! " + ex.getMessage());
