@@ -466,11 +466,13 @@ public class frmFornecedorEditar extends javax.swing.JInternalFrame {
                 t.setOperadora((byte) Integer.parseInt(txtOperadora.getText()));
                 t.setTelefone(Integer.parseInt(txtTelefone.getText()));
 
-                fornecedor.addTelefone(t);
-
-                atualizaTabelaTelefones(fornecedor.getTelefones());
-
-                JOptionPane.showMessageDialog(rootPane, "Telefone adicionado");
+                if (fornecedorDAO.AutenticarTelefone(t)) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro! Telefone ja cadastrado!");
+                } else {
+                    fornecedor.addTelefone(t);
+                    atualizaTabelaTelefones(fornecedor.getTelefones());
+                    JOptionPane.showMessageDialog(rootPane, "Telefone adicionado");
+                }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Operação Cancelada");
             }
@@ -486,11 +488,13 @@ public class frmFornecedorEditar extends javax.swing.JInternalFrame {
                 Email e = new Email();
                 e.setEmail(txtEmail.getText());
 
-                fornecedor.addEmail(e);
-
-                atualizaTabelaEmails(fornecedor.getEmails());
-
-                JOptionPane.showMessageDialog(rootPane, "Email adicionado");
+                if (fornecedorDAO.AutenticarEmail(e)) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro! Email ja cadastrado!");
+                } else {
+                    fornecedor.addEmail(e);
+                    atualizaTabelaEmails(fornecedor.getEmails());
+                    JOptionPane.showMessageDialog(rootPane, "Email adicionado");
+                }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Operação Cancelada");
             }
@@ -531,7 +535,7 @@ public class frmFornecedorEditar extends javax.swing.JInternalFrame {
         if (JOptionPane.showConfirmDialog(rootPane, "Deseja realemente salvar dos dados?") == 0) {
             try {
                 boolean autenticacao = true;
-                if (fornecedorDAO.AutenticarCNPJ(txtCNPJ.getText())) {
+                if (fornecedorDAO.AutenticarCNPJ(txtCNPJ.getText(), fornecedor)) {
                     JOptionPane.showMessageDialog(rootPane, "Erro! CNPJ ja cadastrado!");
                     autenticacao = false;
                 }
