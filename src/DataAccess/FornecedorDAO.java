@@ -157,7 +157,7 @@ public class FornecedorDAO extends PessoaDAO<Fornecedor> {
     }
     
     //Autenticar CNPJ
-    public boolean AutenticarCNPJ(String CNPJ){
+    public boolean AutenticarCNPJ(String CNPJ, Fornecedor obj){
         try{
             boolean retorno = false;
             PreparedStatement sqlListarCPF = getConexao().prepareStatement
@@ -166,7 +166,7 @@ public class FornecedorDAO extends PessoaDAO<Fornecedor> {
             
             while(resultado.next()){
                 String resultadoCNPJ = resultado.getString("cnpj");
-                if(CNPJ.equals(resultadoCNPJ)){
+                if((CNPJ.equals(resultadoCNPJ)) && (obj.getCodigo() != resultado.getInt("codPessoa"))){
                     retorno = true;
                     break;
                 }
