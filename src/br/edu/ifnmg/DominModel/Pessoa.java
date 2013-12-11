@@ -10,7 +10,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Pessoa {
-
     private int codigo;
     private CategoriaPessoa categoriaPessoa;
     private String nome;
