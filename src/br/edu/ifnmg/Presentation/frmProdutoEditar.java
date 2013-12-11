@@ -10,6 +10,8 @@ import br.edu.ifnmg.DominModel.TipoProduto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,7 +29,7 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
         initComponents();
         this.produto = p;
         this.produtoDAO = dao;
-        
+
 
         carregaTipos();
         carregaFornecedores();
@@ -36,6 +38,14 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
             carregaCampos();
             fornecedores = produtoDAO.ListarItemProdutoFornecedor(produto);
             preencheTabela(fornecedores);
+
+            for (ItemProdutoFornecedor i : fornecedores) {
+                try {
+                    produto.addFornecedor(i);
+                } catch (Exception ex) {
+                    Logger.getLogger(frmProdutoEditar.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         } else {
             preencheTabela(null);
             produto = new Produto();
@@ -419,10 +429,13 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
             itemProdutoFornecedor = new ItemProdutoFornecedor();
             itemProdutoFornecedor.setFornecedor(fornecedorSelecionado);
             itemProdutoFornecedor.setProduto(produto);
+            itemProdutoFornecedor.setCodigo(produto.getCodigo());
 
             produto.addFornecedor(itemProdutoFornecedor);
-
-            preencheTabela(produto.getFornecedores());
+            if (!fornecedores.contains(itemProdutoFornecedor)) {
+                fornecedores.add(itemProdutoFornecedor);
+                preencheTabela(fornecedores);
+            }
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, "Erro ao tentar Adicionar Fornecedor! " + ex.getMessage());
@@ -433,13 +446,13 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
         try {
             Fornecedor fornecedorSelecionado = (Fornecedor) cbxFornecedor.getSelectedItem();
 
-            for (ItemProdutoFornecedor i : produto.getFornecedores()) {
+            for (ItemProdutoFornecedor i : produto.getItemFornecedores()) {
                 if (i.getFornecedor() == fornecedorSelecionado) {
                     produto.removeFornecedor(i);
                     break;
                 }
             }
-            preencheTabela(produto.getFornecedores());
+            preencheTabela(produto.getItemFornecedores());
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, "Erro ao tentar Remover o Fornecedor! " + ex.getMessage());
