@@ -631,11 +631,11 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
             try {
                 boolean autenticacao = true;
                 if (clienteDAO.AutenticarCPF(txtCPF.getText(), cliente)) {
-                    JOptionPane.showMessageDialog(rootPane, "Erro! CPF ja cadastrado!");
+                    JOptionPane.showMessageDialog(rootPane, "CPF ja cadastrado!");
                     autenticacao = false;
                 }
                 if (clienteDAO.AutenticarRG(txtRG.getText(), cliente)) {
-                    JOptionPane.showMessageDialog(rootPane, "Erro! RG ja cadastrado!");
+                    JOptionPane.showMessageDialog(rootPane, "RG ja cadastrado!");
                     autenticacao = false;
                 }
                 if (autenticacao) {
@@ -648,13 +648,19 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
                     clienteDAO.SalvarCliente(cliente);
                     JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
 
+
+
                     this.setVisible(false);
+                    frmClienteBuscar janela = new frmClienteBuscar();
+                    this.getParent().add(janela);
+                    janela.setVisible(true);
                 }
             } catch (ErroValidacaoException ex) {
                 JOptionPane.showMessageDialog(rootPane, "Erro de validação! " + ex.getMessage());
-                if (ex.getCampo() == "Nome") {
+                if ("Nome".equals(ex.getCampo())) {
                     txtNome.setBackground(Color.red);
                 }
+
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(rootPane, "Erro ao Salvar os dados! Consulte o administrador do sistema!");
             }
