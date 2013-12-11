@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1d32b14d-c307-4d62-8f6e-33c00298a665">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select * from Pessoas P join Funcionarios F on P.codPessoa = F.codFuncionario where ativo=1]]>
+	</queryString>
+	<field name="codPessoa" class="java.lang.Integer"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="dataNascimento" class="java.sql.Date"/>
+	<field name="rg" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="tipoPessoa" class="java.lang.String"/>
+	<field name="categoriaPessoa" class="java.lang.String"/>
+	<field name="ativo" class="java.lang.Integer"/>
+	<field name="codFuncionario" class="java.lang.Integer"/>
+	<field name="codCargo" class="java.lang.Integer"/>
+	<group name="nome">
+		<groupExpression><![CDATA[$F{nome}]]></groupExpression>
+		<groupHeader>
+			<band height="33">
+				<line>
+					<reportElement uuid="978e1a9e-3f08-4905-ba1b-934749dc6cb9" x="-20" y="32" width="595" height="1" forecolor="#666666"/>
+				</line>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="9de6f394-885c-492d-b425-cbd8c7921ac7" x="175" y="0" width="158" height="31"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{dataNascimento}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="2447fe36-b26e-45bc-ae4c-2289f765567d" x="333" y="0" width="117" height="33"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{rg}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="f49b8fe1-7fef-4f5b-9aec-56b98cc57538" x="450" y="0" width="105" height="33"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="eaa767a0-daf5-4aa9-aac6-cd9c8379074b" x="0" y="-1" width="175" height="34"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="64">
+			<frame>
+				<reportElement uuid="abfb87f9-d52f-4739-8d67-675e2c720cb9" mode="Opaque" x="-20" y="-20" width="595" height="82" backcolor="#009933"/>
+				<image>
+					<reportElement uuid="0439ec34-73e8-4deb-b607-9a65762531d0" x="20" y="13" width="99" height="49"/>
+					<imageExpression><![CDATA["C:\\Users\\Celio Souza\\Documents\\NetBeansProjects\\TrabalhoFinal\\src\\br\\edu\\ifnmg\\Imagens\\Icones\\logo.jpg"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement uuid="85de612f-817f-4ef1-8e8c-0c0df5cae2f9" x="142" y="41" width="324" height="22" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Relatório de Clientes cadastrados]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="3135b958-cee4-4d28-b434-0233d1567569" x="171" y="8" width="245" height="33" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="14"/>
+					</textElement>
+					<text><![CDATA[Sistema de Gerenciamento de Restaurantes ICIL]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="5"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement uuid="7a513cbf-d331-495f-800e-e037cdb18b24" x="-20" y="20" width="595" height="1" forecolor="#666666"/>
+			</line>
+			<staticText>
+				<reportElement uuid="b783b415-31db-4160-a4f2-f9caed4bfb59" mode="Opaque" x="175" y="0" width="158" height="19" forecolor="#009933" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de Nascimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4cc1a29b-19d2-41b0-b6e5-82110439debb" mode="Opaque" x="333" y="0" width="117" height="20" forecolor="#009933" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f7e16ed6-7918-4638-bced-f4641cf41c94" mode="Opaque" x="450" y="0" width="125" height="20" forecolor="#009933" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4cc1a29b-19d2-41b0-b6e5-82110439debb" mode="Opaque" x="-20" y="1" width="195" height="19" forecolor="#009933" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="4"/>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement uuid="1eaf7e56-646d-48c6-913c-fb9c2b0b9b66" mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="ab5c8622-94aa-4d1e-8385-9da18f4533ea" mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="5e27772b-a7e0-403c-8ae3-598bca7a57b0" x="0" y="4" width="100" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
