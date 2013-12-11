@@ -6,11 +6,13 @@ import br.edu.ifnmg.DataAccess.ClienteDAO;
 import br.edu.ifnmg.DataAccess.ProdutoDAO;
 import br.edu.ifnmg.DataAccess.VendaDAO;
 import br.edu.ifnmg.DominModel.Caixa;
+import br.edu.ifnmg.DominModel.ErroValidacaoException;
 import br.edu.ifnmg.DominModel.Funcionario;
 import br.edu.ifnmg.DominModel.ItemVenda;
 import br.edu.ifnmg.DominModel.Produto;
 import br.edu.ifnmg.DominModel.Sessao;
 import br.edu.ifnmg.DominModel.Venda;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -183,7 +185,7 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
                 .addGroup(pnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCliente)
                     .addComponent(cbxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(235, Short.MAX_VALUE))
+                .addContainerGap(239, Short.MAX_VALUE))
         );
 
         tpVendas.addTab("Geral", pnGeral);
@@ -239,6 +241,11 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
         lblQuantidade.setText("Quantidade: ");
 
         txtQuantidade.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtQuantidade.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtQuantidadeMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnItensLayout = new javax.swing.GroupLayout(pnItens);
         pnItens.setLayout(pnItensLayout);
@@ -280,7 +287,7 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
                         .addGroup(pnItensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblTotalVenda)
                             .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(54, Short.MAX_VALUE))
+                        .addContainerGap(58, Short.MAX_VALUE))
                     .addGroup(pnItensLayout.createSequentialGroup()
                         .addGroup(pnItensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbxProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -331,7 +338,7 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tpVendas)
+                .addComponent(tpVendas, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -386,24 +393,41 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
     //Botão Adicionar produto
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         try {
+            boolean erroQtde = false;
             carregaVenda();
             Produto prodSelecionado = (Produto) cbxProduto.getSelectedItem();
             prodSelecionado = produtoDAO.Abrir(prodSelecionado.getCodigo());
-            int quantidade = Integer.parseInt(txtQuantidade.getText());
-
-            if (prodSelecionado.getEstoque() >= quantidade) {
-                prodSelecionado.setEstoque(prodSelecionado.getEstoque() - quantidade);
-                itemVenda = new ItemVenda();
-                itemVenda.setProduto(prodSelecionado);
-                itemVenda.setQuantidade(quantidade);
-                itemVenda.setVenda(venda);
-                venda.addItemVenda(itemVenda);
-                txtTotalVenda.setText("R$  " + venda.getValorTotal());
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Não há estoque suficiente para este produto.");
+            int quantidade = -1;
+            try {
+                quantidade = Integer.parseInt(txtQuantidade.getText());
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(rootPane, "Erro! Valor passado para o campo quantidade deve ser um numero inteiro positivo");
+                txtQuantidade.setBackground(Color.red);
+                erroQtde = true;
             }
-            preencheTabela(venda.getItensVenda());
 
+            if (quantidade > 0) {
+                if (prodSelecionado.getEstoque() >= quantidade) {
+                    prodSelecionado.setEstoque(prodSelecionado.getEstoque() - quantidade);
+                    itemVenda = new ItemVenda();
+                    itemVenda.setProduto(prodSelecionado);
+                    itemVenda.setQuantidade(quantidade);
+                    itemVenda.setVenda(venda);
+                    venda.addItemVenda(itemVenda);
+                    txtTotalVenda.setText("R$  " + venda.getValorTotal());
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Não há estoque suficiente para este produto.");
+                }
+                preencheTabela(venda.getItensVenda());
+            } else if (!erroQtde) {
+                JOptionPane.showMessageDialog(rootPane, "Erro! Valor passado para o campo quantidade deve ser um numero inteiro positivo");
+                txtQuantidade.setBackground(Color.red);
+            }
+        } catch (ErroValidacaoException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Erro de validação! " + ex.getMessage());
+            if ("quantidade".equals(ex.getCampo())) {
+                txtQuantidade.setBackground(Color.red);
+            }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, "Erro ao tentar Adicionar Produto! " + ex.getMessage());
         }
@@ -433,6 +457,10 @@ public class frmVendaCadastrar extends javax.swing.JInternalFrame {
     private void cbxProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProdutoActionPerformed
         txtQuantidade.setText("");
     }//GEN-LAST:event_cbxProdutoActionPerformed
+
+    private void txtQuantidadeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtQuantidadeMouseClicked
+        txtQuantidade.setBackground(Color.WHITE);
+    }//GEN-LAST:event_txtQuantidadeMouseClicked
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnCancelar;
