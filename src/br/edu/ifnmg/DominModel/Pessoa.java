@@ -107,25 +107,25 @@ public class Pessoa {
         }
     }
 
-    public void setRG(String rg) throws Exception {
+    public void setRG(String rg) throws ErroValidacaoException {
         Pattern PRG = Pattern.compile("[\\d\\w\\.-]{6,20}");
         Matcher verificacao = PRG.matcher(rg);
 
         if (verificacao.matches()) {
             this.RG = rg;
         } else {
-            throw new Exception("Entrada para o campo RG INVALIDA!");
+            throw new ErroValidacaoException("Entrada para o campo RG INVALIDA!","rg");
         }
     }
 
-    public void setCPF(String CPF) throws Exception {
+    public void setCPF(String CPF) throws ErroValidacaoException {
         Pattern Pcpf = Pattern.compile("\\d{3}.\\d{3}.\\d{3}-\\d{2}");
         Matcher verificacao = Pcpf.matcher(CPF);
 
         if (verificacao.matches()) {
             this.CPF = CPF;
         } else {
-            throw new Exception("Entrada para o campo CPF INVALIDA!");
+            throw new ErroValidacaoException("Entrada para o campo CPF INVALIDA!","cpf");
         }
 
     }
