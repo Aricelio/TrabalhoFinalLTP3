@@ -11,6 +11,7 @@ import br.edu.ifnmg.DominModel.Funcionario;
 import br.edu.ifnmg.DominModel.ItemCompra;
 import br.edu.ifnmg.DominModel.Produto;
 import br.edu.ifnmg.DominModel.Sessao;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -194,6 +195,11 @@ public class frmCompraCadastrar extends javax.swing.JInternalFrame {
         lblQuantidade.setText("Quantidade: ");
 
         txtQuantidade.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtQuantidade.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtQuantidadeMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnItensLayout = new javax.swing.GroupLayout(pnItens);
         pnItens.setLayout(pnItensLayout);
@@ -289,7 +295,7 @@ public class frmCompraCadastrar extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(395, Short.MAX_VALUE)
+                .addContainerGap(399, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -297,7 +303,7 @@ public class frmCompraCadastrar extends javax.swing.JInternalFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(tpVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 121, Short.MAX_VALUE)))
+                    .addGap(0, 125, Short.MAX_VALUE)))
         );
 
         pack();
@@ -305,9 +311,9 @@ public class frmCompraCadastrar extends javax.swing.JInternalFrame {
 
     //Seta o objeto compra
     private void carregaCompra() {
-        String formaPagamento = (String) cbxFormaPagamento.getSelectedItem();       
+        String formaPagamento = (String) cbxFormaPagamento.getSelectedItem();
         Fornecedor fornecedorSelected = (Fornecedor) cbxFornecedor.getSelectedItem();
-        
+
         try {
             compra.setData(new Date());
             compra.setFormaPagamento(formaPagamento);
@@ -359,28 +365,39 @@ public class frmCompraCadastrar extends javax.swing.JInternalFrame {
     //Botão Adicionar
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         try {
+            boolean erroQtde = false;
             carregaCompra();
             Produto prodSelecionado = (Produto) cbxProduto.getSelectedItem();
-            int quantidade = Integer.parseInt(txtQuantidade.getText());
             prodSelecionado = produtoDAO.Abrir(prodSelecionado.getCodigo());
-
-            itemCompra = new ItemCompra();
-            itemCompra.setQuantidade(quantidade);
-            itemCompra.setProduto(prodSelecionado);
-
-            if ((itemCompra.getValorTotalItem() > caixa.getSaldo())
-                    && ("Á vista".equals(compra.getFormaPagamento()))
-                    && ((compra.getValorTotal() + itemCompra.getValorTotalItem()) > caixa.getSaldo())) 
-            {
-                JOptionPane.showMessageDialog(rootPane, "Valor total do produto é maior do que o valor em caixa.");
-            } else {
-                prodSelecionado.setEstoque(prodSelecionado.getEstoque() + quantidade);
-                itemCompra.setCompra(compra);
-                compra.addItemCompra(itemCompra);
-                txtTotalCompra.setText("R$  " + compra.getValorTotal());
-                preencheTabela(compra.getItensCompra());
+            int quantidade = -1;
+            try {
+                quantidade = Integer.parseInt(txtQuantidade.getText());
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(rootPane, "Erro! Valor passado para o campo quantidade deve ser um numero inteiro positivo");
+                txtQuantidade.setBackground(Color.red);
+                erroQtde = true;
             }
 
+            if (quantidade > 0) {
+                itemCompra = new ItemCompra();
+                itemCompra.setQuantidade(quantidade);
+                itemCompra.setProduto(prodSelecionado);
+
+                if ((itemCompra.getValorTotalItem() > caixa.getSaldo())
+                        && ("Á vista".equals(compra.getFormaPagamento()))
+                        && ((compra.getValorTotal() + itemCompra.getValorTotalItem()) > caixa.getSaldo())) {
+                    JOptionPane.showMessageDialog(rootPane, "Valor total do produto é maior do que o valor em caixa.");
+                } else {
+                    prodSelecionado.setEstoque(prodSelecionado.getEstoque() + quantidade);
+                    itemCompra.setCompra(compra);
+                    compra.addItemCompra(itemCompra);
+                    txtTotalCompra.setText("R$  " + compra.getValorTotal());
+                    preencheTabela(compra.getItensCompra());
+                }
+            } else if (!erroQtde) {
+                JOptionPane.showMessageDialog(rootPane, "Erro! Valor passado para o campo quantidade deve ser um numero inteiro positivo");
+                txtQuantidade.setBackground(Color.red);
+            }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, "Erro ao tentar Adicionar Produto! " + ex.getMessage());
         }
@@ -449,6 +466,10 @@ public class frmCompraCadastrar extends javax.swing.JInternalFrame {
             janela.setVisible(true);
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtQuantidadeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtQuantidadeMouseClicked
+        txtQuantidade.setBackground(Color.WHITE);
+    }//GEN-LAST:event_txtQuantidadeMouseClicked
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnCancelar;
