@@ -6,9 +6,11 @@ import br.edu.ifnmg.DataAccess.UsuarioDAO;
 import br.edu.ifnmg.DominModel.Cargo;
 import br.edu.ifnmg.DominModel.Email;
 import br.edu.ifnmg.DominModel.Endereco;
+import br.edu.ifnmg.DominModel.ErroValidacaoException;
 import br.edu.ifnmg.DominModel.Funcionario;
 import br.edu.ifnmg.DominModel.Telefone;
 import br.edu.ifnmg.DominModel.Usuario;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -119,6 +121,11 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
         tpClientes.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         txtNome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtNome.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtNomeMouseClicked(evt);
+            }
+        });
 
         lblNome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblNome.setText("Nome:");
@@ -134,11 +141,21 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
         lblRG.setText("RG: ");
 
         txtRG.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtRG.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtRGMouseClicked(evt);
+            }
+        });
 
         lblCPF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblCPF.setText("CPF: ");
 
         txtCPF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCPF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtCPFMouseClicked(evt);
+            }
+        });
 
         lblCPF1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblCPF1.setText("Cargo:");
@@ -527,7 +544,7 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(441, Short.MAX_VALUE)
+                .addContainerGap(445, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnApagar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -537,7 +554,7 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(25, 25, 25)
                     .addComponent(tpClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(113, Short.MAX_VALUE)))
+                    .addContainerGap(117, Short.MAX_VALUE)))
         );
 
         pack();
@@ -673,8 +690,20 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
                     this.getParent().add(janela);
                     janela.setVisible(true);
                 }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(rootPane, "Erro ao Salvar os dados! " + ex.getMessage());
+            }catch (ErroValidacaoException ex) {
+                JOptionPane.showMessageDialog(rootPane, "Erro de validação! " + ex.getMessage());
+                if ("Nome".equals(ex.getCampo())) {
+                    txtNome.setBackground(Color.red);
+                }
+                if("cpf".equals(ex.getCampo())){
+                    txtCPF.setBackground(Color.red);
+                }
+                if("rg".equals(ex.getCampo())){
+                    txtRG.setBackground(Color.red);
+                }
+            }
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(rootPane, "Erro ao Salvar os dados!Consulte o administrador do sistema!");
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Cadastro cancelado pelo usuario");
@@ -710,6 +739,18 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
             janela.setVisible(true);
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtRGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtRGMouseClicked
+        txtRG.setBackground(Color.WHITE);
+    }//GEN-LAST:event_txtRGMouseClicked
+
+    private void txtCPFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCPFMouseClicked
+        txtCPF.setBackground(Color.WHITE);
+    }//GEN-LAST:event_txtCPFMouseClicked
+
+    private void txtNomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNomeMouseClicked
+        txtNome.setBackground(Color.WHITE);
+    }//GEN-LAST:event_txtNomeMouseClicked
 
     //Atualiza a tabela de Telefones
     private void atualizaTabelaTelefones(List<Telefone> telefones) {
@@ -769,6 +810,8 @@ public class frmFuncionarioEditar extends javax.swing.JInternalFrame {
         tblListagemEnderecos.setModel(model);
         tblListagemEnderecos.repaint();
     }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionarEmail;
     private javax.swing.JButton btnAdicionarEndereco;
