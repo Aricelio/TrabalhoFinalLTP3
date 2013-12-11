@@ -112,6 +112,11 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
         tpClientes.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         txtNome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtNome.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtNomeMouseClicked(evt);
+            }
+        });
 
         lblNome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblNome.setText("Nome:");
@@ -127,11 +132,21 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
         lblRG.setText("RG: ");
 
         txtRG.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtRG.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtRGMouseClicked(evt);
+            }
+        });
 
         lblCPF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblCPF.setText("CPF: ");
 
         txtCPF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCPF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtCPFMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jpDadosGeraisLayout = new javax.swing.GroupLayout(jpDadosGerais);
         jpDadosGerais.setLayout(jpDadosGeraisLayout);
@@ -173,7 +188,7 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
                     .addComponent(txtRG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblCPF)
                     .addComponent(txtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(315, Short.MAX_VALUE))
+                .addContainerGap(327, Short.MAX_VALUE))
         );
 
         tpClientes.addTab("Dados Gerais", jpDadosGerais);
@@ -251,7 +266,7 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
                     .addComponent(btnAdicionarTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDDD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -308,7 +323,7 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAdicionarEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -431,7 +446,7 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addComponent(btnAdicionarEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)))
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -481,7 +496,7 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tpClientes)
+                .addComponent(tpClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnApagar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -648,8 +663,6 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
                     clienteDAO.SalvarCliente(cliente);
                     JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
 
-
-
                     this.setVisible(false);
                     frmClienteBuscar janela = new frmClienteBuscar();
                     this.getParent().add(janela);
@@ -660,7 +673,12 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
                 if ("Nome".equals(ex.getCampo())) {
                     txtNome.setBackground(Color.red);
                 }
-
+                if("cpf".equals(ex.getCampo())){
+                    txtCPF.setBackground(Color.red);
+                }
+                if("rg".equals(ex.getCampo())){
+                    txtRG.setBackground(Color.red);
+                }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(rootPane, "Erro ao Salvar os dados! Consulte o administrador do sistema!");
             }
@@ -698,6 +716,19 @@ public class frmClienteEditar extends javax.swing.JInternalFrame {
             janela.setVisible(true);
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtNomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNomeMouseClicked
+        txtNome.setBackground(Color.WHITE);
+    }//GEN-LAST:event_txtNomeMouseClicked
+
+    private void txtRGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtRGMouseClicked
+        txtRG.setBackground(Color.WHITE);
+    }//GEN-LAST:event_txtRGMouseClicked
+
+    private void txtCPFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCPFMouseClicked
+        txtCPF.setBackground(Color.WHITE);
+    }//GEN-LAST:event_txtCPFMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionarEmail;
     private javax.swing.JButton btnAdicionarEndereco;
