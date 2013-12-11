@@ -381,6 +381,7 @@ public class frmProdutoEditar extends javax.swing.JInternalFrame {
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(rootPane, "Erro ao Salvar os dados! " + ex.getMessage());
             }
+            
         } else {
             JOptionPane.showMessageDialog(rootPane, "Cadastro cancelado pelo usuario");
         }
