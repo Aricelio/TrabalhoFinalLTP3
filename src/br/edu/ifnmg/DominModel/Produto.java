@@ -53,7 +53,7 @@ public class Produto {
         return estoque;
     }
 
-    public List<ItemProdutoFornecedor> getFornecedores() {
+    public List<ItemProdutoFornecedor> getItemFornecedores() {
         return fornecedores;
     }
 
