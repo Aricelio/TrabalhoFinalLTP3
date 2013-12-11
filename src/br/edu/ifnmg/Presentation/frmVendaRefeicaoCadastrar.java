@@ -11,6 +11,7 @@ import br.edu.ifnmg.DominModel.ItemVendaRefeicao;
 import br.edu.ifnmg.DominModel.Refeicao;
 import br.edu.ifnmg.DominModel.Sessao;
 import br.edu.ifnmg.DominModel.VendaRefeicao;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -104,6 +105,11 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
         lblQuantidade.setText("Quantidade: ");
 
         txtQuantidade.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtQuantidade.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtQuantidadeMouseClicked(evt);
+            }
+        });
 
         lblTotalVenda.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblTotalVenda.setText("Total da Venda: ");
@@ -168,7 +174,7 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCliente)
                     .addComponent(cbxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblQuantidade)
                     .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -179,7 +185,7 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
                     .addComponent(lblTotalVenda)
                     .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGerarTotal))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -232,33 +238,46 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
 
         if (JOptionPane.showConfirmDialog(rootPane, "Deseja realmente salvar os dados?") == 0) {
             try {
+                boolean erroQtde = false;
                 carregaVenda();
                 VendaRefeicaoDAO dao = new VendaRefeicaoDAO();
-                int quantidade = Integer.parseInt(txtQuantidade.getText());
                 Refeicao refeicaoSelecionada = (Refeicao) cbxRefeicao.getSelectedItem();
                 refeicaoSelecionada = refeicaoDAO.Abrir(refeicaoSelecionada.getCodigo());
 
-                itemVenda = new ItemVendaRefeicao();
-                itemVenda.setQuantidade(quantidade);
-                itemVenda.setVendaRefeicao(vendaRefeicao);
-                itemVenda.setRefeicao(refeicaoSelecionada);
-                vendaRefeicao.addItemVenda(itemVenda);
-
-
-                dao.Salvar(vendaRefeicao);
-                String formaPagamento = (String) cbxFormaPagamento.getSelectedItem();
-                if ("Á vista".equals(formaPagamento)) {
-                    caixa.setSaldo(caixa.getSaldo() + vendaRefeicao.getValorTotal());
-                    caixaDAO.Salvar(caixa);
+                int quantidade = -1;
+                try {
+                    quantidade = Integer.parseInt(txtQuantidade.getText());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro! Valor passado para o campo quantidade deve ser um numero inteiro positivo");
+                    txtQuantidade.setBackground(Color.red);
+                    erroQtde = true;
                 }
 
-                JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
+                if (quantidade > 0) {
+                    itemVenda = new ItemVendaRefeicao();
+                    itemVenda.setQuantidade(quantidade);
+                    itemVenda.setVendaRefeicao(vendaRefeicao);
+                    itemVenda.setRefeicao(refeicaoSelecionada);
+                    vendaRefeicao.addItemVenda(itemVenda);
 
-                //Fecha a tela atual e abre a tela de busca
-                this.setVisible(false);
-                frmRefeicaoBuscar janela = new frmRefeicaoBuscar();
-                this.getParent().add(janela);
-                janela.setVisible(true);
+                    dao.Salvar(vendaRefeicao);
+                    String formaPagamento = (String) cbxFormaPagamento.getSelectedItem();
+                    if ("Á vista".equals(formaPagamento)) {
+                        caixa.setSaldo(caixa.getSaldo() + vendaRefeicao.getValorTotal());
+                        caixaDAO.Salvar(caixa);
+                    }
+
+                    JOptionPane.showMessageDialog(rootPane, "Dados Salvos com Sucesso!");
+
+                    //Fecha a tela atual e abre a tela de busca
+                    this.setVisible(false);
+                    frmRefeicaoBuscar janela = new frmRefeicaoBuscar();
+                    this.getParent().add(janela);
+                    janela.setVisible(true);
+                } else if (!erroQtde) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro! Valor passado para o campo quantidade deve ser um numero inteiro positivo");
+                    txtQuantidade.setBackground(Color.red);
+                }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(rootPane, "Erro ao Salvar os dados! " + ex.getMessage());
             }
@@ -279,10 +298,13 @@ public class frmVendaRefeicaoCadastrar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnGerarTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarTotalActionPerformed
-        
+
         txtTotalVenda.setText("R$  " + vendaRefeicao.getValorTotal());
     }//GEN-LAST:event_btnGerarTotalActionPerformed
 
+    private void txtQuantidadeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtQuantidadeMouseClicked
+        txtQuantidade.setBackground(Color.WHITE);
+    }//GEN-LAST:event_txtQuantidadeMouseClicked
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGerarTotal;
