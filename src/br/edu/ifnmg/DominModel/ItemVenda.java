@@ -46,11 +46,11 @@ public class ItemVenda {
         }
     }
 
-    public void setQuantidade(int quantidade) throws Exception {
+    public void setQuantidade(int quantidade) throws ErroValidacaoException {
         if (quantidade > 0) {
             this.quantidade = quantidade;
         } else {
-            throw new Exception("Valor passado para o campo 'quantidade' não pode ser negativo!");
+            throw new ErroValidacaoException("Valor passado para o campo 'quantidade' não pode ser negativo!","quantidade");
         }
 
     }
