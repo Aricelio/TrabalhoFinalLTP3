@@ -220,6 +220,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Clientes Cadastrados"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniRelatorioClientesCadastradosActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="mniRelatorioClientesEmAberto">
                   <Properties>
@@ -228,6 +231,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Clientes em Aberto"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniRelatorioClientesEmAbertoActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -278,6 +284,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Funcionarios Cadastrados"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniRelatorioFuncionariosCadastradosActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -328,6 +337,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Fornecedores Cadastrados"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniRelatoriosFornecedoresCadastradosActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="mniRelatoriosFornecedorAPagar">
                   <Properties>
@@ -336,6 +348,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Fornecedores &#xc1; pagar"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniRelatoriosFornecedorAPagarActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -420,14 +435,16 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="sprInferior" alignment="1" max="32767" attributes="0"/>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="643" max="32767" attributes="0"/>
+              <EmptySpace pref="375" max="32767" attributes="0"/>
+              <Component id="jLabel1" min="-2" pref="316" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
               <Component id="lblSessao" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="txtInicioSessao" min="-2" pref="90" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="235" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               <Component id="lblUsuario" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="lblNomeUsuario" min="-2" pref="80" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="lblNomeUsuario" min="-2" pref="179" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -443,6 +460,7 @@
                       <Component id="lblUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lblSessao" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtInicioSessao" max="32767" attributes="0"/>
+                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="lblNomeUsuario" max="32767" attributes="0"/>
               </Group>
@@ -483,6 +501,14 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="14" style="0"/>
         </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="14" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Sistema de Gerenciamento de Restaurantes ICIL"/>
       </Properties>
     </Component>
   </SubComponents>

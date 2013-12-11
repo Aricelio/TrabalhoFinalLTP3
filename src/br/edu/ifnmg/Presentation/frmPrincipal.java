@@ -16,6 +16,12 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class frmPrincipal extends javax.swing.JFrame {
 
@@ -72,6 +78,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         lblSessao = new javax.swing.JLabel();
         txtInicioSessao = new javax.swing.JFormattedTextField();
         lblNomeUsuario = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jmbBarraMenu = new javax.swing.JMenuBar();
         mnuSGV = new javax.swing.JMenu();
         mniLogoff = new javax.swing.JMenuItem();
@@ -132,6 +139,9 @@ public class frmPrincipal extends javax.swing.JFrame {
         txtInicioSessao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
 
         lblNomeUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("Sistema de Gerenciamento de Restaurantes ICIL");
 
         mnuSGV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifnmg/Imagens/Icones/Sucesso.png"))); // NOI18N
         mnuSGV.setText("SGV");
@@ -256,10 +266,20 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         mniRelatorioClientesCadastrados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifnmg/Imagens/Icones/Document-icon.png"))); // NOI18N
         mniRelatorioClientesCadastrados.setText("Clientes Cadastrados");
+        mniRelatorioClientesCadastrados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniRelatorioClientesCadastradosActionPerformed(evt);
+            }
+        });
         mniRelatorioClientes.add(mniRelatorioClientesCadastrados);
 
         mniRelatorioClientesEmAberto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifnmg/Imagens/Icones/Document-icon.png"))); // NOI18N
         mniRelatorioClientesEmAberto.setText("Clientes em Aberto");
+        mniRelatorioClientesEmAberto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniRelatorioClientesEmAbertoActionPerformed(evt);
+            }
+        });
         mniRelatorioClientes.add(mniRelatorioClientesEmAberto);
 
         mnuClientes.add(mniRelatorioClientes);
@@ -292,6 +312,11 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         mniRelatorioFuncionariosCadastrados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifnmg/Imagens/Icones/Document-icon.png"))); // NOI18N
         mniRelatorioFuncionariosCadastrados.setText("Funcionarios Cadastrados");
+        mniRelatorioFuncionariosCadastrados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniRelatorioFuncionariosCadastradosActionPerformed(evt);
+            }
+        });
         mniRelatoriosFuncionarios.add(mniRelatorioFuncionariosCadastrados);
 
         mnuFuncionarios.add(mniRelatoriosFuncionarios);
@@ -324,10 +349,20 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         mniRelatoriosFornecedoresCadastrados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifnmg/Imagens/Icones/Document-icon.png"))); // NOI18N
         mniRelatoriosFornecedoresCadastrados.setText("Fornecedores Cadastrados");
+        mniRelatoriosFornecedoresCadastrados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniRelatoriosFornecedoresCadastradosActionPerformed(evt);
+            }
+        });
         mniRelatoriosFornecedor.add(mniRelatoriosFornecedoresCadastrados);
 
         mniRelatoriosFornecedorAPagar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifnmg/Imagens/Icones/Document-icon.png"))); // NOI18N
         mniRelatoriosFornecedorAPagar.setText("Fornecedores Á pagar");
+        mniRelatoriosFornecedorAPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniRelatoriosFornecedorAPagarActionPerformed(evt);
+            }
+        });
         mniRelatoriosFornecedor.add(mniRelatoriosFornecedorAPagar);
 
         mnuFornecedores.add(mniRelatoriosFornecedor);
@@ -374,14 +409,16 @@ public class frmPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(sprInferior, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(643, Short.MAX_VALUE)
+                .addContainerGap(375, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54)
                 .addComponent(lblSessao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtInicioSessao, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(235, 235, 235)
+                .addGap(30, 30, 30)
                 .addComponent(lblUsuario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59))
         );
         layout.setVerticalGroup(
@@ -394,7 +431,8 @@ public class frmPrincipal extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblUsuario)
                         .addComponent(lblSessao)
-                        .addComponent(txtInicioSessao))
+                        .addComponent(txtInicioSessao)
+                        .addComponent(jLabel1))
                     .addComponent(lblNomeUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -497,7 +535,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void mniRelatorioProdutoCadastradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRelatorioProdutoCadastradoActionPerformed
-        /*Connection conn = null;
+        Connection conn = null;
         try {
             // Obtém o diretório da aplicação
             String arquivo = System.getProperty("user.dir");
@@ -508,20 +546,20 @@ public class frmPrincipal extends javax.swing.JFrame {
             Statement sql = conn.createStatement();
 
             // Carrega fonte de dados
-            ResultSet rs = sql.executeQuery("SELECT * FROM produtos where ativo = 1");
+            ResultSet rs = sql.executeQuery("select * from produtos where ativo = 1");
             JRDataSource ds = new JRResultSetDataSource(rs);
 
             // Preenche o relatório com os dados
-            JasperPrint print = JasperFillManager.fillReport(arquivo + "/src/br.edu.ifnmg.Presentation/RelatorioProdutosCadastrados.jasper", null, ds);
+            JasperPrint print = JasperFillManager.fillReport(arquivo + "\\src\\br\\edu\\ifnmg\\Relatorios\\RelatorioProdutosCadastrados.jasper", null, ds);
 
             // Exibe visualização dos dados
             JasperViewer.viewReport(print, false);
 
         } catch (JRException ex) {
             Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        } /*catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        } (catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
@@ -529,11 +567,11 @@ public class frmPrincipal extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }*/
+        }
     }//GEN-LAST:event_mniRelatorioProdutoCadastradoActionPerformed
 
     private void mniRelatorioProdutoEstoqueBaixoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRelatorioProdutoEstoqueBaixoActionPerformed
-        /*Connection conn = null;
+        Connection conn = null;
         try {
             // Obtém o diretório da aplicação
             String arquivo = System.getProperty("user.dir");
@@ -544,20 +582,20 @@ public class frmPrincipal extends javax.swing.JFrame {
             Statement sql = conn.createStatement();
 
             // Carrega fonte de dados
-            ResultSet rs = sql.executeQuery("SELECT * FROM pessoa");
+            ResultSet rs = sql.executeQuery("select * from produtos  P join estoque e on p.codProduto = e.codProduto where estoque < 6 and p.ativo = 1");
             JRDataSource ds = new JRResultSetDataSource(rs);
 
             // Preenche o relatório com os dados
-            JasperPrint print = JasperFillManager.fillReport(arquivo + "/src/br.edu.ifnmg.Presentation/RelatorioProdutosEstoque.jasper", null, ds);
+            JasperPrint print = JasperFillManager.fillReport(arquivo + "\\src\\br\\edu\\ifnmg\\Relatorios\\RelatorioProdutosEstoque.jasper", null, ds);
 
             // Exibe visualização dos dados
             JasperViewer.viewReport(print, false);
 
         } catch (JRException ex) {
             Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        } /*catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        } (catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
@@ -565,12 +603,201 @@ public class frmPrincipal extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }*/
+        }
     }//GEN-LAST:event_mniRelatorioProdutoEstoqueBaixoActionPerformed
 
     private void mniSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSairActionPerformed
         logoff();
     }//GEN-LAST:event_mniSairActionPerformed
+
+    private void mniRelatorioClientesCadastradosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRelatorioClientesCadastradosActionPerformed
+        Connection conn = null;
+        try {
+            // Obtém o diretório da aplicação
+            String arquivo = System.getProperty("user.dir");
+
+            // Carrega conexão via JDBC
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/trabalhofinal", "root", "");
+            Statement sql = conn.createStatement();
+
+            // Carrega fonte de dados
+            ResultSet rs = sql.executeQuery("select * from Pessoas P join Clientes C on P.codPessoa = C.codCliente where ativo=1");
+            JRDataSource ds = new JRResultSetDataSource(rs);
+
+            // Preenche o relatório com os dados
+            JasperPrint print = JasperFillManager.fillReport(arquivo + "\\src\\br\\edu\\ifnmg\\Relatorios\\RelatorioClientesCadastrados.jasper", null, ds);
+
+            // Exibe visualização dos dados
+            JasperViewer.viewReport(print, false);
+
+        } catch (JRException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_mniRelatorioClientesCadastradosActionPerformed
+
+    private void mniRelatorioClientesEmAbertoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRelatorioClientesEmAbertoActionPerformed
+        Connection conn = null;
+        try {
+            // Obtém o diretório da aplicação
+            String arquivo = System.getProperty("user.dir");
+
+            // Carrega conexão via JDBC
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/trabalhofinal", "root", "");
+            Statement sql = conn.createStatement();
+
+            // Carrega fonte de dados
+            ResultSet rs = sql.executeQuery("SELECT date(v.data),v.valorTotal,p.nome as cliente,pe.nome as funcionario, v.formaPagamento FROM vendas v \n" +
+            "join clientes c on v.codCliente = c.codCliente\n" +
+            "join pessoas p on p.codPessoa = c.codCliente\n" +
+            "join funcionarios f on v.codFuncionario = f.codFuncionario\n" +
+            "join pessoas pe on pe.codPessoa = f.codFuncionario\n" +
+            "where v.formaPagamento like \"Á prazo\"");
+            JRDataSource ds = new JRResultSetDataSource(rs);
+
+            // Preenche o relatório com os dados
+            JasperPrint print = JasperFillManager.fillReport(arquivo + "\\src\\br\\edu\\ifnmg\\Relatorios\\RelatorioClientesEmAberto.jasper", null, ds);
+
+            // Exibe visualização dos dados
+            JasperViewer.viewReport(print, false);
+
+        } catch (JRException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_mniRelatorioClientesEmAbertoActionPerformed
+
+    private void mniRelatorioFuncionariosCadastradosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRelatorioFuncionariosCadastradosActionPerformed
+        Connection conn = null;
+        try {
+            // Obtém o diretório da aplicação
+            String arquivo = System.getProperty("user.dir");
+
+            // Carrega conexão via JDBC
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/trabalhofinal", "root", "");
+            Statement sql = conn.createStatement();
+
+            // Carrega fonte de dados
+            ResultSet rs = sql.executeQuery("select * from Pessoas P join Funcionarios F on P.codPessoa = F.codFuncionario where ativo=1");
+            JRDataSource ds = new JRResultSetDataSource(rs);
+
+            // Preenche o relatório com os dados
+            JasperPrint print = JasperFillManager.fillReport(arquivo + "\\src\\br\\edu\\ifnmg\\Relatorios\\RelatorioFuncionariosCadastrados.jasper", null, ds);
+
+            // Exibe visualização dos dados
+            JasperViewer.viewReport(print, false);
+
+        } catch (JRException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_mniRelatorioFuncionariosCadastradosActionPerformed
+
+    private void mniRelatoriosFornecedoresCadastradosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRelatoriosFornecedoresCadastradosActionPerformed
+        Connection conn = null;
+        try {
+            // Obtém o diretório da aplicação
+            String arquivo = System.getProperty("user.dir");
+
+            // Carrega conexão via JDBC
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/trabalhofinal", "root", "");
+            Statement sql = conn.createStatement();
+
+            // Carrega fonte de dados
+            ResultSet rs = sql.executeQuery("select * from Pessoas P join Fornecedores Fo on P.codPessoa = Fo.codFornecedor where ativo=1");
+            JRDataSource ds = new JRResultSetDataSource(rs);
+
+            // Preenche o relatório com os dados
+            JasperPrint print = JasperFillManager.fillReport(arquivo + "\\src\\br\\edu\\ifnmg\\Relatorios\\RelatorioFornecedoresCadastrados.jasper", null, ds);
+
+            // Exibe visualização dos dados
+            JasperViewer.viewReport(print, false);
+
+        } catch (JRException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_mniRelatoriosFornecedoresCadastradosActionPerformed
+
+    private void mniRelatoriosFornecedorAPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRelatoriosFornecedorAPagarActionPerformed
+         Connection conn = null;
+        try {
+            // Obtém o diretório da aplicação
+            String arquivo = System.getProperty("user.dir");
+
+            // Carrega conexão via JDBC
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/trabalhofinal", "root", "");
+            Statement sql = conn.createStatement();
+
+            // Carrega fonte de dados
+            ResultSet rs = sql.executeQuery("select 	date(c.data),c.formaPagamento,p.nome,c.valorTotal \n" +
+            "from compras c\n" +
+            "join fornecedores f on c.codFornecedor = f.codFornecedor\n" +
+            "join pessoas p on f.codFornecedor = p.codPessoa\n" +
+            "where c.formaPagamento like \"Á prazo\"");
+            JRDataSource ds = new JRResultSetDataSource(rs);
+
+            // Preenche o relatório com os dados
+            JasperPrint print = JasperFillManager.fillReport(arquivo + "\\src\\br\\edu\\ifnmg\\Relatorios\\RelatorioFornecedoresAPagar.jasper", null, ds);
+
+            // Exibe visualização dos dados
+            JasperViewer.viewReport(print, false);
+
+        } catch (JRException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_mniRelatoriosFornecedorAPagarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -607,6 +834,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPopupMenu jPopupMenu1;
